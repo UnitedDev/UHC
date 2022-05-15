@@ -1,0 +1,10 @@
+name: UHC
+main: fr.arashimc.uhc.UHC
+version: 1.0.4
+author: Rhodless
+api-version: 1.8.8
+loadbefore:
+  - Mugiwara
+  - MHA
+depend:
+  - Core
