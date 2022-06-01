@@ -6,6 +6,7 @@ import fr.kohei.uhc.module.Module;
 import fr.kohei.utils.item.CustomItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class Role {
+
+    public abstract ItemStack getItem();
 
     public abstract String getName();
 

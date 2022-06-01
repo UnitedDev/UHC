@@ -38,7 +38,7 @@ public class ScoreboardModifier {
     ScoreboardModifier(Player player) {
         this.player = player;
         uuid = player.getUniqueId();
-        toReturn = new ObjectiveSign("sidebar", "§c§lArashi §7❘ §fUHC");
+        toReturn = new ObjectiveSign("sidebar", "§6§lKOHEI");
 
         reloadData();
         toReturn.addReceiver(player);

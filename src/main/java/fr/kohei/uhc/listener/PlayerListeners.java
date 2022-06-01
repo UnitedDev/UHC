@@ -147,7 +147,7 @@ public class PlayerListeners implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (Bukkit.getPlayer(uuid) == null) {
+                    if (Bukkit.getPlayer(uuid) != null) {
                         cancel();
                         return;
                     }
@@ -233,14 +233,19 @@ public class PlayerListeners implements Listener {
             }
         }
         Bukkit.broadcastMessage(ChatUtil.translate("&7&m--------------------"));
+        Bukkit.getOnlinePlayers().forEach(player1 -> player1.playSound(player1.getLocation(), Sound.WITHER_DEATH, 1f, 1f));
 
         if (killer != null) {
             UPlayer uKiller = UPlayer.get(killer);
             uKiller.setKills(uKiller.getKills() + 1);
+
+            if(uKiller.getRole() != null) uKiller.getRole().onKill(player, killer);
         }
 
         UHC.getGameManager().getPlayers().remove(player.getUniqueId());
         module.onDeath(player, killer);
+
+        if(uPlayer.getRole() != null) uPlayer.getRole().onDeath(player, killer);
 
         for (ItemStack content : player.getInventory().getContents()) {
             if (content == null || content.getType() == Material.AIR) continue;

@@ -77,7 +77,7 @@ public class ScoreboardUtils {
     }
 
     private String colorIpAt() {
-        String ip = "play.arashimc.fr";
+        String ip = "     kohei.fr";
 
         if (cooldown > 0) {
             cooldown--;
@@ -96,10 +96,10 @@ public class ScoreboardUtils {
         formattedIp.append(ChatColor.WHITE).append(ip.charAt(ipCharIndex));
 
         if (ipCharIndex + 1 < ip.length()) {
-            formattedIp.append(ChatColor.RED).append(ip.charAt(ipCharIndex + 1));
+            formattedIp.append(ChatColor.GOLD).append(ip.charAt(ipCharIndex + 1));
 
             if (ipCharIndex + 2 < ip.length())
-                formattedIp.append(ChatColor.RED).append(ip.substring(ipCharIndex + 2));
+                formattedIp.append(ChatColor.GOLD).append(ip.substring(ipCharIndex + 2));
 
             ipCharIndex++;
         } else {
@@ -107,7 +107,7 @@ public class ScoreboardUtils {
             cooldown = 50;
         }
 
-        return ChatColor.RED + formattedIp.toString();
+        return ChatColor.GOLD + formattedIp.toString();
     }
 
 }
