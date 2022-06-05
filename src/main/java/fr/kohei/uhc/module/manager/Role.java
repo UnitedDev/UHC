@@ -50,6 +50,9 @@ public abstract class Role {
     public void onNight(Player player) {
     }
 
+    public void onEpisode(Player player) {
+    }
+
     public List<String> getStartMessage() {
         Module module = UHC.getModuleManager().getModule();
         return new ArrayList<>(Arrays.asList(
