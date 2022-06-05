@@ -1,8 +1,10 @@
 package fr.kohei.uhc.task;
 
 import fr.kohei.BukkitAPI;
-import fr.kohei.manager.server.UHCServer;
-import fr.kohei.messaging.packet.UHCUpdatePacket;
+import fr.kohei.common.RedisProvider;
+import fr.kohei.common.cache.ProfileData;
+import fr.kohei.common.cache.server.impl.UHCServer;
+import fr.kohei.common.messaging.list.packets.UHCUpdatePacket;
 import fr.kohei.uhc.UHC;
 import fr.kohei.uhc.game.GameManager;
 import fr.kohei.uhc.game.GameState;
@@ -11,12 +13,12 @@ import fr.kohei.uhc.game.config.timers.Timers;
 import fr.kohei.uhc.game.scenario.Scenario;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -61,9 +63,22 @@ public class UpdateTask extends BukkitRunnable {
 
         UHCServer uhcServer = new UHCServer(Bukkit.getPort(), getType(), config.getCustomName(), manager.getHost(),
                 config.getSlots(), type, manager.getSize(), config.getTeams(), border, config.getBorderEndSize(),
-                pvp, meetup, scenarios, UHC.getGameManager().getPlayers());
+                pvp, meetup, scenarios, UHC.getGameManager().getPlayers(), toUUIDs(UHC.getGameManager().getWhitelisted()));
 
         BukkitAPI.getCommonAPI().getMessaging().sendPacket(new UHCUpdatePacket(uhcServer));
+    }
+
+    public List<UUID> toUUIDs(List<String> string) {
+        List<UUID> toReturn = new ArrayList<>();
+
+        for (String s : string) {
+            Map<UUID, ProfileData> map = RedisProvider.redisProvider.players;
+            toReturn.add(
+                    map.keySet().stream().filter(uuid -> map.get(uuid).getDisplayName().equalsIgnoreCase(s)).findFirst().orElse(null)
+            );
+        }
+
+        return toReturn;
     }
 
     public UHCServer.ServerType getType() {
