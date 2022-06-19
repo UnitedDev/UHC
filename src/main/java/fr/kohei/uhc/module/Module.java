@@ -1,11 +1,14 @@
 package fr.kohei.uhc.module;
 
+import fr.kohei.menu.Menu;
 import fr.kohei.uhc.module.manager.Camp;
 import fr.kohei.uhc.module.manager.Role;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +42,10 @@ public abstract class Module {
     public abstract boolean hasCycle();
 
     public abstract boolean isRolesPerTeam();
+
+    public HashMap<ItemStack, Menu> getMenus() {
+        return new HashMap<>();
+    }
 
     @Getter
     @RequiredArgsConstructor

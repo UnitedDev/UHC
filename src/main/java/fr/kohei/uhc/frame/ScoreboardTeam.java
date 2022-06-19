@@ -29,6 +29,12 @@ public class ScoreboardTeam {
         this.suffix = suffix;
     }
 
+    public ScoreboardTeam(int name, String prefix, String suffix) {
+        this.name = String.valueOf(name);
+        this.prefix = prefix;
+        this.suffix = suffix;
+    }
+
     private PacketPlayOutScoreboardTeam createPacket(int mode) {
         PacketPlayOutScoreboardTeam packet = new PacketPlayOutScoreboardTeam();
 
@@ -131,5 +137,14 @@ public class ScoreboardTeam {
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
+    }
+
+    @Override
+    public String toString() {
+        return "ScoreboardTeam{" +
+                "name='" + name + '\'' +
+                ", prefix='" + prefix + '\'' +
+                ", suffix='" + suffix + '\'' +
+                '}';
     }
 }

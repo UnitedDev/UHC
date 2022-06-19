@@ -38,6 +38,9 @@ public class ManageRolesMenu extends PaginatedMenu {
         for (Camp camp : module.getCamps()) {
             buttons.put(buttons.size(), new CampButton(camp));
         }
+        UHC.getModuleManager().getModule().getMenus().forEach((itemStack, menu) -> {
+            buttons.put(buttons.size(), new CustomButton(itemStack, menu));
+        });
 
         return buttons;
     }
@@ -73,6 +76,23 @@ public class ManageRolesMenu extends PaginatedMenu {
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             new ManageCampRolesMenu(camp, new ManageRolesMenu(oldMenu)).openMenu(player);
+        }
+    }
+
+    @RequiredArgsConstructor
+    private class CustomButton extends Button {
+        private final ItemStack itemStack;
+        private final Menu menu;
+
+
+        @Override
+        public ItemStack getButtonItem(Player player) {
+            return itemStack;
+        }
+
+        @Override
+        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
+            menu.openMenu(player);
         }
     }
 }

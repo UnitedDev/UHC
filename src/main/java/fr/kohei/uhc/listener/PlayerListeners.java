@@ -1,5 +1,6 @@
 package fr.kohei.uhc.listener;
 
+import fr.kohei.mumble.api.LinkAPI;
 import fr.kohei.uhc.UHC;
 import fr.kohei.uhc.frame.ScoreboardTeam;
 import fr.kohei.uhc.game.GameManager;
@@ -41,6 +42,10 @@ public class PlayerListeners implements Listener {
         UPlayer uPlayer = UPlayer.get(player);
         GameManager gameManager = UHC.getGameManager();
         GameConfiguration gameConfiguration = gameManager.getGameConfiguration();
+
+        if (LinkAPI.getApi().getMumbleManager().getUserFromName(player.getName()) == null) {
+            LinkAPI.getApi().getMumbleManager().createUser(player.getName(), Bukkit.getPort() + "." + Bukkit.getPort());
+        }
 
         if (uPlayer.hasHostAccess()) return;
 
@@ -132,6 +137,8 @@ public class PlayerListeners implements Listener {
         UPlayer uPlayer = UPlayer.get(player);
 
         UHC.getScoreboardUtils().onLogout(player);
+        UHC.getJoinUser().remove(player.getName());
+        UHC.getUnlinkedUsers().remove(player.getName());
 
         if (gameManager.getGameState() == GameState.LOBBY) {
             gameManager.getPlayers().remove(player.getUniqueId());

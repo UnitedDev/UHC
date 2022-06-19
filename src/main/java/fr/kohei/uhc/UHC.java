@@ -1,7 +1,7 @@
 package fr.kohei.uhc;
 
-import fr.kohei.common.cache.Rank;
 import fr.kohei.BukkitAPI;
+import fr.kohei.common.cache.rank.Rank;
 import fr.kohei.messaging.packet.ServerDeletePacket;
 import fr.kohei.uhc.frame.ScoreboardTeam;
 import fr.kohei.uhc.frame.ScoreboardUtils;
@@ -43,6 +43,8 @@ public class UHC extends JavaPlugin {
     private static ScoreboardUtils scoreboardUtils;
     @Getter
     private static List<String> joinUser;
+    @Getter
+    private static List<String> unlinkedUsers;
 
     @Override
     public void onEnable() {
@@ -52,6 +54,7 @@ public class UHC extends JavaPlugin {
         bukkitManager = new BukkitManager(plugin);
         moduleManager = new ModuleManager();
         joinUser = new ArrayList<>();
+        unlinkedUsers = new ArrayList<>();
 
         scheduledExecutorService = Executors.newScheduledThreadPool(1);
         executorMonoThread = Executors.newScheduledThreadPool(1);
@@ -79,9 +82,20 @@ public class UHC extends JavaPlugin {
         teams = new ArrayList<>();
 
         for (Rank value : BukkitAPI.getCommonAPI().getRanks()) {
-            String position = String.valueOf(number(value.permissionPower()));
-            String prefix = ChatUtil.translate(value.getTabPrefix() + " ");
-            teams.add(new ScoreboardTeam(position, prefix));
+            String prefix = ChatUtil.translate(value.getTabPrefix());
+            int position = value.getPermissionPower();
+
+            ScoreboardTeam connected = new ScoreboardTeam(number((position)) + 1, prefix, " §a§l✔");
+            ScoreboardTeam unlinked = new ScoreboardTeam(number((position)) + 2, prefix, " §6§l✈");
+            ScoreboardTeam disconnected = new ScoreboardTeam(number((position)) + 3, prefix, " §c§l✖");
+
+            teams.add(connected);
+            teams.add(unlinked);
+            teams.add(disconnected);
+
+            System.out.println(connected);
+            System.out.println(unlinked);
+            System.out.println(disconnected);
         }
         teams.add(new ScoreboardTeam("aa", ChatUtil.translate("&r")));
     }
@@ -90,8 +104,9 @@ public class UHC extends JavaPlugin {
         return teams.stream().filter(t -> t.getName().equals(name)).findFirst().orElse(null);
     }
 
-    public static int number(int power) {
-        return (int) ((1 / (power == 0 ? 0.00001 : power)) * 100000);
+    public static int number(float power) {
+        if(power == 0) power = 1;
+        return (int) ((1F / power) * 100000F);
     }
 
 }
