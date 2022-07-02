@@ -1,5 +1,6 @@
 package fr.kohei.uhc.commands;
 
+import fr.kohei.common.CommonProvider;
 import fr.kohei.common.cache.data.ProfileData;
 import fr.kohei.BukkitAPI;
 import fr.kohei.command.Command;
@@ -351,6 +352,10 @@ public class HostCommands {
         }
 
         UHC.getGameManager().getWhitelisted().add(target);
+        CommonProvider.getInstance().getPlayers().values().stream()
+                .filter(uPlayer1 -> uPlayer1.getDisplayName().equalsIgnoreCase(target))
+                .findFirst()
+                .ifPresent(uPlayer1 -> BukkitAPI.getCommonAPI().getServerCache().getUhcServers().get(Bukkit.getPort()).getWhitelistedPlayers().add(uPlayer1.getUniqueId()));
         player.sendMessage(ChatUtil.prefix("&fVous avez &cwhitelist &fle joueur &c" + target));
     }
 
@@ -376,6 +381,10 @@ public class HostCommands {
         }
 
         UHC.getGameManager().getWhitelisted().remove(target);
+        CommonProvider.getInstance().getPlayers().values().stream()
+                .filter(uPlayer1 -> uPlayer1.getDisplayName().equalsIgnoreCase(target))
+                .findFirst()
+                .ifPresent(uPlayer1 -> BukkitAPI.getCommonAPI().getServerCache().getUhcServers().get(Bukkit.getPort()).getWhitelistedPlayers().remove(uPlayer1.getUniqueId()));
         player.sendMessage(ChatUtil.prefix("&fVous avez retiré &c" + target + " &fde la &cwhitelist"));
     }
 
