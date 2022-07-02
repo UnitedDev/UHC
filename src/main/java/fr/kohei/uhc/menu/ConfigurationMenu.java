@@ -42,7 +42,8 @@ public class ConfigurationMenu extends GlassMenu {
     public Map<Integer, Button> getAllButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        buttons.put(2, new LoadMapButton());
+        buttons.put(2, new RulesButton());
+        buttons.put(4, new LoadMapButton());
         buttons.put(6, new WhitelistButton());
 
         buttons.put(49, new StartButton());
@@ -413,6 +414,23 @@ public class ConfigurationMenu extends GlassMenu {
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             new PreConfigurationMenu(true, new ConfigurationMenu()).openMenu(player);
+        }
+    }
+
+    private static class RulesButton extends Button {
+        @Override
+        public ItemStack getButtonItem(Player player) {
+            return new ItemBuilder(Material.PAINTING).setName("&cRègles").setLore(
+                    "&fPermet de modifier les règles de la",
+                    "&fpartie",
+                    "",
+                    "&f&l» &cCliquez-ici pour y accéder"
+            ).toItemStack();
+        }
+
+        @Override
+        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
+            new RulesMenu(new ConfigurationMenu()).openMenu(player);
         }
     }
 }
