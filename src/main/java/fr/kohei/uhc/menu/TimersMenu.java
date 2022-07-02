@@ -1,5 +1,6 @@
 package fr.kohei.uhc.menu;
 
+import fr.kohei.menu.GlassMenu;
 import fr.kohei.uhc.UHC;
 import fr.kohei.uhc.game.config.GameConfiguration;
 import fr.kohei.menu.Button;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class TimersMenu extends Menu {
+public class TimersMenu extends GlassMenu {
     private final Menu oldMenu;
     private Timer selectedTimer;
 
@@ -33,29 +34,26 @@ public class TimersMenu extends Menu {
     }
 
     @Override
-    public Map<Integer, Button> getButtons(Player player) {
+    public int getGlassColor() {
+        return 14;
+    }
+
+    @Override
+    public Map<Integer, Button> getAllButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        for (int i : new int[]{0, 1, 7, 8, 9, 18, 17, 26, 47, 48, 50, 51}) {
-            buttons.put(i, new DisplayButton(new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability(1).toItemStack()));
-        }
+        buttons.put(31, new BackButton(oldMenu));
 
-        for (int i : new int[]{2, 3, 4, 5, 6, 27, 36, 45, 46, 35, 44, 53, 52}) {
-            buttons.put(i, new DisplayButton(new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability(14).toItemStack()));
-        }
-
-        buttons.put(49, new BackButton(oldMenu));
-
-        buttons.put(22, new TimerButton(Timer.PVP));
-        buttons.put(21, new TimerButton(Timer.BORDER));
-        buttons.put(23, new TimerButton(Timer.ROLES));
+        buttons.put(13, new TimerButton(Timer.PVP));
+        buttons.put(12, new TimerButton(Timer.BORDER));
+        buttons.put(14, new TimerButton(Timer.ROLES));
 
         if (selectedTimer != null) {
-            buttons.put(29, new ChangeValueButton(-120, 14));
-            buttons.put(30, new ChangeValueButton(-60, 1));
-            buttons.put(31, new ChangeValueButton(-10, 4));
-            buttons.put(32, new ChangeValueButton(60, 5));
-            buttons.put(33, new ChangeValueButton(120, 13));
+            buttons.put(20, new ChangeValueButton(-120, 14));
+            buttons.put(21, new ChangeValueButton(-60, 1));
+            buttons.put(22, new ChangeValueButton(-10, 4));
+            buttons.put(23, new ChangeValueButton(60, 5));
+            buttons.put(24, new ChangeValueButton(120, 13));
         }
 
         return buttons;

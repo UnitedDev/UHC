@@ -55,9 +55,9 @@ public class ScoreboardModifier {
 
         toReturn.setLine(0, "&b&c&l &e");
         if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.TELEPORTATION) {
-            toReturn.setLine(2, " &8┃ &fHost: &c" + gameManager.getHost());
+            toReturn.setLine(2, " &8┃ &fHost: &a" + gameManager.getHost());
             toReturn.setLine(3, " &8┃ &fJoueurs: &c" + gameManager.getSize() + "&8/&c" + gameManager.getGameConfiguration().getSlots());
-            toReturn.setLine(4, " &8┃ &fMode: &c" + (moduleManager.getModule() == null ? "&cAucun" : moduleManager.getModule().getName()));
+            toReturn.setLine(4, " &8┃ &fMode: &e" + (moduleManager.getModule() == null ? "&cAucun" : moduleManager.getModule().getName()));
             if (gameManager.getGameConfiguration().getTeams() > 1) {
                 int teamSize = gameManager.getGameConfiguration().getTeams();
                 toReturn.setLine(5, " &8┃ &fTeams: &c" + teamSize + "vs" + teamSize);
@@ -75,9 +75,9 @@ public class ScoreboardModifier {
                 arrow = LocationUtils.getArrow(player.getLocation().clone(), gameManager.getCenter());
             }
 
-            toReturn.setLine(1, " &8┃ &fDurée: &e" + TimeUtil.niceTime(gameManager.getDuration() * 1000L));
+            toReturn.setLine(1, " &8┃ &fDurée: &c" + TimeUtil.niceTime(gameManager.getDuration() * 1000L));
             toReturn.setLine(2, " &8┃ &fJoueurs: &a" + gameManager.getSize());
-            toReturn.setLine(3, " &8┃ &fGroupes: &c" + gameManager.getGameConfiguration().getGroups());
+            toReturn.setLine(3, " &8┃ &fGroupes: &e" + gameManager.getGameConfiguration().getGroups());
             toReturn.setLine(4, "&1&9&l");
             toReturn.setLine(6, " &8┃ &fPvP: &c" + (Timers.PVP.isLoading() ? TimeUtil.niceTime(Timers.PVP.getCustomTimer().getTimer() * 1000L) : "&aActivé"));
             if (Timers.BORDER.isLoading()) {

@@ -4,11 +4,9 @@ import fr.kohei.menu.GlassMenu;
 import fr.kohei.uhc.UHC;
 import fr.kohei.uhc.game.GameManager;
 import fr.kohei.uhc.game.GameState;
+import fr.kohei.uhc.game.config.GameConfiguration;
 import fr.kohei.uhc.game.world.WorldGeneration;
-import fr.kohei.uhc.menu.options.EnchantmentManager;
-import fr.kohei.uhc.menu.options.ManageDropsMenu;
-import fr.kohei.uhc.menu.options.ManageRolesMenu;
-import fr.kohei.uhc.menu.options.SettingsMenu;
+import fr.kohei.uhc.menu.options.*;
 import fr.kohei.uhc.menu.options.rate.ManageOresLimitMenu;
 import fr.kohei.uhc.task.StartTask;
 import fr.kohei.menu.Button;
@@ -31,11 +29,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static fr.kohei.uhc.menu.ManageOptionsMenu.getCycleItem;
+
 public class ConfigurationMenu extends GlassMenu {
 
     @Override
     public int getGlassColor() {
-        return 8;
+        return 11;
     }
 
     @Override
@@ -51,17 +51,54 @@ public class ConfigurationMenu extends GlassMenu {
         buttons.put(10, getRenameButton(player));
         buttons.put(22, new TimersButton());
         buttons.put(16, new ScenariosButton());
-        buttons.put(20, new DropsButton());
-        buttons.put(27, new EnchantsLimitsButton());
+        buttons.put(47, new DropsButton());
+        buttons.put(18, new EnchantsLimitsButton());
+        buttons.put(27, new HiddenCompositionButton());
         buttons.put(31, new SettingsButton());
         buttons.put(26, new OresLimitButton());
-        buttons.put(35, new ModeButton());
-
-        buttons.put(43, new StopServerButton());
-
-//        buttons.put(49, new ConfigButton());
+        buttons.put(35, new CycleButton());
+        buttons.put(43, new ModeButton());
+        buttons.put(51, new StopServerButton());
 
         return buttons;
+    }
+
+    private class CycleButton extends Button {
+        @Override
+        public ItemStack getButtonItem(Player player) {
+            return getCycleItem();
+        }
+
+        @Override
+        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
+            new CycleTimerMenu(new ConfigurationMenu()).openMenu(player);
+        }
+    }
+
+    private static class HiddenCompositionButton extends Button {
+        @Override
+        public ItemStack getButtonItem(Player player) {
+            boolean compo = UHC.getGameManager().getGameConfiguration().isHideComposition();
+            return new ItemBuilder(Material.WEB).setName("&cComposition cachée").setLore(
+                    "&fPermet de définir si la composition sera",
+                    "&fcachée ou non.",
+                    "",
+                    "&fComposition: " + (compo ? "&cCachée" : "&aNon Cachée"),
+                    "",
+                    "&f&l» &cCliquez-ici pour modifier"
+            ).toItemStack();
+        }
+
+        @Override
+        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
+            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            gameConfiguration.setHideComposition(!gameConfiguration.isHideComposition());
+        }
+
+        @Override
+        public boolean shouldUpdate(Player player, int slot, ClickType clickType) {
+            return true;
+        }
     }
 
     private static class StopServerButton extends Button {

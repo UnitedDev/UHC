@@ -37,12 +37,13 @@ public class TabListTask extends BukkitRunnable {
                 IUser user = LinkAPI.getApi().getMumbleManager().getUserFromName(players2.getName());
 
                 ScoreboardTeam team;
+                char character = UHC.RANKS_ALPHABET.get(rank.token());
                 if (user == null) {
-                    team = UHC.getScoreboardTeam(String.valueOf(UHC.number((rank.permissionPower())) + 3));
+                    team = UHC.getScoreboardTeam(character + "3");
                 } else if (LinkAPI.getApi().getMumbleManager().getStateOf(user.getName()) == MumbleState.LINK) {
-                    team = UHC.getScoreboardTeam(String.valueOf(UHC.number((rank.permissionPower())) + 1));
+                    team = UHC.getScoreboardTeam(character + "1");
                 } else {
-                    team = UHC.getScoreboardTeam(String.valueOf(UHC.number((rank.permissionPower())) + 2));
+                    team = UHC.getScoreboardTeam(character + "2");
                 }
 
                 ((CraftPlayer) players1).getHandle().playerConnection.sendPacket(team.addOrRemovePlayer(3, players2.getName()));

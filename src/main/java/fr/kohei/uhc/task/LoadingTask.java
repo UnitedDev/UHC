@@ -22,7 +22,6 @@ public class LoadingTask extends BukkitRunnable {
         timer--;
         if(timer == 0) {
             UHC.getGameManager().startGame();
-            cancel();
             Bukkit.getOnlinePlayers().forEach(player -> {
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 5, 1);
                 Title.sendTitle(player, 0, 20, 0, "&8» &cC'est parti ! &8«", "");
@@ -34,6 +33,7 @@ public class LoadingTask extends BukkitRunnable {
                     ((CraftPlayer) players1).getHandle().playerConnection.sendPacket(team.addOrRemovePlayer(3, players2.getName()));
                 }
             }
+            cancel();
             return;
         }
         Bukkit.getOnlinePlayers().forEach(player -> {

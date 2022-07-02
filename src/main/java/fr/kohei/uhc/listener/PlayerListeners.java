@@ -101,6 +101,7 @@ public class PlayerListeners implements Listener {
         UPlayer uPlayer = UPlayer.get(player);
 
         for (ScoreboardTeam team : UHC.getTeams()) {
+            System.out.println(team);
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(team.createTeam());
         }
 

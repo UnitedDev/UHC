@@ -48,9 +48,6 @@ public class SettingsMenu extends GlassMenu {
         buttons.put(13, new GoldenHeadButton());
         buttons.put(14, new PotionLimitButton());
 
-        buttons.put(18, new CycleButton());
-        buttons.put(26, new HiddenCompositionButton());
-
         buttons.put(21, new StartInventoryButton());
         buttons.put(22, new NetherButton());
         buttons.put(23, new BorderButton());

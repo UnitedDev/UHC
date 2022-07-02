@@ -17,10 +17,10 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
 @Getter
 public class UHC extends JavaPlugin {
@@ -81,13 +81,19 @@ public class UHC extends JavaPlugin {
     public static void initRanks() {
         teams = new ArrayList<>();
 
-        for (Rank value : BukkitAPI.getCommonAPI().getRanks()) {
-            String prefix = ChatUtil.translate(value.getTabPrefix() + (value.getToken().equals("default") ? "" : " "));
-            int position = value.getPermissionPower();
+        Queue<Rank> ranksNotSorted = BukkitAPI.getCommonAPI().getRanks();
+        List<Rank> ranks = ranksNotSorted.stream().sorted(Comparator.comparingInt(Rank::getPermissionPower).reversed()).collect(Collectors.toList());
 
-            ScoreboardTeam connected = new ScoreboardTeam(number((position)) + 1, prefix, " §a§l✔");
-            ScoreboardTeam unlinked = new ScoreboardTeam(number((position)) + 2, prefix, " §6§l✈");
-            ScoreboardTeam disconnected = new ScoreboardTeam(number((position)) + 3, prefix, " §c§l✖");
+        int i = 0;
+        for (Rank value : ranks) {
+            String prefix = ChatUtil.translate(value.getTabPrefix() + (value.getToken().equals("default") ? "" : " "));
+
+            char character = alphabet[i];
+            RANKS_ALPHABET.put(value.token(), character);
+            ScoreboardTeam connected = new ScoreboardTeam(character + "1", prefix, " §a§l✔");
+            ScoreboardTeam unlinked = new ScoreboardTeam(character + "2", prefix, " §6§l✈");
+            ScoreboardTeam disconnected = new ScoreboardTeam(character + "3", prefix, " §c§l✖");
+            i++;
 
             teams.add(connected);
             teams.add(unlinked);
@@ -100,13 +106,12 @@ public class UHC extends JavaPlugin {
         teams.add(new ScoreboardTeam("aa", ChatUtil.translate("&r")));
     }
 
+    public static final HashMap<String, Character> RANKS_ALPHABET = new HashMap<>();
+
     public static ScoreboardTeam getScoreboardTeam(String name) {
         return teams.stream().filter(t -> t.getName().equals(name)).findFirst().orElse(null);
     }
 
-    public static int number(float power) {
-        if(power == 0) power = 1;
-        return (int) ((1F / power) * 100000F);
-    }
+    public static char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toLowerCase().toCharArray();
 
 }
