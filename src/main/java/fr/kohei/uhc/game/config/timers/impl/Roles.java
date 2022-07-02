@@ -57,7 +57,9 @@ public class Roles extends CustomTimer {
             uPlayer.setRole(role);
             uPlayer.setCamp(role.getStartCamp());
             try {
-                role.onDistribute(player);
+                Bukkit.getScheduler().runTaskLater(UHC.getPlugin(), () -> {
+                    role.onDistribute(player);
+                }, 20);
             } catch (Exception e) {
                 e.printStackTrace();
             }

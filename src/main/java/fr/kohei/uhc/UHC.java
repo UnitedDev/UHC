@@ -82,7 +82,7 @@ public class UHC extends JavaPlugin {
         teams = new ArrayList<>();
 
         for (Rank value : BukkitAPI.getCommonAPI().getRanks()) {
-            String prefix = ChatUtil.translate(value.getTabPrefix());
+            String prefix = ChatUtil.translate(value.getTabPrefix() + (value.getToken().equals("default") ? "" : " "));
             int position = value.getPermissionPower();
 
             ScoreboardTeam connected = new ScoreboardTeam(number((position)) + 1, prefix, " §a§l✔");

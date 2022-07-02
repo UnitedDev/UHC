@@ -50,9 +50,8 @@ public abstract class Module {
     @Getter
     @RequiredArgsConstructor
     public static class RoleType {
-
         private final String name;
         private final Camp camp;
-
+        private final ItemStack display;
     }
 }

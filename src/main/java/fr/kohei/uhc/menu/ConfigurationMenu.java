@@ -1,12 +1,15 @@
 package fr.kohei.uhc.menu;
 
+import fr.kohei.menu.GlassMenu;
 import fr.kohei.uhc.UHC;
 import fr.kohei.uhc.game.GameManager;
 import fr.kohei.uhc.game.GameState;
 import fr.kohei.uhc.game.world.WorldGeneration;
 import fr.kohei.uhc.menu.options.EnchantmentManager;
+import fr.kohei.uhc.menu.options.ManageDropsMenu;
 import fr.kohei.uhc.menu.options.ManageRolesMenu;
 import fr.kohei.uhc.menu.options.SettingsMenu;
+import fr.kohei.uhc.menu.options.rate.ManageOresLimitMenu;
 import fr.kohei.uhc.task.StartTask;
 import fr.kohei.menu.Button;
 import fr.kohei.menu.Menu;
@@ -28,36 +31,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ConfigurationMenu extends Menu {
+public class ConfigurationMenu extends GlassMenu {
 
     @Override
-    public Map<Integer, Button> getButtons(Player player) {
+    public int getGlassColor() {
+        return 8;
+    }
+
+    @Override
+    public Map<Integer, Button> getAllButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        for (int i : new int[]{1, 2, 9, 10, 18, 35, 43, 44, 51, 52}) {
-            buttons.put(i, new DisplayButton(new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability(14).toItemStack()));
-        }
+        buttons.put(2, new LoadMapButton());
+        buttons.put(6, new WhitelistButton());
 
-        for (int i : new int[]{6, 7, 16, 17, 26, 27, 36, 37, 46, 47}) {
-            buttons.put(i, new DisplayButton(new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability(1).toItemStack()));
-        }
+        buttons.put(49, new StartButton());
 
-        buttons.put(0, new LoadMapButton());
-        buttons.put(8, new WhitelistButton());
-
-        buttons.put(4, new StartButton());
-
-        buttons.put(45, new TeleportationButton());
-        buttons.put(21, getRenameButton(player));
+        buttons.put(37, new TeleportationButton());
+        buttons.put(10, getRenameButton(player));
         buttons.put(22, new TimersButton());
-        buttons.put(23, new ScenariosButton());
-        buttons.put(30, new EnchantsLimitsButton());
+        buttons.put(16, new ScenariosButton());
+        buttons.put(20, new DropsButton());
+        buttons.put(27, new EnchantsLimitsButton());
         buttons.put(31, new SettingsButton());
-        buttons.put(32, new ModeButton());
+        buttons.put(26, new OresLimitButton());
+        buttons.put(35, new ModeButton());
 
-        buttons.put(53, new StopServerButton());
+        buttons.put(43, new StopServerButton());
 
-        buttons.put(49, new ConfigButton());
+//        buttons.put(49, new ConfigButton());
 
         return buttons;
     }
@@ -84,15 +86,49 @@ public class ConfigurationMenu extends Menu {
         }
     }
 
+    private class OresLimitButton extends Button {
+        @Override
+        public ItemStack getButtonItem(Player player) {
+            return new ItemBuilder(Material.DIAMOND).setName("&cLimite de minerais").setLore(
+                    "&fPermet de limite le nombre de minerais",
+                    "&fde diamants et d'ors pendant la partie",
+                    "",
+                    "&f&l» &cCliquez-ici pour modifier"
+            ).toItemStack();
+        }
+
+        @Override
+        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
+            new ManageOresLimitMenu(new ConfigurationMenu()).openMenu(player);
+        }
+    }
+
+    private class DropsButton extends Button {
+        @Override
+        public ItemStack getButtonItem(Player player) {
+            return new ItemBuilder(Material.APPLE).setName("&cTaux de drop").setLore(
+                    "&fPermet de modifier les taux de drops",
+                    "&fpour certains items",
+                    "",
+                    "&f&l» &cCliquez-ici pour modifier"
+            ).toItemStack();
+        }
+
+        @Override
+        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
+            new ManageDropsMenu(new ConfigurationMenu()).openMenu(player);
+        }
+    }
+
     private static class WhitelistButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
             GameManager manager = UHC.getGameManager();
-            return new ItemBuilder(Material.WOOD_DOOR).setName("&cAccessibilité de la partie").setLore(
+            return new ItemBuilder(Material.NAME_TAG).setName("&cAccessibilité de la partie").setLore(
                     "&fPermet de modifier l'accessibilité à la",
                     "&fpartie pour les joueurs.",
                     " ",
-                    "&fAccessibilité: " + (manager.isWhitelist() ? "&cFermé" : "&aOuvert"),
+                    "&8┃ &7Accessibilité: " + (manager.isWhitelist() ? "&cFermé" : "&aOuvert"),
                     "",
                     "&f&l» &cCliquez-ici pour modifier"
             ).toItemStack();
@@ -165,7 +201,7 @@ public class ConfigurationMenu extends Menu {
             return new ItemBuilder(Material.SAPLING).setName("&cPrégénération").setLore(
                     "&fPermet de prégénérer toute la map",
                     "",
-                    "&fBordure: &c± " + UHC.getGameManager().getGameConfiguration().getBorderStartSize(),
+                    "&8┃ &7Bordure: &c± " + UHC.getGameManager().getGameConfiguration().getBorderStartSize(),
                     "",
                     "&f&l» &cCliquez-ici pour charger"
             ).toItemStack();
@@ -223,7 +259,7 @@ public class ConfigurationMenu extends Menu {
     public static class EnchantsLimitsButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.BOOKSHELF).setName("&cLimite d'enchantements").setLore(
+            return new ItemBuilder(Material.ENCHANTED_BOOK).setName("&cLimite d'enchantements").setLore(
                     "&fPermet de définir la limite des tous les",
                     "&fles enchantements",
                     "",
@@ -256,10 +292,10 @@ public class ConfigurationMenu extends Menu {
 
     public static Button getRenameButton(Player player) {
         return new ConversationButton<>(
-                new ItemBuilder(Material.NAME_TAG).setName("&cRenommer").setLore(
+                new ItemBuilder(Material.ANVIL).setName("&cRenommer").setLore(
                         "&fPermet de modifier le nom du serveur",
                         " ",
-                        "&fNom: &c" + UHC.getGameManager().getGameConfiguration().getCustomName(),
+                        "&8┃ &7Nom: &c" + UHC.getGameManager().getGameConfiguration().getCustomName(),
                         "",
                         "&f&l» &cCliquez-ici pour y accéder"
                 ).toItemStack(),
@@ -297,7 +333,7 @@ public class ConfigurationMenu extends Menu {
     private static class ModeButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.COMMAND).setName("&cMode de Jeu").setLore(
+            return new ItemBuilder(Material.PRISMARINE_SHARD).setName("&cMode de Jeu").setLore(
                     "&fPermet de configurer toutes les options",
                     "&fdu mode de jeu de la partie",
                     "",
@@ -314,7 +350,7 @@ public class ConfigurationMenu extends Menu {
     public static class SettingsButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Heads.SETTINGS.toItemStack()).setName("&cOptions").setLore(
+            return new ItemBuilder(Material.ITEM_FRAME).setName("&cOptions").setLore(
                     "&fPermet de modifier toutes les options",
                     "&fcomme la bordure, etc.",
                     "",

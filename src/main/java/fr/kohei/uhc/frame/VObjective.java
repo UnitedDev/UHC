@@ -6,7 +6,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardObjective;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardScore;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
- 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;

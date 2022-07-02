@@ -76,7 +76,7 @@ public class ManageTeamsMenu extends Menu {
                     "&fPermet d'activer ou de désactiver le",
                     "&ffriendly fire pour les équipes.",
                     "",
-                    "&fFriendly Fire: " + (friendlyFire ? "&aActivé" : "&cDésactivé"),
+                    "&8┃ &7Friendly Fire: " + (friendlyFire ? "&aActivé" : "&cDésactivé"),
                     "",
                     "&f&l» &cCliquez-ici pour modifier"
             ).toItemStack();
@@ -102,7 +102,7 @@ public class ManageTeamsMenu extends Menu {
                     "&fPermet d'activer ou de désactiver la",
                     "&fsélection des équipes.",
                     "",
-                    "&fRandom Team: " + (randomTeam? "&aActivé" : "&cDésactivé"),
+                    "&8┃ &7Random Team: " + (randomTeam? "&aActivé" : "&cDésactivé"),
                     "",
                     "&f&l» &cCliquez-ici pour modifier"
             ).toItemStack();

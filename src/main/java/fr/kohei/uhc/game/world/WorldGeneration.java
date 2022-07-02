@@ -1,10 +1,12 @@
 package fr.kohei.uhc.game.world;
 
 import fr.kohei.uhc.UHC;
+import fr.kohei.uhc.utils.world.PreGenerationHandler;
 import fr.kohei.utils.Title;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -54,7 +56,7 @@ public class WorldGeneration {
                 for (int i = 0; i < 30 && !isFinished(); i++) {
                     Location loc = new Location(world, cx, 0.0D, cz);
                     if (!loc.getChunk().isLoaded())
-                        loc.getWorld().loadChunk(loc.getChunk().getX(), loc.getChunk().getZ(), true);
+                        loc.getWorld().loadChunk(loc.getChunk());
                     cx = cx + 16;
                     currentChunkLoad = currentChunkLoad + 1.0D;
                     if (cx > radius) {
@@ -68,13 +70,12 @@ public class WorldGeneration {
                 }
                 percentage = currentChunkLoad / totalChunkToLoad * 100.0D;
                 if (isFinished()) {
-                    world.setGameRuleValue("randomTickSpeed", "2");
+                    world.setGameRuleValue("randomTickSpeed", "0");
                     cancel();
                 }
             }
-        }.runTaskTimer(UHC.getPlugin(), 0L, 5);
+        }.runTaskTimer(UHC.getPlugin(), 50, 10);
         sendMessage();
-
     }
 
 
@@ -83,8 +84,9 @@ public class WorldGeneration {
             @Override
             public void run() {
                 if (isFinished()) cancel();
-                DecimalFormat format = new DecimalFormat("#.#");
-                Title.sendActionBar("&cPrégénération: &8(&c" + format.format(getPercentage()) + "%&8) &8» &cChunks: &8(&c" + currentChunkLoad.intValue() + "&8/&c" + totalChunkToLoad.intValue() + "&8)  &8» &cTPS: &8(&c" + format.format(MinecraftServer.getServer().recentTps[0]) + "&8)");
+                DecimalFormat format = new DecimalFormat("##.#");
+                String pb = PreGenerationHandler.getProgressBar(currentChunkLoad.intValue(), totalChunkToLoad.intValue(), 70, '|', ChatColor.GREEN, ChatColor.RED);
+                Title.sendActionBar("&cPrégénération &7[" + pb + "&7] &f&l» &c" + format.format(getPercentage()) + "%" + " &8▍ &cTPS &7[&f" + format.format(MinecraftServer.getServer().recentTps[0]) + "&7]");
             }
         }.runTaskTimer(UHC.getPlugin(), 0, 10L);
     }

@@ -11,6 +11,7 @@ import fr.kohei.uhc.game.config.timers.Timers;
 import fr.kohei.uhc.game.player.UPlayer;
 import fr.kohei.uhc.menu.ConfigurationMenu;
 import fr.kohei.utils.ChatUtil;
+import fr.kohei.utils.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
@@ -206,6 +207,63 @@ public class HostCommands {
 
         Timers.PVP.getCustomTimer().setTimer(5);
         Bukkit.broadcastMessage(ChatUtil.prefix("&fActivation du &cPvP &fdans &c5 secondes&f."));
+    }
+
+    @Command(names = {"h heal"})
+    public static void heal(Player player) {
+        UPlayer uPlayer = UPlayer.get(player);
+        if (!uPlayer.hasHostAccess()) {
+            player.sendMessage(ChatUtil.prefix("&cVous n'avez pas la permission d'exécuter cette commande"));
+            return;
+        }
+
+        if (UHC.getGameManager().getGameState() != GameState.PLAYING) {
+            player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cette commande si la game n'a pas commencé"));
+            return;
+        }
+
+        Bukkit.getOnlinePlayers().forEach(player1 -> {
+            player1.setFoodLevel(20);
+            player1.setHealth(player1.getMaxHealth());
+            player1.sendMessage(ChatUtil.prefix("&fVous avez été &dsoigné&f."));
+        });
+    }
+
+    @Command(names = {"h setgroup"})
+    public static void setgroups(Player player, @Param(name = "nombre") int number) {
+        UPlayer uPlayer = UPlayer.get(player);
+        if (!uPlayer.hasHostAccess()) {
+            player.sendMessage(ChatUtil.prefix("&cVous n'avez pas la permission d'exécuter cette commande"));
+            return;
+        }
+
+        if (UHC.getGameManager().getGameState() != GameState.PLAYING) {
+            player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cette commande si la game n'a pas commencé"));
+            return;
+        }
+
+        UHC.getGameManager().getGameConfiguration().setGroups(number);
+        Bukkit.getOnlinePlayers().forEach(player1 -> {
+            Title.sendTitle(player1, 10, 100, 10, "&c⚠ &cAttention &c⚠", "&cVeuillez respecter les groupes");
+        });
+    }
+
+    @Command(names = {"h group"})
+    public static void groups(Player player) {
+        UPlayer uPlayer = UPlayer.get(player);
+        if (!uPlayer.hasHostAccess()) {
+            player.sendMessage(ChatUtil.prefix("&cVous n'avez pas la permission d'exécuter cette commande"));
+            return;
+        }
+
+        if (UHC.getGameManager().getGameState() != GameState.PLAYING) {
+            player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cette commande si la game n'a pas commencé"));
+            return;
+        }
+
+        Bukkit.getOnlinePlayers().forEach(player1 -> {
+            Title.sendTitle(player1, 10, 100, 10, "&c⚠ &cAttention &c⚠", "&cVeuillez respecter les groupes");
+        });
     }
 
     @Command(names = {"h force mur"})

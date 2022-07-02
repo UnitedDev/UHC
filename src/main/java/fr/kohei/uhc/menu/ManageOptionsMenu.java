@@ -53,7 +53,7 @@ public class ManageOptionsMenu extends GlassMenu {
         buttons.put(47, new PvPTimerButton());
         buttons.put(51, new BorderTimeButton());
 //        buttons.put(37, new EnchantsLimitsButton());
-        buttons.put(43, new CycleButton());
+//        buttons.put(43, new SettingsMenu.CycleButton());
 
         if (module.hasRoles()) {
             buttons.put(4, new HiddenCompositionButton());
@@ -198,18 +198,6 @@ public class ManageOptionsMenu extends GlassMenu {
                 "",
                 "&f&l» &cCliquez-ici pour y accéder"
         ).toItemStack();
-    }
-
-    private class CycleButton extends Button {
-        @Override
-        public ItemStack getButtonItem(Player player) {
-            return getCycleItem();
-        }
-
-        @Override
-        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            new CycleTimerMenu(new ManageOptionsMenu(oldMenu)).openMenu(player);
-        }
     }
 
     private static class PotionLimitButton extends Button {

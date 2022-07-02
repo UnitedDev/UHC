@@ -9,6 +9,9 @@ import fr.kohei.uhc.game.scenario.AbstractScenario;
 import fr.kohei.uhc.game.scenario.Scenario;
 import fr.kohei.uhc.game.world.WorldGeneration;
 import fr.kohei.uhc.task.*;
+import fr.kohei.uhc.utils.world.Cuboid;
+import fr.kohei.uhc.utils.world.PreGeneration;
+import fr.kohei.uhc.utils.world.PreGenerationHandler;
 import fr.kohei.utils.ChatUtil;
 import fr.kohei.uhc.task.*;
 import lombok.Getter;
@@ -77,8 +80,13 @@ public class GameManager {
         this.uhcWorld.getWorldBorder().setSize(2 * getGameConfiguration().getBorderStartSize());
 
         Bukkit.broadcastMessage(ChatUtil.prefix("&fLa prégénération vient de &acommencer&f."));
-        new WorldGeneration(uhcWorld, (int) (uhcWorld.getWorldBorder().getSize() / 2) + 50).load();
-
+        new WorldGeneration(uhcWorld, (int) (uhcWorld.getWorldBorder().getSize() / 2) + 25).load();
+//        int radius = (int) (uhcWorld.getWorldBorder().getSize() / 2) + 50;
+//        Cuboid cuboid = new Cuboid(UUID.randomUUID().toString(), "uhc_world", this.uhcWorld,
+//               0, 50, 0,radius, radius, 0, 0, false, false);
+//
+//        PreGenerationHandler handler = new PreGenerationHandler();
+//        cuboid.getSubCuboids().forEach(subCuboid -> handler.addPregeneration(new PreGeneration(subCuboid)));
     }
 
     public int getSize() {

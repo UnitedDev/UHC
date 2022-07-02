@@ -3,6 +3,7 @@ package fr.kohei.uhc.task;
 import fr.kohei.BukkitAPI;
 import fr.kohei.common.CommonProvider;
 import fr.kohei.common.cache.data.ProfileData;
+import fr.kohei.common.cache.rank.Grant;
 import fr.kohei.common.cache.server.impl.UHCServer;
 import fr.kohei.common.utils.messaging.list.packets.UHCUpdatePacket;
 import fr.kohei.mumble.api.LinkAPI;

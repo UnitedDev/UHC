@@ -3,10 +3,13 @@ package fr.kohei.uhc.game.config;
 import fr.kohei.uhc.game.GameManager;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -14,7 +17,6 @@ public class GameConfiguration {
 
     private final GameManager gameManager;
     private final RulesManager rulesManager;
-    private final EnchantRuleManager enchantManager;
     private List<String> enabledRoles;
 
     private String customName;
@@ -25,15 +27,17 @@ public class GameConfiguration {
     private int borderStartSize, borderEndSize, borderSpeed;
     private int disconnectTime, cycle;
     private int appleRate, flintRate, pearlRate;
-    private int goldLimit, diamondLimit, ironLimit;
-    private boolean randomTeam, friendlyFire, heads;
+    private int goldLimit, diamondLimit, ironLimit, groups;
+    private boolean randomTeam, friendlyFire, absorption;
+
+    private final Map<Enchantment, Integer> enchantmentsLimit;
 
     public GameConfiguration(GameManager gameManager) {
         this.enabledRoles = new ArrayList<>();
 
         this.gameManager = gameManager;
         this.rulesManager = new RulesManager(this);
-        this.enchantManager = new EnchantRuleManager(this);
+        this.enchantmentsLimit = new HashMap<>();
 
         this.customName = "UHC";
 
@@ -46,6 +50,7 @@ public class GameConfiguration {
         this.rolesTime = 20 * 60;
         this.meetupTimer = 90 * 60;
         this.damageTimer = 30;
+        this.groups = 6;
 
         this.slots = 20;
         this.teams = 1;

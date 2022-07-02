@@ -75,8 +75,9 @@ public class ScoreboardModifier {
                 arrow = LocationUtils.getArrow(player.getLocation().clone(), gameManager.getCenter());
             }
 
-            toReturn.setLine(2, " &8┃ &fDurée: &c" + TimeUtil.niceTime(gameManager.getDuration() * 1000L));
-            toReturn.setLine(3, " &8┃ &fJoueurs: &c" + gameManager.getSize());
+            toReturn.setLine(1, " &8┃ &fDurée: &e" + TimeUtil.niceTime(gameManager.getDuration() * 1000L));
+            toReturn.setLine(2, " &8┃ &fJoueurs: &a" + gameManager.getSize());
+            toReturn.setLine(3, " &8┃ &fGroupes: &c" + gameManager.getGameConfiguration().getGroups());
             toReturn.setLine(4, "&1&9&l");
             toReturn.setLine(6, " &8┃ &fPvP: &c" + (Timers.PVP.isLoading() ? TimeUtil.niceTime(Timers.PVP.getCustomTimer().getTimer() * 1000L) : "&aActivé"));
             if (Timers.BORDER.isLoading()) {
@@ -85,11 +86,11 @@ public class ScoreboardModifier {
                 toReturn.setLine(7, " &8┃ &fBordure: &c± " + (int) gameManager.getUhcWorld().getWorldBorder().getSize() / 2);
             }
             toReturn.setLine(8, "&1&9&l &c");
-            toReturn.setLine(10, " &8┃ &fKills: &c" + uPlayer.getKills());
-            toReturn.setLine(11, " &8┃ &fCentre: &c" + distance + "m " + arrow);
+            toReturn.setLine(11, " &8┃ &fCentre: &a" + distance + "m " + arrow);
+            toReturn.setLine(12, " &8┃ &fKills: &c" + uPlayer.getKills());
         }
-        toReturn.setLine(12, "&9");
-        toReturn.setLine(13, ip);
+        toReturn.setLine(13, "&9");
+        toReturn.setLine(14, "      &6kohei.fr");
 
         toReturn.updateLines();
 
