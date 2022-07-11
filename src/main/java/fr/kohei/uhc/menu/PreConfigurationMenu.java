@@ -36,7 +36,7 @@ public class PreConfigurationMenu extends PaginatedMenu {
 
         buttons.put(3, new PrivateConfigButton());
         buttons.put(4, new SaveConfigButton());
-        buttons.put(5, new DisplayButton(new ItemBuilder(Heads.SOON.toItemStack()).setName("&cSoon").toItemStack()));
+        buttons.put(5, new DisplayButton(new ItemBuilder(Heads.SOON.toItemStack()).setName("&6&lSoon").toItemStack()));
 
         return buttons;
     }
@@ -65,7 +65,7 @@ public class PreConfigurationMenu extends PaginatedMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             GameConfiguration gameConfiguration = preConfiguration.getGameConfiguration();
-            return new ItemBuilder(Material.GOLDEN_APPLE).setName("&c" + gameConfiguration.getCustomName()).setLore(
+            return new ItemBuilder(Material.GOLDEN_APPLE).setName("&6&l" + gameConfiguration.getCustomName()).setLore(
                     "",
                     "&f➥ &c&lConfiguration",
                     " &fSlots: &e" + gameConfiguration.getSlots(),
@@ -79,8 +79,8 @@ public class PreConfigurationMenu extends PaginatedMenu {
                     " &fBordure: &a" + TimeUtil.niceTime(gameConfiguration.getMeetupTimer()),
                     " &fCycle: &a" + TimeUtil.niceTime(gameConfiguration.getCycle()),
                     "",
-                    "&f&l» &cClic-droit pour charger la config",
-                    "&f&l» &cDrop pour supprimer la config"
+                    "&f&l» &eClic-droit pour charger la config",
+                    "&f&l» &eDrop pour supprimer la config"
             ).toItemStack();
         }
 
@@ -110,7 +110,7 @@ public class PreConfigurationMenu extends PaginatedMenu {
                     "&fPermet de sauvegarder la pré-configuration",
                     "&fafin qu'elle soit réutilisable",
                     "",
-                    "&f&l» &cCliquez-ici pour sauvegarder"
+                    "&f&l» &eCliquez-ici pour sauvegarder"
             ).toItemStack();
         }
 
@@ -145,9 +145,9 @@ public class PreConfigurationMenu extends PaginatedMenu {
     private class PrivateConfigButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Heads.BALLOON_ORANGE.toItemStack()).setName("&cMes Pre-Config" + (personnal ? " &8(&aSéléctionné&8)" : ""))  .setLore(
+            return new ItemBuilder(Heads.BALLOON_ORANGE.toItemStack()).setName("&6&lMes Pre-Config" + (personnal ? " &8(&aSéléctionné&8)" : ""))  .setLore(
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 

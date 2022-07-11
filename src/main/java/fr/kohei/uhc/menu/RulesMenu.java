@@ -38,23 +38,22 @@ public class RulesMenu extends GlassMenu {
     public Map<Integer, Button> getAllButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        buttons.put(10, new CustomButton(Material.DIAMOND_HELMET, "Casque en Diamant", "diamondHelmet"));
-        buttons.put(19, new CustomButton(Material.DIAMOND_CHESTPLATE, "Plastron en Diamant", "diamondChestplate"));
-        buttons.put(28, new CustomButton(Material.DIAMOND_LEGGINGS, "Pantalon en Diamant", "diamondLeggings"));
-        buttons.put(37, new CustomButton(Material.DIAMOND_BOOTS, "Bottes en Diamant", "diamondBoots"));
+        buttons.put(11, new CustomButton(Material.DIAMOND_HELMET, "Casque en Diamant", "diamondHelmet"));
+        buttons.put(12, new CustomButton(Material.DIAMOND_CHESTPLATE, "Plastron en Diamant", "diamondChestplate"));
+        buttons.put(13, new CustomButton(Material.DIAMOND_LEGGINGS, "Pantalon en Diamant", "diamondLeggings"));
+        buttons.put(14, new CustomButton(Material.DIAMOND_BOOTS, "Bottes en Diamant", "diamondBoots"));
 
-        buttons.put(12, new CustomButton(Material.DIAMOND_SWORD, "Knockback", "knockback"));
-        buttons.put(21, new CustomButton(Material.BOW, "Punch", "punch"));
-        buttons.put(30, new CustomButton(Material.FISHING_ROD, "Canne à pêche", "finishRod"));
-        buttons.put(39, new CustomButton(Material.LAVA_BUCKET, "Seau de Lave", "lavaBucket"));
+        buttons.put(15, new CustomButton(Material.DIAMOND_SWORD, "Knockback", "knockback"));
+        buttons.put(20, new CustomButton(Material.BOW, "Punch", "punch"));
+        buttons.put(21, new CustomButton(Material.FISHING_ROD, "Canne à pêche", "finishRod"));
+        buttons.put(22, new CustomButton(Material.LAVA_BUCKET, "Seau de Lave", "lavaBucket"));
 
-        buttons.put(14, new CustomButton(Material.GRASS, "Dig Down", "digDown"));
-        buttons.put(23, new CustomButton(Material.LADDER, "Tower", "towers"));
-        buttons.put(32, new CustomButton(Material.POTION, "Potions", "potions"));
-        buttons.put(41, new CustomButton(Material.ENDER_PEARL, "Ender Pearl", "enderPearl"));
+        buttons.put(23, new CustomButton(Material.GRASS, "Dig Down", "digDown"));
+        buttons.put(24, new CustomButton(Material.LADDER, "Tower", "towers"));
+        buttons.put(29, new CustomButton(Material.ENDER_PEARL, "Ender Pearl", "enderPearl"));
 
-        buttons.put(25, new CustomButton(Material.SADDLE, "Cheveaux", "horse"));
-        buttons.put(34, new CustomButton(Material.FLINT_AND_STEEL, "Briquets", "flintAndSteel"));
+        buttons.put(30, new CustomButton(Material.SADDLE, "Cheveaux", "horse"));
+        buttons.put(31, new CustomButton(Material.FLINT_AND_STEEL, "Briquets", "flintAndSteel"));
 
         if(oldMenu != null) {
             buttons.put(49, new BackButton(oldMenu));
@@ -76,7 +75,7 @@ public class RulesMenu extends GlassMenu {
             field.setAccessible(true);
             boolean b = field.getBoolean(UHC.getGameManager().getGameConfiguration().getRulesManager());
 
-            return new ItemBuilder(material).setName("&c" + name + " &8(" + (b ? "&aActivé" : "&cDésactivé") + "&8)").toItemStack();
+            return new ItemBuilder(material).setName("&6&l" + name + " &8(" + (b ? "&aActivé" : "&cDésactivé") + "&8)").toItemStack();
         }
 
         @Override

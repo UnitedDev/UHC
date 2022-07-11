@@ -6,7 +6,7 @@ import fr.kohei.mumble.api.LinkAPI;
 import fr.kohei.mumble.api.mumble.IUser;
 import fr.kohei.mumble.api.mumble.MumbleState;
 import fr.kohei.uhc.UHC;
-import fr.kohei.uhc.frame.ScoreboardTeam;
+import fr.kohei.uhc.utils.ScoreboardTeam;
 import fr.kohei.uhc.game.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;

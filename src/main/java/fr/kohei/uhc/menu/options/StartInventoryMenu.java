@@ -74,11 +74,11 @@ public class StartInventoryMenu extends Menu {
 
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.BANNER).setDurability(10).setName("&cModifier l'inventaire").setLore(
+            return new ItemBuilder(Material.BANNER).setDurability(10).setName("&6&lModifier l'inventaire").setLore(
                     "&fPermet de modifier l'inventaire de départ",
                     "&fdonné en début de game",
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 

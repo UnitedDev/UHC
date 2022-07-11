@@ -40,9 +40,9 @@ public class MumbleMenu extends PaginatedMenu {
             buttons.put(3, new Button() {
                 @Override
                 public ItemStack getButtonItem(Player player) {
-                    return new ItemBuilder(Material.INK_SACK).setDurability(10).setName("&cMute tout le monde").setLore(
+                    return new ItemBuilder(Material.INK_SACK).setDurability(10).setName("&6&lMute tout le monde").setLore(
                             "",
-                            "&f&l» &cRendre muet tout le monde"
+                            "&f&l» &eRendre muet tout le monde"
                     ).toItemStack();
                 }
 
@@ -63,9 +63,9 @@ public class MumbleMenu extends PaginatedMenu {
             buttons.put(5, new Button() {
                 @Override
                 public ItemStack getButtonItem(Player player) {
-                    return new ItemBuilder(Material.INK_SACK).setDurability(1).setName("&cUnmute tout le monde").setLore(
+                    return new ItemBuilder(Material.INK_SACK).setDurability(1).setName("&6&lUnmute tout le monde").setLore(
                             "",
-                            "&f&l» &cRendre la parole à la partie"
+                            "&f&l» &eRendre la parole à la partie"
                     ).toItemStack();
                 }
 
@@ -130,9 +130,9 @@ public class MumbleMenu extends PaginatedMenu {
             }
 
             lore.add(" ");
-            lore.add("&f&l» &cCliquez-ici pour gérer");
+            lore.add("&f&l» &eCliquez-ici pour gérer");
 
-            return new ItemBuilder(Material.SKULL_ITEM, amount).setSkullOwner(player.getName()).setDurability(SkullType.PLAYER.ordinal()).setName("&c" + player.getName()).setLore(lore).toItemStack();
+            return new ItemBuilder(Material.SKULL_ITEM, amount).setSkullOwner(player.getName()).setDurability(SkullType.PLAYER.ordinal()).setName("&6&l" + player.getName()).setLore(lore).toItemStack();
         }
 
         @Override
@@ -163,12 +163,12 @@ public class MumbleMenu extends PaginatedMenu {
                 }
             }
 
-            return new ItemBuilder(UHCItems.getMumbleItem()).setAmount(connected).setName("&cJoueurs").setLore(
+            return new ItemBuilder(UHCItems.getMumbleItem()).setAmount(connected).setName("&6&lJoueurs").setLore(
                     "",
                     "&8┃ &7Connecté(s): &a" + connected + "&8/" + "&a" + UHC.getGameManager().getSize(),
                     "&8┃ &7Link(s): &a" + linked + "&8/" + "&a" + connected,
                     "",
-                    "&f&l» &cCliquez sur quelqu'un pour gérer"
+                    "&f&l» &eCliquez sur quelqu'un pour gérer"
             ).toItemStack();
         }
     }

@@ -22,36 +22,36 @@ import java.util.Map;
 public class ManageDropsMenu extends Menu {
 
     public static ItemStack getAppleRateDisplay() {
-        return new ItemBuilder(Material.APPLE).setName("&cPommes").setLore(
+        return new ItemBuilder(Material.APPLE).setName("&6&lPommes").setLore(
                 "&fPermet de modifier le taux de drops de",
                 "&fpommes",
                 "",
                 "&8┃ &7Taux: &c" + UHC.getGameManager().getGameConfiguration().getAppleRate() + "%",
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 
     public static ItemStack getFlintRateDisplay() {
-        return new ItemBuilder(Material.FLINT).setName("&cFlint").setLore(
+        return new ItemBuilder(Material.FLINT).setName("&6&lFlint").setLore(
                 "&fPermet de modifier le taux de drops de",
                 "&fflint",
                 "",
                 "&8┃ &7Taux: &c" + UHC.getGameManager().getGameConfiguration().getFlintRate() + "%",
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 
 
     public static ItemStack getPearlRateDisplay() {
-        return new ItemBuilder(Material.ENDER_PEARL).setName("&cEnder Pearl").setLore(
+        return new ItemBuilder(Material.ENDER_PEARL).setName("&6&lEnder Pearl").setLore(
                 "&fPermet de modifier le taux de drops d'enders",
                 "&fpearls",
                 "",
                 "&8┃ &7Taux: &c" + UHC.getGameManager().getGameConfiguration().getPearlRate() + "%",
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 

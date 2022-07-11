@@ -27,6 +27,11 @@ public class ManageScenariosMenu extends PaginatedMenu {
     private final Menu oldMenu;
 
     @Override
+    public int getGlassColor() {
+        return 14;
+    }
+
+    @Override
     public String getPrePaginatedTitle(Player player) {
         return "Scénarios";
     }
@@ -68,13 +73,13 @@ public class ManageScenariosMenu extends PaginatedMenu {
             lore.add(" ");
             if(scenario.isEnabled()) {
                 if(abstractScenario.getMenu() != null) {
-                    lore.add("&f&l» &cClic-gauche pour désactiver");
-                    lore.add("&f&l» &cClic-droit pour configurer");
+                    lore.add("&f&l» &eClic-gauche pour désactiver");
+                    lore.add("&f&l» &eClic-droit pour configurer");
                 } else {
-                    lore.add("&f&l» &cCliquez-ici pour désactiver");
+                    lore.add("&f&l» &eCliquez-ici pour désactiver");
                 }
             } else {
-                lore.add("&f&l» &cCliquez-ici pour activer");
+                lore.add("&f&l» &eCliquez-ici pour activer");
             }
 
             ItemBuilder itemBuilder = new ItemBuilder(abstractScenario.getIcon()).setLore(lore);
@@ -84,7 +89,7 @@ public class ManageScenariosMenu extends PaginatedMenu {
                 itemBuilder.setName("&a" + abstractScenario.getName());
                 itemBuilder.addEnchant(Enchantment.DAMAGE_ALL, 1).hideItemFlags();
             } else {
-                itemBuilder.setName("&c" + abstractScenario.getName());
+                itemBuilder.setName("&6&l" + abstractScenario.getName());
                 itemBuilder.setAmount(0);
             }
 

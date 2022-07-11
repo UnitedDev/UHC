@@ -23,35 +23,35 @@ import java.util.Map;
 public class ManageBorderMenu extends Menu {
 
     public static ItemStack getBorderSpeedDisplay() {
-        return new ItemBuilder(Material.WATCH).setName("&cVitesse de la bordure").setLore(
+        return new ItemBuilder(Material.WATCH).setName("&6&lVitesse de la bordure").setLore(
                 "&fPermet de modifier la vitesse de la bordure",
                 "&fen bloc par seconde",
                 "",
                 "&8┃ &7Vitesse: &c" + UHC.getGameManager().getGameConfiguration().getBorderSpeed() + " bloc(s)/s",
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 
     public static ItemStack getFinaleBorderDisplay() {
-        return new ItemBuilder(Material.STAINED_GLASS).setDurability(14).setName("&cBordure finale").setLore(
+        return new ItemBuilder(Material.STAINED_GLASS).setDurability(14).setName("&6&lBordure finale").setLore(
                 "&fPermet de modifier la taille de la bordure",
                 "&ffinale",
                 "",
                 "&8┃ &7Bordure finale: &c± " + UHC.getGameManager().getGameConfiguration().getBorderEndSize(),
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 
     public static ItemStack getInitialBorderDisplay() {
-        return new ItemBuilder(Material.STAINED_GLASS).setDurability(3).setName("&cBordure initiale").setLore(
+        return new ItemBuilder(Material.STAINED_GLASS).setDurability(3).setName("&6&lBordure initiale").setLore(
                 "&fPermet de modifier la taille de la bordure",
                 "&fpour le début de la partie",
                 "",
                 "&8┃ &7Bordure initiale: &c± " + UHC.getGameManager().getGameConfiguration().getBorderStartSize(),
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 

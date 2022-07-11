@@ -56,14 +56,8 @@ public class Roles extends CustomTimer {
 
             uPlayer.setRole(role);
             uPlayer.setCamp(role.getStartCamp());
-            try {
-                Bukkit.getScheduler().runTaskLater(UHC.getPlugin(), () -> {
-                    role.onDistribute(player);
-                }, 20);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            for (String s : role.getStartMessage()) {
+            onDistribute(player, role);
+            for (String s : role.getDescription()) {
                 player.sendMessage(ChatUtil.translate(s));
             }
             role.getPotionEffects().forEach(player::addPotionEffect);
@@ -72,5 +66,10 @@ public class Roles extends CustomTimer {
             roles.remove(0);
         }
         Bukkit.broadcastMessage(ChatUtil.translate("&fLes rôles ont été &cattribués &f!"));
+    }
+
+    @SneakyThrows
+    private void onDistribute(Player player, Role role) {
+        Bukkit.getScheduler().runTaskLater(UHC.getPlugin(), () -> role.onDistribute(player), 100);
     }
 }

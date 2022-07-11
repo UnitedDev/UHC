@@ -10,13 +10,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Enderman;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -38,6 +38,16 @@ public class GameOptionsListener implements Listener {
     private static final Random random = new Random();
 
     @EventHandler
+    public void onBreak2(BlockBreakEvent event) {
+        if(!(event.getBlock().getType() == STONE)) return;
+
+        if(event.getBlock().getData() == 0) return;
+
+        event.setDropItems(false);
+        event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(COBBLESTONE));
+    }
+
+    @EventHandler
     public void onLeavesDecay(LeavesDecayEvent event) {
         final Block b = event.getBlock();
         final Location loc = new Location(b.getWorld(), b.getLocation().getBlockX() + 0.0, b.getLocation().getBlockY() + 0.0, b.getLocation().getBlockZ() + 0.0);
@@ -54,7 +64,7 @@ public class GameOptionsListener implements Listener {
         final Location loc = new Location(block.getWorld(), (block.getLocation().getBlockX() + 0.0f), (block.getLocation().getBlockY() + 0.0f), (block.getLocation().getBlockZ() + 0.0f));
         final double r = random.nextDouble();
 
-        if (r <= UHC.getGameManager().getGameConfiguration().getAppleRate() * 0.01 && block.getType() == Material.LEAVES && !e.getPlayer().getItemInHand().getType().equals(Material.SHEARS)) {
+        if (r <= UHC.getGameManager().getGameConfiguration().getAppleRate() * 0.01 && block.getType() == Material.LEAVES) {
             block.setType(Material.AIR);
             block.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE));
         }
@@ -91,8 +101,7 @@ public class GameOptionsListener implements Listener {
                 if (uPlayer.getDiamond() >= diamondLimit) {
                     event.setCancelled(true);
                     event.getBlock().setType(AIR);
-                    event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(GOLD_INGOT, 2));
-                    player.sendMessage(ChatUtil.prefix("&fVous avez &cdépassé &fvotre &cdiamond limit&f."));
+                    player.getInventory().addItem(new ItemStack(GOLD_INGOT, 2));
                 } else {
                     uPlayer.setDiamond(uPlayer.getDiamond() + 1);
                     player.sendMessage(ChatUtil.prefix("&fVotre &bdiamond limite &fest à &a" + uPlayer.getDiamond() + "&8/&a" + diamondLimit));
@@ -150,7 +159,7 @@ public class GameOptionsListener implements Listener {
 
         if (event.getItem() == null) return;
         if (event.getItem().getType() == ENDER_PEARL) {
-            if (manager.isEnderPearl()) event.setCancelled(true);
+            if (!manager.isEnderPearl()) event.setCancelled(true);
         }
     }
 

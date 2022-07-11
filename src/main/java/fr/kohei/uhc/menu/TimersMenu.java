@@ -103,18 +103,18 @@ public class TimersMenu extends GlassMenu {
             int value = field.getInt(object);
 
             if (selectedTimer != null && timer == selectedTimer) {
-                return new ItemBuilder(timer.getItemDisplay()).addEnchant(Enchantment.DEPTH_STRIDER, 1).hideItemFlags().setName("&c" + timer.getDisplay()).setLore(
+                return new ItemBuilder(timer.getItemDisplay()).addEnchant(Enchantment.DEPTH_STRIDER, 1).hideItemFlags().setName("&6&l" + timer.getDisplay()).setLore(
                         "",
                         "&fConfiguration: &c" + TimeUtil.niceTime(value),
                         "",
-                        "&f&l» &cCliquez-ici pour séléctionner"
+                        "&f&l» &eCliquez-ici pour séléctionner"
                 ).setAmount(1).toItemStack();
             }
-            return new ItemBuilder(timer.getItemDisplay()).setName("&c" + timer.getDisplay()).setLore(
+            return new ItemBuilder(timer.getItemDisplay()).setName("&6&l" + timer.getDisplay()).setLore(
                     "",
                     "&fConfiguration: &c" + TimeUtil.niceTime(value),
                     "",
-                    "&f&l» &cCliquez-ici pour séléctionner"
+                    "&f&l» &eCliquez-ici pour séléctionner"
             ).setAmount(0).removeEnchantment(Enchantment.DEPTH_STRIDER).toItemStack();
         }
 

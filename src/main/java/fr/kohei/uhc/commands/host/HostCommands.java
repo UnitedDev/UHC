@@ -1,56 +1,86 @@
-package fr.kohei.uhc.commands;
+package fr.kohei.uhc.commands.host;
 
-import fr.kohei.common.CommonProvider;
-import fr.kohei.common.cache.data.ProfileData;
 import fr.kohei.BukkitAPI;
 import fr.kohei.command.Command;
 import fr.kohei.command.param.Param;
+import fr.kohei.common.CommonProvider;
+import fr.kohei.common.cache.data.ProfileData;
 import fr.kohei.uhc.UHC;
 import fr.kohei.uhc.game.GameManager;
 import fr.kohei.uhc.game.GameState;
 import fr.kohei.uhc.game.config.timers.Timers;
 import fr.kohei.uhc.game.player.UPlayer;
 import fr.kohei.uhc.menu.ConfigurationMenu;
+import fr.kohei.uhc.menu.EnchantmentMenu;
+import fr.kohei.uhc.menu.MumbleMenu;
 import fr.kohei.utils.ChatUtil;
 import fr.kohei.utils.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.bukkit.inventory.ItemStack;
 
 public class HostCommands {
 
-    @Command(names = {"h", "h 1", "h help"})
-    public static void hostHelp(Player player) {
-        player.sendMessage(" ");
-        player.sendMessage(ChatUtil.translate("&8» &c&lAide &l/h"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cop add &f<pseudo> &8» &7Ajouter en co-host quelqu'un"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cop remove &f<pseudo> &8» &7Retirer le co-host de quelqu'un"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cop list &8» &7Voir la liste de co-host"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cban &f<pseudo> &8» &7Bannir quelqu'un de l'host"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cunban &f<pseudo> &8» &7Débannir quelqu'un de l'host"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cbanlist &8» &7Voir la liste des bannis"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &ckick &f<pseudo> &8» &7Expulser quelqu'un de la partie"));
-        player.sendMessage(ChatUtil.translate("&fPage &c1 &fsur &c2"));
+    @Command(names = "h give")
+    public static void onCommand(Player player, @Param(name = "item") String item, @Param(name = "amount", defaultValue = "1") int amount) {
+        Material mat = Bukkit.getUnsafe().getMaterialFromInternalName(item);
+
+        if (amount > 64) {
+            amount = 64;
+        }
+
+        if (mat == null || mat == Material.AIR) {
+            player.sendMessage(ChatUtil.prefix("&cCet item n'existe pas."));
+            return;
+        }
+
+        final int newAmount = amount;
+        Bukkit.broadcastMessage(ChatUtil.translate("&7❘ &e&lGIVE &e" + mat.name() + " &8(&a" + amount + "&8)"));
+        UHC.getGameManager().getPlayers().stream().filter(uuid -> Bukkit.getPlayer(uuid) != null).map(Bukkit::getPlayer).forEach(t ->
+                t.getInventory().addItem(new ItemStack(mat, newAmount))
+        );
     }
 
-    @Command(names = {"h 2", "h help 2"})
-    public static void hostHelp2(Player player) {
-        player.sendMessage(" ");
-        player.sendMessage(ChatUtil.translate("&8» &c&lAide &l/h"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cforce &f<timer> &8» &7Forcer un timer"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cconfig &8» &7Ouvrir le menu de configuration"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cwl add &f<pseudo> &8» &7Ajouter quelqu'un à la whitelist"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cwl remove &f<pseudo> &8» &7Retirer quelqu'un à la whitelist"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cwl list &8» &7Voir la liste des joueurs whitelistés"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cwl spec add &f<pseudo> &8» &7Ajouter un spectateur"));
-        player.sendMessage(ChatUtil.translate(" &7■ &4/&7h &cwl spec remove &f<pseudo> &8» &7Retirer un spectateur"));
-        player.sendMessage(ChatUtil.translate("&fPage &c2 &fsur &c2"));
+    @Command(names = "enchant")
+    public static void enchant(Player sender) {
+        UPlayer uPlayer = UPlayer.get(sender);
+        if(!(uPlayer.isEditingStartInventory() || uPlayer.isEditingDeathInventory())) {
+            sender.sendMessage(ChatUtil.prefix("&cVous devez être en train de modifier un inventaire pour exécuter cette commande."));
+            return;
+        }
+
+        new EnchantmentMenu().openMenu(sender);
+    }
+
+    @Command(names = "finish")
+    public static void finish(Player sender) {
+        UPlayer uPlayer = UPlayer.get(sender);
+        if(!uPlayer.hasHostAccess()) {
+            sender.sendMessage(ChatUtil.prefix("&cVous n'avez pas la permission d'exécuter cette commande"));
+            return;
+        }
+
+        if(uPlayer.isEditingStartInventory()) {
+            UHC.getGameManager().getGameConfiguration().setStartInventory(sender.getInventory().getContents());
+            UHC.getGameManager().getGameConfiguration().setStartArmor(sender.getInventory().getArmorContents());
+            uPlayer.updateLobbyHotbar();
+            sender.teleport(UHC.getGameManager().getLobby());
+            sender.sendMessage(ChatUtil.prefix("&fVous avez &amodifié &fl'inventaire de &adépart"));
+            UHC.getGameManager().setEditingStartInventory(null);
+        } else if(uPlayer.isEditingDeathInventory()) {
+            UHC.getGameManager().getGameConfiguration().setDeathInventory(sender.getInventory().getContents());
+            uPlayer.updateLobbyHotbar();
+            sender.teleport(UHC.getGameManager().getLobby());
+            sender.sendMessage(ChatUtil.prefix("&fVous avez &amodifié &fl'inventaire de &cmort"));
+            UHC.getGameManager().setEditingDeathInventory(null);
+        } else {
+            sender.sendMessage(ChatUtil.prefix("&cVous n'êtes pas en train de modifier un inventaire"));
+        }
     }
 
     @Command(names = {"h op add"})
@@ -72,6 +102,34 @@ public class HostCommands {
 
         if (gameManager.getGameState() == GameState.LOBBY) {
             UPlayer.get(target).updateLobbyHotbar();
+        }
+    }
+
+    @Command(names = {"disperse"}, power = 39)
+    public static void disperse(Player player, @Param(name = "player") Player target) {
+        int x = (int) (Math.random() * (UHC.getGameManager().getUhcWorld().getWorldBorder().getSize() / 2));
+        int z = (int) (Math.random() * (UHC.getGameManager().getUhcWorld().getWorldBorder().getSize() / 2));
+        int y = UHC.getGameManager().getUhcWorld().getHighestBlockYAt(x, z) + 1;
+
+        Location location = new Location(UHC.getGameManager().getUhcWorld(), x, y, z);
+        target.teleport(location);
+        player.sendMessage(ChatUtil.prefix("&a" + target.getName() + " &fa été dispersé."));
+    }
+
+    @Command(names = {"h center"})
+    public static void center(Player player) {
+        UPlayer uPlayer = UPlayer.get(player);
+        if (!uPlayer.isMainHost()) {
+            player.sendMessage(ChatUtil.prefix("&cVous n'avez pas la permission d'exécuter cette commande"));
+            return;
+        }
+
+        if (UHC.getGameManager().getGameState() != GameState.LOBBY) return;
+
+        if (player.getWorld().getName().equalsIgnoreCase("world")) {
+            player.teleport(new Location(Bukkit.getWorld("uhc_world"), 0, 100, 0));
+        } else {
+            player.teleport(UHC.getGameManager().getLobby());
         }
     }
 
@@ -453,6 +511,30 @@ public class HostCommands {
 
         Bukkit.broadcastMessage(ChatUtil.prefix("&c" + player.getName() + " &fa stoppé le serveur"));
         Bukkit.getServer().shutdown();
+    }
+
+    @Command(names = {"mumble panel", "mumble config"})
+    public static void mumblePanel(Player player) {
+        UPlayer uPlayer = UPlayer.get(player);
+        if (!uPlayer.hasHostAccess()) {
+            player.sendMessage(ChatUtil.prefix("&cVous n'avez pas la permission d'exécuter cette commande"));
+            return;
+        }
+
+        new MumbleMenu(null).openMenu(player);
+    }
+
+    @Command(names = {"h say", "say"})
+    public static void onCommand(Player player, @Param(name = "message", wildcard = true) String message) {
+        UPlayer uPlayer = UPlayer.get(player);
+        if(!uPlayer.hasHostAccess()) {
+            player.sendMessage(ChatUtil.prefix("&cVous n'avez pas la permission d'exécuter cette commande"));
+            return;
+        }
+
+        Bukkit.broadcastMessage(" ");
+        Bukkit.broadcastMessage(ChatUtil.translate("&7❘ &e&lHOST &e" + player.getName() + " &8» &f" + message));
+        Bukkit.broadcastMessage(" ");
     }
 
     @Command(names = {"revive", "h revive"})

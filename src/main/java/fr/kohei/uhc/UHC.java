@@ -3,13 +3,14 @@ package fr.kohei.uhc;
 import fr.kohei.BukkitAPI;
 import fr.kohei.common.cache.rank.Rank;
 import fr.kohei.messaging.packet.ServerDeletePacket;
-import fr.kohei.uhc.frame.ScoreboardTeam;
-import fr.kohei.uhc.frame.ScoreboardUtils;
 import fr.kohei.uhc.game.BukkitManager;
 import fr.kohei.uhc.game.GameManager;
 import fr.kohei.uhc.module.ModuleManager;
 import fr.kohei.uhc.task.TabListTask;
 import fr.kohei.uhc.task.UpdateTask;
+import fr.kohei.uhc.utils.ScoreboardTeam;
+import fr.kohei.uhc.utils.frame.Frame;
+import fr.kohei.uhc.utils.frame.ScoreboardAdapter;
 import fr.kohei.utils.ChatUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -40,8 +41,6 @@ public class UHC extends JavaPlugin {
     @Getter
     private static ScheduledExecutorService scheduledExecutorService;
     @Getter
-    private static ScoreboardUtils scoreboardUtils;
-    @Getter
     private static List<String> joinUser;
     @Getter
     private static List<String> unlinkedUsers;
@@ -59,17 +58,13 @@ public class UHC extends JavaPlugin {
         scheduledExecutorService = Executors.newScheduledThreadPool(1);
         executorMonoThread = Executors.newScheduledThreadPool(1);
 
-        scoreboardUtils = new ScoreboardUtils();
-
         new TabListTask(plugin);
         new UpdateTask(plugin);
-
+        new Frame(this, new ScoreboardAdapter());
         initRanks();
 
         gameManager.getLobby().getChunk().load();
-
         World world = new WorldCreator("uhc_world").createWorld();
-
         getGameManager().setUhcWorld(world);
     }
 

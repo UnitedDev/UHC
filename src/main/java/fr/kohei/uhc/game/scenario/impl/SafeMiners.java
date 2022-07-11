@@ -85,11 +85,11 @@ public class SafeMiners extends AbstractScenario implements Listener {
             buttons.put(1, new ChangeYButton(-5, 14));
             buttons.put(2, new ChangeYButton(-1, 11));
 
-            buttons.put(4, new DisplayButton(new ItemBuilder(Material.LAVA_BUCKET).setName("&cSafeMiners").setLore(
+            buttons.put(4, new DisplayButton(new ItemBuilder(Material.LAVA_BUCKET).setName("&6&lSafeMiners").setLore(
                     "",
                     "&fConfiguration: &cy" + yAxe,
                     "",
-                    "&f&l» &cCliquez-ici pour changer"
+                    "&f&l» &eCliquez-ici pour changer"
             ).toItemStack()));
 
             buttons.put(6, new ChangeYButton(1, 12));

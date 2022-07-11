@@ -17,15 +17,15 @@ import org.bukkit.inventory.ItemStack;
 
 public class UHCItems {
 
-    public static final CustomItem HOST_CONFIGURATION = new CustomItem(Material.REDSTONE_COMPARATOR, "Configuration", click -> new ConfigurationMenu().openMenu(click.getPlayer()));
+    public static final CustomItem HOST_CONFIGURATION = new CustomItem(Material.REDSTONE_COMPARATOR, "&6&lConfiguration", click -> new ConfigurationMenu().openMenu(click.getPlayer()));
     public static final CustomItem FALLBACK = new CustomItem(Material.BED, "Retourner au Lobby", onClick -> {
         new ConfirmationMenu(() -> {
             IPlayerManager manager = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
             manager.getPlayerExecutor(onClick.getPlayer().getUniqueId()).connectToFallback();
-        }, new ItemBuilder(Material.BED).setName("&cRetourner au Lobby").toItemStack(), null).openMenu(onClick.getPlayer());
+        }, new ItemBuilder(Material.BED).setName("&c&lRetourner au Lobby").toItemStack(), null).openMenu(onClick.getPlayer());
     });
-    public static final CustomItem SHOW_SCENARIOS = new CustomItem(Material.BOOK, "Scénarios", onClick -> new ManageScenariosMenu(null).openMenu(onClick.getPlayer()));
-    public static final CustomItem MUMBLE = new CustomItem(getMumbleItem(), "Mumble", onClick -> {
+    public static final CustomItem SHOW_SCENARIOS = new CustomItem(Material.BOOK, "&f&lScénarios", onClick -> new ManageScenariosMenu(null).openMenu(onClick.getPlayer()));
+    public static final CustomItem MUMBLE = new CustomItem(getMumbleItem(), "&b&lMumble", onClick -> {
         IUser user = LinkAPI.getApi().getMumbleManager().getUserFromName(onClick.getPlayer().getName());
         if (user == null || LinkAPI.getApi().getMumbleManager().getStateOf(user.getName()) == MumbleState.DISCONNECT) {
             onClick.getPlayer().chat("/mumble");

@@ -20,6 +20,8 @@ import fr.kohei.utils.ItemBuilder;
 import fr.kohei.utils.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -42,8 +44,9 @@ public class ConfigurationMenu extends GlassMenu {
     public Map<Integer, Button> getAllButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        buttons.put(2, new RulesButton());
-        buttons.put(4, new LoadMapButton());
+        buttons.put(21, new RulesButton());
+        if (!(WorldGeneration.isFinished() || WorldGeneration.getPercentage() > 0))
+            buttons.put(4, new LoadMapButton());
         buttons.put(6, new WhitelistButton());
 
         buttons.put(49, new StartButton());
@@ -51,17 +54,38 @@ public class ConfigurationMenu extends GlassMenu {
         buttons.put(37, new TeleportationButton());
         buttons.put(10, getRenameButton(player));
         buttons.put(22, new TimersButton());
-        buttons.put(16, new ScenariosButton());
-        buttons.put(47, new DropsButton());
-        buttons.put(18, new EnchantsLimitsButton());
-        buttons.put(27, new HiddenCompositionButton());
+        buttons.put(23, new ScenariosButton());
+        buttons.put(30, new EnchantsLimitsButton());
+        buttons.put(2, new HiddenCompositionButton());
         buttons.put(31, new SettingsButton());
-        buttons.put(26, new OresLimitButton());
-        buttons.put(35, new CycleButton());
-        buttons.put(43, new ModeButton());
+        buttons.put(16, new OresLimitButton());
+        buttons.put(43, new CycleButton());
+        buttons.put(32, new ModeButton());
         buttons.put(51, new StopServerButton());
 
+        buttons.put(47, new SlotsButton());
+
         return buttons;
+    }
+
+    public static class SlotsButton extends Button{
+        @Override
+        public ItemStack getButtonItem(Player player) {
+            return new ItemBuilder(Material.SKULL_ITEM).setDurability(SkullType.PLAYER.ordinal())
+                    .setName("&6&lGestion des Slots").setLore(
+                            "&fPermet de modifier les slots pour la",
+                            "&fpartie.",
+                            "",
+                            "&8┃ &7Configuration: &c" + UHC.getGameManager().getGameConfiguration().getSlots(),
+                            "",
+                            "&f&l» &eCliquez-ici pour y accéder"
+                    ).toItemStack();
+        }
+
+        @Override
+        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
+            new ManagerSlotsMenu(new ConfigurationMenu()).openMenu(player);
+        }
     }
 
     private class CycleButton extends Button {
@@ -80,13 +104,13 @@ public class ConfigurationMenu extends GlassMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             boolean compo = UHC.getGameManager().getGameConfiguration().isHideComposition();
-            return new ItemBuilder(Material.WEB).setName("&cComposition cachée").setLore(
+            return new ItemBuilder(Material.WEB).setName("&6&lComposition cachée").setLore(
                     "&fPermet de définir si la composition sera",
                     "&fcachée ou non.",
                     "",
                     "&fComposition: " + (compo ? "&cCachée" : "&aNon Cachée"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -105,11 +129,11 @@ public class ConfigurationMenu extends GlassMenu {
     private static class StopServerButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.INK_SACK).setDurability(1).setName("&cStopper le serveur").setLore(
+            return new ItemBuilder(Material.INK_SACK).setDurability(1).setName("&6&lStopper le serveur").setLore(
                     "&fPermet de supprimer complètement le",
                     "&fserveur",
                     "",
-                    "&f&l» &cCliquez-ici pour supprimer"
+                    "&f&l» &eCliquez-ici pour supprimer"
             ).toItemStack();
         }
 
@@ -127,11 +151,11 @@ public class ConfigurationMenu extends GlassMenu {
     private class OresLimitButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.DIAMOND).setName("&cLimite de minerais").setLore(
+            return new ItemBuilder(Material.DIAMOND).setName("&6&lLimite de minerais").setLore(
                     "&fPermet de limite le nombre de minerais",
                     "&fde diamants et d'ors pendant la partie",
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -141,34 +165,17 @@ public class ConfigurationMenu extends GlassMenu {
         }
     }
 
-    private class DropsButton extends Button {
-        @Override
-        public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.APPLE).setName("&cTaux de drop").setLore(
-                    "&fPermet de modifier les taux de drops",
-                    "&fpour certains items",
-                    "",
-                    "&f&l» &cCliquez-ici pour modifier"
-            ).toItemStack();
-        }
-
-        @Override
-        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            new ManageDropsMenu(new ConfigurationMenu()).openMenu(player);
-        }
-    }
-
     private static class WhitelistButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
             GameManager manager = UHC.getGameManager();
-            return new ItemBuilder(Material.NAME_TAG).setName("&cAccessibilité de la partie").setLore(
+            return new ItemBuilder(Material.NAME_TAG).setName("&6&lAccessibilité de la partie").setLore(
                     "&fPermet de modifier l'accessibilité à la",
                     "&fpartie pour les joueurs.",
                     " ",
                     "&8┃ &7Accessibilité: " + (manager.isWhitelist() ? "&cFermé" : "&aOuvert"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -189,19 +196,19 @@ public class ConfigurationMenu extends GlassMenu {
         public ItemStack getButtonItem(Player player) {
             GameManager gameManager = UHC.getGameManager();
             if (gameManager.getStartTask() == null) {
-                return new ItemBuilder(Material.INK_SACK).setDurability(10).setName("&aLancer la partie").setLore(
+                return new ItemBuilder(Material.EMERALD_BLOCK).setName("&a&lLancer la partie").setLore(
                         "&fPermet de lancer la partie si tout est",
                         "&fprêt.",
                         "",
-                        "&f&l» &cCliquez-ici pour lancer"
-                ).toItemStack();
+                        "&f&l» &eCliquez-ici pour lancer"
+                ).addEnchant(Enchantment.DAMAGE_ALL, 1).hideItemFlags().toItemStack();
             } else {
-                return new ItemBuilder(Material.INK_SACK).setDurability(1).setName("&cAnnuler le lancement").setLore(
+                return new ItemBuilder(Material.REDSTONE_BLOCK).setName("&c&lAnnuler le lancement").setLore(
                         "&fPermet d'annuler le lancement de la",
                         "&fpartie.",
                         "",
-                        "&f&l» &cCliquez-ici pour annuler"
-                ).toItemStack();
+                        "&f&l» &eCliquez-ici pour annuler"
+                ).addEnchant(Enchantment.DAMAGE_ALL, 1).hideItemFlags().toItemStack();
             }
         }
 
@@ -214,10 +221,10 @@ public class ConfigurationMenu extends GlassMenu {
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             GameManager gameManager = UHC.getGameManager();
 
-//            if (!WorldGeneration.isFinished()) {
-//                player.sendMessage(ChatUtil.prefix("&cLa prégénération doit être terminée pour lancer la partie."));
-//                return;
-//            }
+            if (!WorldGeneration.isFinished()) {
+                player.sendMessage(ChatUtil.prefix("&cLa prégénération doit être terminée pour lancer la partie."));
+                return;
+            }
 
             if (gameManager.getStartTask() == null) {
                 gameManager.setStartTask(new StartTask(gameManager));
@@ -236,12 +243,12 @@ public class ConfigurationMenu extends GlassMenu {
     private static class LoadMapButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.SAPLING).setName("&cPrégénération").setLore(
+            return new ItemBuilder(Material.SAPLING).setName("&6&lPrégénération").setLore(
                     "&fPermet de prégénérer toute la map",
                     "",
                     "&8┃ &7Bordure: &c± " + UHC.getGameManager().getGameConfiguration().getBorderStartSize(),
                     "",
-                    "&f&l» &cCliquez-ici pour charger"
+                    "&f&l» &eCliquez-ici pour charger"
             ).toItemStack();
         }
 
@@ -274,8 +281,8 @@ public class ConfigurationMenu extends GlassMenu {
                 lore.add("&fjoueurs à la salle des règles");
             }
             lore.add(" ");
-            lore.add("&f&l» &cCliquez-ici pour téléporter");
-            return new ItemBuilder(Material.ENDER_PEARL).setName("&cTéléportation").setLore(lore).toItemStack();
+            lore.add("&f&l» &eCliquez-ici pour téléporter");
+            return new ItemBuilder(Material.ENDER_PEARL).setName("&6&lTéléportation").setLore(lore).toItemStack();
         }
 
         @Override
@@ -297,11 +304,11 @@ public class ConfigurationMenu extends GlassMenu {
     public static class EnchantsLimitsButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.ENCHANTED_BOOK).setName("&cLimite d'enchantements").setLore(
+            return new ItemBuilder(Material.ENCHANTED_BOOK).setName("&6&lLimite d'enchantements").setLore(
                     "&fPermet de définir la limite des tous les",
                     "&fles enchantements",
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -314,11 +321,11 @@ public class ConfigurationMenu extends GlassMenu {
     private static class ScenariosButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.EYE_OF_ENDER).setName("&cGestion des scénarios").setLore(
+            return new ItemBuilder(Material.ANVIL).setName("&6&lGestion des scénarios").setLore(
                     "&fPermet d'enlever ou de rajouter des",
                     "&fscénarios",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 
@@ -330,12 +337,12 @@ public class ConfigurationMenu extends GlassMenu {
 
     public static Button getRenameButton(Player player) {
         return new ConversationButton<>(
-                new ItemBuilder(Material.ANVIL).setName("&cRenommer").setLore(
+                new ItemBuilder(Material.SIGN).setName("&6&lRenommer").setLore(
                         "&fPermet de modifier le nom du serveur",
                         " ",
                         "&8┃ &7Nom: &c" + UHC.getGameManager().getGameConfiguration().getCustomName(),
                         "",
-                        "&f&l» &cCliquez-ici pour y accéder"
+                        "&f&l» &eCliquez-ici pour y accéder"
                 ).toItemStack(),
                 player, ChatUtil.prefix("&aMerci de rentrer le nouveau nom du serveur"),
                 (name, pair) -> {
@@ -354,11 +361,11 @@ public class ConfigurationMenu extends GlassMenu {
 
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.WATCH).setName("&cTimers").setLore(
+            return new ItemBuilder(Material.WATCH).setName("&6&lTimers").setLore(
                     "&fPermet de modifier tous les timers de la",
                     "&fpartie comme le PvP, la Bordure, etc.",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 
@@ -371,11 +378,11 @@ public class ConfigurationMenu extends GlassMenu {
     private static class ModeButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.PRISMARINE_SHARD).setName("&cMode de Jeu").setLore(
+            return new ItemBuilder(Material.PRISMARINE_SHARD).setName("&6&lMode de Jeu").setLore(
                     "&fPermet de configurer toutes les options",
                     "&fdu mode de jeu de la partie",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 
@@ -388,11 +395,11 @@ public class ConfigurationMenu extends GlassMenu {
     public static class SettingsButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.ITEM_FRAME).setName("&cOptions").setLore(
+            return new ItemBuilder(Material.ITEM_FRAME).setName("&6&lOptions").setLore(
                     "&fPermet de modifier toutes les options",
                     "&fcomme la bordure, etc.",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 
@@ -405,9 +412,9 @@ public class ConfigurationMenu extends GlassMenu {
     private static class ConfigButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.BOOK_AND_QUILL).setName("&cPré-Configurations").setLore(
+            return new ItemBuilder(Material.BOOK_AND_QUILL).setName("&6&lPré-Configurations").setLore(
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 
@@ -420,11 +427,11 @@ public class ConfigurationMenu extends GlassMenu {
     private static class RulesButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.PAINTING).setName("&cRègles").setLore(
+            return new ItemBuilder(Material.PAINTING).setName("&6&lRègles").setLore(
                     "&fPermet de modifier les règles de la",
                     "&fpartie",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 

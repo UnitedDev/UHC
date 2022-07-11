@@ -3,12 +3,8 @@ package fr.kohei.uhc.task;
 import fr.kohei.BukkitAPI;
 import fr.kohei.common.CommonProvider;
 import fr.kohei.common.cache.data.ProfileData;
-import fr.kohei.common.cache.rank.Grant;
 import fr.kohei.common.cache.server.impl.UHCServer;
 import fr.kohei.common.utils.messaging.list.packets.UHCUpdatePacket;
-import fr.kohei.mumble.api.LinkAPI;
-import fr.kohei.mumble.api.mumble.IUser;
-import fr.kohei.mumble.api.mumble.MumbleState;
 import fr.kohei.uhc.UHC;
 import fr.kohei.uhc.game.GameManager;
 import fr.kohei.uhc.game.GameState;
@@ -18,7 +14,6 @@ import fr.kohei.uhc.game.scenario.Scenario;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -30,7 +25,7 @@ import java.util.stream.Collectors;
 public class UpdateTask extends BukkitRunnable {
 
     public UpdateTask(JavaPlugin plugin) {
-        this.runTaskTimer(plugin, 0, 20);
+        this.runTaskTimer(plugin, 40, 20);
     }
 
     @Override
@@ -70,43 +65,6 @@ public class UpdateTask extends BukkitRunnable {
                 pvp, meetup, scenarios, UHC.getGameManager().getPlayers(), toUUIDs(UHC.getGameManager().getWhitelisted()));
 
         BukkitAPI.getCommonAPI().getMessaging().sendPacket(new UHCUpdatePacket(uhcServer));
-
-        List<String> users = UHC.getJoinUser();
-        List<IUser> realsUsers = new ArrayList<>(LinkAPI.getApi().getMumbleManager().getServer().getUsers());
-
-        for (IUser realsUser : realsUsers) {
-            MumbleState state = LinkAPI.getApi().getMumbleManager().getStateOf(realsUser.getName());
-            if (state == MumbleState.UNLINK) realsUser.muteUser();
-            if (!users.contains(realsUser.getName())) {
-                manageJoin(realsUser);
-                users.add(realsUser.getName());
-            }
-        }
-
-        for (String str : UHC.getUnlinkedUsers()) {
-            IUser user = LinkAPI.getApi().getMumbleManager().getUserFromName(str);
-            if(user == null) return;
-
-            MumbleState state = LinkAPI.getApi().getMumbleManager().getStateOf(str);
-            if(state == MumbleState.UNLINK) return;
-
-            UHC.getUnlinkedUsers().remove(str);
-            manageJoin(user);
-        }
-    }
-
-    private void manageJoin(IUser user) {
-        String name = user.getName();
-        if (UHC.getGameManager().getHost().equalsIgnoreCase(name)) return;
-
-        Player player = Bukkit.getPlayer(name);
-        if (player == null) return;
-
-        if (!UHC.getGameManager().getPlayers().contains(player.getUniqueId())) {
-            user.muteUser();
-            return;
-        }
-        if (UHC.getGameManager().getGameState() != GameState.PLAYING) user.muteUser();
     }
 
     public List<UUID> toUUIDs(List<String> string) {

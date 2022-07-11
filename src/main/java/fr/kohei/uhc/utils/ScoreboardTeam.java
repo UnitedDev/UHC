@@ -1,4 +1,4 @@
-package fr.kohei.uhc.frame;
+package fr.kohei.uhc.utils;
 
 
 import net.minecraft.server.v1_8_R3.EntityPlayer;

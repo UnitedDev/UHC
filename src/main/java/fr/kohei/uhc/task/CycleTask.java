@@ -12,43 +12,48 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 @Getter
 @Setter
-public class CycleTask extends BukkitRunnable {
+public class CycleTask {
 
     private final GameManager gameManager;
     private boolean day;
 
     public CycleTask(GameManager gameManager) {
         this.gameManager = gameManager;
+
+        this.run();
     }
 
-    @Override
     public void run() {
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 setDay(true);
-                Bukkit.broadcastMessage(ChatUtil.translate("&e&l☀ &eLe jour se lève..."));
+                Bukkit.broadcastMessage(" ");
+                Bukkit.broadcastMessage(ChatUtil.translate("&e&l☀ &e&lLE JOUR SE LÈVE..."));
+                Bukkit.broadcastMessage(" ");
                 Module module = UHC.getModuleManager().getModule();
                 module.onDay();
                 Bukkit.getOnlinePlayers().stream()
                         .filter(player -> UPlayer.get(player).getRole() != null)
                         .forEach(player -> UPlayer.get(player).getRole().onDay(player));
             }
-        }.runTaskTimer(UHC.getPlugin(), 0, gameManager.getGameConfiguration().getCycle() * 2L);
+        }.runTaskTimer(UHC.getPlugin(), 0, gameManager.getGameConfiguration().getCycle() * 40L);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 setDay(false);
-                Bukkit.broadcastMessage(ChatUtil.translate("&9&l☾ &9La nuit tombe..."));
+                Bukkit.broadcastMessage(" ");
+                Bukkit.broadcastMessage(ChatUtil.translate("&9&l☾ &9&lLA NUIT TOMBE..."));
+                Bukkit.broadcastMessage(" ");
                 Module module = UHC.getModuleManager().getModule();
                 module.onNight();
                 Bukkit.getOnlinePlayers().stream()
                         .filter(player -> UPlayer.get(player).getRole() != null)
                         .forEach(player -> UPlayer.get(player).getRole().onNight(player));
             }
-        }.runTaskTimer(UHC.getPlugin(), gameManager.getGameConfiguration().getCycle(), gameManager.getGameConfiguration().getCycle() * 2L);
+        }.runTaskTimer(UHC.getPlugin(), gameManager.getGameConfiguration().getCycle() * 20L, gameManager.getGameConfiguration().getCycle() * 40L);
 
     }
 

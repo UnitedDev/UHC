@@ -68,7 +68,7 @@ public class ManageRolesMenu extends PaginatedMenu {
             lore.add(" ");
             lore.add("&8┃ &7Activé(s): &a" + enabled + "&8/&c" + size);
             lore.add(" ");
-            lore.add("&f&l» &cCliquez-ici pour modifier");
+            lore.add("&f&l» &eCliquez-ici pour modifier");
 
             return new ItemBuilder(Material.INK_SACK).setDurability(14).setName(camp.getColor() + camp.getName()).setLore(lore).setAmount(size).toItemStack();
         }

@@ -61,8 +61,8 @@ public class GameManager {
         this.coHosts = new ArrayList<>();
         this.gameState = GameState.LOBBY;
         this.lobbyWorld = Bukkit.getWorld("world");
-        this.lobby = new Location(lobbyWorld, 390.5, 89, 209.5, -90, 0);
-        this.rulesLocation = new Location(lobbyWorld, -45.5, 102, 0.5, -90, 0);
+        this.lobby = new Location(lobbyWorld, 0, 100, 0, -90, 0);
+        this.rulesLocation = new Location(lobbyWorld, -3.5, 85, -9.5, -67, 0);
 
         this.rules = false;
         this.whitelist = true;
@@ -74,7 +74,8 @@ public class GameManager {
 
         this.uhcWorld.setGameRuleValue("naturalRegeneration", "false");
         this.uhcWorld.setGameRuleValue("doDaylightCycle", "false");
-        this.uhcWorld.setGameRuleValue("randomTickSpeed", "0");
+        this.uhcWorld.setGameRuleValue("randomTickSpeed", "2");
+        this.uhcWorld.setGameRuleValue("doMobSpawning", "false");
         this.uhcWorld.getWorldBorder().setCenter(0, 0);
         this.uhcWorld.setPVP(false);
         this.uhcWorld.getWorldBorder().setSize(2 * getGameConfiguration().getBorderStartSize());

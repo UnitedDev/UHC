@@ -53,11 +53,11 @@ public class MumbleManageUser extends GlassMenu {
     private class MuteUserButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.BOOK_AND_QUILL).setName("&cRendre Muet").setLore(
+            return new ItemBuilder(Material.BOOK_AND_QUILL).setName("&6&lRendre Muet").setLore(
                     "",
                     "&8┃ &7Muet: " + (user.isMute() ? MumbleState.LINK.getName() : MumbleState.DISCONNECT.getName()),
                     "",
-                    "&f&l» &cCliquez-ici pour le rendre muet"
+                    "&f&l» &eCliquez-ici pour le rendre muet"
             ).toItemStack();
         }
 
@@ -76,9 +76,9 @@ public class MumbleManageUser extends GlassMenu {
     private class KickUserButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.BARRIER).setName("&cExpulser &8(&cProchainement&8)").setLore(
+            return new ItemBuilder(Material.BARRIER).setName("&6&lExpulser &8(&cProchainement&8)").setLore(
                     "",
-                    "&f&l» &cCliquez-ici pour expulser"
+                    "&f&l» &eCliquez-ici pour expulser"
             ).toItemStack();
         }
     }
@@ -86,9 +86,9 @@ public class MumbleManageUser extends GlassMenu {
     private static class BanUserButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Heads.SOON.toItemStack()).setName("&cBannir &8(&cProchainement&8)").setLore(
+            return new ItemBuilder(Heads.SOON.toItemStack()).setName("&6&lBannir &8(&cProchainement&8)").setLore(
                     "",
-                    "&f&l» &cCliquez-ici pour bannir"
+                    "&f&l» &eCliquez-ici pour bannir"
             ).toItemStack();
         }
     }

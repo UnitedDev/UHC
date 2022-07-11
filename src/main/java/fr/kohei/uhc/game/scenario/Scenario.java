@@ -13,7 +13,6 @@ public enum Scenario {
     HASTEY_BOYS(new HasteyBoys()),
     CUTCLEAN(new CutClean()),
     TIMBER(new Timber()),
-    TIMBERPVP(new TimberPvP()),
     CATEYES(new CatEyes()),
     BETAZOMBIE(new BetaZombie()),
     SAFEMINERS(new SafeMiners())

@@ -20,13 +20,13 @@ import java.util.Map;
 public class ManageTeamsMenu extends Menu {
 
     public static ItemStack getTeamsSizeDisplay() {
-        return new ItemBuilder(Material.WATCH).setName("&cTaille des équipes").setLore(
+        return new ItemBuilder(Material.WATCH).setName("&6&lTaille des équipes").setLore(
                 "&fPermet le nombre de personnes maximum",
                 "&fdans une équipe",
                 "",
                 "&8┃ &7Taille: &c" + UHC.getGameManager().getGameConfiguration().getTeams(),
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 
@@ -72,13 +72,13 @@ public class ManageTeamsMenu extends Menu {
         @Override
         public ItemStack getButtonItem(Player player) {
             boolean friendlyFire = UHC.getGameManager().getGameConfiguration().isFriendlyFire();
-            return new ItemBuilder(Material.LAVA_BUCKET).setName("&cFriendly Fire").setLore(
+            return new ItemBuilder(Material.LAVA_BUCKET).setName("&6&lFriendly Fire").setLore(
                     "&fPermet d'activer ou de désactiver le",
                     "&ffriendly fire pour les équipes.",
                     "",
                     "&8┃ &7Friendly Fire: " + (friendlyFire ? "&aActivé" : "&cDésactivé"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -98,13 +98,13 @@ public class ManageTeamsMenu extends Menu {
         @Override
         public ItemStack getButtonItem(Player player) {
             boolean randomTeam = UHC.getGameManager().getGameConfiguration().isRandomTeam();
-            return new ItemBuilder(Material.COMPASS).setName("&cRandom Team").setLore(
+            return new ItemBuilder(Material.COMPASS).setName("&6&lRandom Team").setLore(
                     "&fPermet d'activer ou de désactiver la",
                     "&fsélection des équipes.",
                     "",
                     "&8┃ &7Random Team: " + (randomTeam? "&aActivé" : "&cDésactivé"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 

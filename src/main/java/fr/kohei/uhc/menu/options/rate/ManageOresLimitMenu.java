@@ -22,35 +22,35 @@ import java.util.Map;
 public class ManageOresLimitMenu extends Menu {
 
     public static ItemStack getDiamondLimitDisplay() {
-        return new ItemBuilder(Material.DIAMOND_ORE).setName("&cDiamant").setLore(
+        return new ItemBuilder(Material.DIAMOND_ORE).setName("&6&lDiamant").setLore(
                 "&fPermet de modifier la limite de diamants",
                 "&fqui peuvent être minés par un joueur",
                 "",
                 "&8┃ &7Limite: &c" + UHC.getGameManager().getGameConfiguration().getDiamondLimit(),
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).setAmount(UHC.getGameManager().getGameConfiguration().getDiamondLimit()).toItemStack();
     }
 
     public static ItemStack getGoldLimitDisplay() {
-        return new ItemBuilder(Material.GOLD_ORE).setName("&cOr").setLore(
+        return new ItemBuilder(Material.GOLD_ORE).setName("&6&lOr").setLore(
                 "&fPermet de modifier la limite d'or",
                 "&fqui peuvent être minés par un joueur",
                 "",
                 "&8┃ &7Limite: &c" + UHC.getGameManager().getGameConfiguration().getGoldLimit(),
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).setAmount(UHC.getGameManager().getGameConfiguration().getGoldLimit()).toItemStack();
     }
 
     public static ItemStack getIronLimitDisplay() {
-        return new ItemBuilder(Material.IRON_ORE).setName("&cFer").setLore(
+        return new ItemBuilder(Material.IRON_ORE).setName("&6&lFer").setLore(
                 "&fPermet de modifier la limite de fer",
                 "&fqui peuvent être minés par un joueur",
                 "",
                 "&8┃ &7Limite: &c" + UHC.getGameManager().getGameConfiguration().getIronLimit(),
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).setAmount(UHC.getGameManager().getGameConfiguration().getIronLimit()).toItemStack();
     }
 

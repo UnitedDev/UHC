@@ -35,7 +35,7 @@ public class ManagerSlotsMenu extends Menu {
         buttons.put(1, new ChangeSlotsButton(-5, 14));
         buttons.put(2, new ChangeSlotsButton(-1, 11));
 
-//        buttons.put(4, new ConfigurationMenu.SlotsButton());
+        buttons.put(4, new ConfigurationMenu.SlotsButton());
 
         buttons.put(6, new ChangeSlotsButton(1, 12));
         buttons.put(7, new ChangeSlotsButton(5, 10));

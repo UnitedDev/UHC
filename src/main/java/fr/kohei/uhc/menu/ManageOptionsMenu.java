@@ -83,13 +83,13 @@ public class ManageOptionsMenu extends GlassMenu {
 
     public static ItemStack getBorderTimeItem() {
         GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
-        return new ItemBuilder(Material.STAINED_GLASS).setDurability(4).setName("&cBordure").setLore(
+        return new ItemBuilder(Material.STAINED_GLASS).setDurability(4).setName("&6&lBordure").setLore(
                 "&fPermet de changer la durée avant l'activation",
                 "&fde la bordure",
                 "",
                 "&8┃ &7Configuration: &c" + TimeUtil.niceTime(gameConfiguration.getMeetupTimer() * 1000L),
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 
@@ -109,13 +109,13 @@ public class ManageOptionsMenu extends GlassMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             boolean nether = UHC.getGameManager().getGameConfiguration().isNether();
-            return new ItemBuilder(Material.NETHERRACK).setName("&cNether").setLore(
+            return new ItemBuilder(Material.NETHERRACK).setName("&6&lNether").setLore(
                     "&fPermet de modifier l'accès au nether pendant",
                     "&fla partie.",
                     "",
                     "&fNether: " + (nether ? "&aActivé" : "&cDésactivé"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -134,11 +134,11 @@ public class ManageOptionsMenu extends GlassMenu {
     private class OresLimitButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.DIAMOND).setName("&cLimite de minerais").setLore(
+            return new ItemBuilder(Material.DIAMOND).setName("&6&lLimite de minerais").setLore(
                     "&fPermet de limite le nombre de minerais",
                     "&fde diamants et d'ors pendant la partie",
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -153,11 +153,11 @@ public class ManageOptionsMenu extends GlassMenu {
     private class StartInventoryButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.CHEST).setName("&cInventaire de départ").setLore(
+            return new ItemBuilder(Material.CHEST).setName("&6&lInventaire de départ").setLore(
                     "&fPermet de modifier l'inventaire qui sera",
                     "&fdonné en début de partie",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 
@@ -170,11 +170,11 @@ public class ManageOptionsMenu extends GlassMenu {
     private class DeathInventoryButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.ENDER_CHEST).setName("&cInventaire de mort").setLore(
+            return new ItemBuilder(Material.ENDER_CHEST).setName("&6&lInventaire de mort").setLore(
                     "&fPermet de modifier l'inventaire qui sera",
                     "&fdrop à la mort de quelqu'un",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 
@@ -190,13 +190,13 @@ public class ManageOptionsMenu extends GlassMenu {
     }
 
     public static ItemStack getCycleItem() {
-        return new ItemBuilder(Material.COMPASS).setName("&cDurée du cyle jour/nuit").setLore(
+        return new ItemBuilder(Material.COMPASS).setName("&6&lDurée du cyle jour/nuit").setLore(
                 "&fPermet de modifier la durée du cycle",
                 "&fjour/nuit de la partie",
                 "",
                 "&8┃ &7Configuration: &c" + TimeUtil.niceTime(UHC.getGameManager().getGameConfiguration().getCycle() * 1000L),
                 "",
-                "&f&l» &cCliquez-ici pour y accéder"
+                "&f&l» &eCliquez-ici pour y accéder"
         ).toItemStack();
     }
 
@@ -204,13 +204,13 @@ public class ManageOptionsMenu extends GlassMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             boolean potions = UHC.getGameManager().getGameConfiguration().isPotions();
-            return new ItemBuilder(Material.POTION).setName("&cPotions").setLore(
+            return new ItemBuilder(Material.POTION).setName("&6&lPotions").setLore(
                     "&fVous permet de limiter la fabrication",
                     "&fde certaines potions",
                     "",
                     "&fPotions: " + (potions ? "&aActivé" : "&cDésactivé"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -229,11 +229,11 @@ public class ManageOptionsMenu extends GlassMenu {
     private class DropsButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.APPLE).setName("&cTaux de drop").setLore(
+            return new ItemBuilder(Material.APPLE).setName("&6&lTaux de drop").setLore(
                     "&fPermet de modifier les taux de drops",
                     "&fpour certains items",
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -245,13 +245,13 @@ public class ManageOptionsMenu extends GlassMenu {
 
     public static ItemStack getPvPItem() {
         GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
-        return new ItemBuilder(Material.DIAMOND_SWORD).setName("&cActivation du PvP").setLore(
+        return new ItemBuilder(Material.DIAMOND_SWORD).setName("&6&lActivation du PvP").setLore(
                 "&fPermet de changer la durée avant l'activation",
                 "&fdu pvp",
                 "",
                 "&8┃ &7Configuration: &c" + TimeUtil.niceTime(gameConfiguration.getPvpTimer() * 1000L),
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 
@@ -259,13 +259,13 @@ public class ManageOptionsMenu extends GlassMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             boolean compo = UHC.getGameManager().getGameConfiguration().isHideComposition();
-            return new ItemBuilder(Material.WEB).setName("&cComposition cachée").setLore(
+            return new ItemBuilder(Material.WEB).setName("&6&lComposition cachée").setLore(
                     "&fPermet de définir si la composition sera",
                     "&fcachée ou non.",
                     "",
                     "&fComposition: " + (compo ? "&cCachée" : "&aNon Cachée"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -283,13 +283,13 @@ public class ManageOptionsMenu extends GlassMenu {
 
     public static ItemStack getRolesTimerItem() {
         GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
-        return new ItemBuilder(Material.WATCH).setName("&cAnnonce des rôles").setLore(
+        return new ItemBuilder(Material.WATCH).setName("&6&lAnnonce des rôles").setLore(
                 "&fPermet de changer la durée avant l'annonce",
                 "&fdes rôles",
                 "",
                 "&8┃ &7Configuration: &c" + TimeUtil.niceTime(gameConfiguration.getRolesTime() * 1000L),
                 "",
-                "&f&l» &cCliquez-ici pour modifier"
+                "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
     }
 
@@ -310,11 +310,11 @@ public class ManageOptionsMenu extends GlassMenu {
 
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.NETHER_STAR).setName("&cRôles").setLore(
+            return new ItemBuilder(Material.NETHER_STAR).setName("&6&lRôles").setLore(
                     "&fPermet d'activer ou de désactiver des",
                     "&frôles",
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 

@@ -1,7 +1,7 @@
 package fr.kohei.uhc.task;
 
 import fr.kohei.uhc.UHC;
-import fr.kohei.uhc.frame.ScoreboardTeam;
+import fr.kohei.uhc.utils.ScoreboardTeam;
 import fr.kohei.utils.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -27,10 +27,8 @@ public class LoadingTask extends BukkitRunnable {
                 Title.sendTitle(player, 0, 20, 0, "&8» &cC'est parti ! &8«", "");
             });
             for (Player players1 : Bukkit.getOnlinePlayers()) {
-                for (Player players2 : Bukkit.getOnlinePlayers()) {
-                    ScoreboardTeam team = UHC.getScoreboardTeam("aa");
-
-                    ((CraftPlayer) players1).getHandle().playerConnection.sendPacket(team.addOrRemovePlayer(3, players2.getName()));
+                for (ScoreboardTeam teams : UHC.getTeams()) {
+                    ((CraftPlayer) players1).getHandle().playerConnection.sendPacket(teams.removeTeam());
                 }
             }
             cancel();

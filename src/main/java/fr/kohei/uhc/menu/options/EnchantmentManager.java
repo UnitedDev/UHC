@@ -61,7 +61,7 @@ public class EnchantmentManager extends PaginatedMenu {
             lore.add("&8» &7Clic-gauche pour augmenter");
             lore.add("&8» &7Clic-droit pour diminuer");
             lore.add("&8» &7Drop pour reset");
-            return new ItemBuilder(Material.ENCHANTED_BOOK).setName("&c" + EnchantmentMenu.fromEnchant(enchantment)).setLore(lore).toItemStack();
+            return new ItemBuilder(Material.ENCHANTED_BOOK).setName("&6&l" + EnchantmentMenu.fromEnchant(enchantment)).setLore(lore).toItemStack();
         }
 
         @Override

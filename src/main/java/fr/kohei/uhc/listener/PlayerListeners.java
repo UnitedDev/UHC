@@ -1,8 +1,9 @@
 package fr.kohei.uhc.listener;
 
+import fr.kohei.BukkitAPI;
 import fr.kohei.mumble.api.LinkAPI;
 import fr.kohei.uhc.UHC;
-import fr.kohei.uhc.frame.ScoreboardTeam;
+import fr.kohei.uhc.utils.ScoreboardTeam;
 import fr.kohei.uhc.game.GameManager;
 import fr.kohei.uhc.game.GameState;
 import fr.kohei.uhc.game.config.GameConfiguration;
@@ -43,9 +44,7 @@ public class PlayerListeners implements Listener {
         GameManager gameManager = UHC.getGameManager();
         GameConfiguration gameConfiguration = gameManager.getGameConfiguration();
 
-        if (LinkAPI.getApi().getMumbleManager().getUserFromName(player.getName()) == null) {
-            LinkAPI.getApi().getMumbleManager().createUser(player.getName(), Bukkit.getPort() + "." + Bukkit.getPort());
-        }
+        if (BukkitAPI.getCommonAPI().getProfile(player.getUniqueId()).isStaff()) return;
 
         if (uPlayer.hasHostAccess()) return;
 
@@ -56,8 +55,10 @@ public class PlayerListeners implements Listener {
             }
 
             if (gameManager.getSize() >= gameConfiguration.getSlots()) {
-                event.setResult(PlayerLoginEvent.Result.KICK_WHITELIST);
-                event.setKickMessage("serveur plein");
+                if (BukkitAPI.getCommonAPI().getProfile(player.getUniqueId()).getRank().getPermissionPower() < 50) {
+                    event.setResult(PlayerLoginEvent.Result.KICK_WHITELIST);
+                    event.setKickMessage(ChatUtil.prefix("&cIl semblerait que le serveur soit plein."));
+                }
                 return;
             }
             if (gameManager.isWhitelist()) {
@@ -68,8 +69,10 @@ public class PlayerListeners implements Listener {
                 }
 
                 if (!b) return;
-                event.setResult(PlayerLoginEvent.Result.KICK_WHITELIST);
-                event.setKickMessage("pas whitelist");
+                if (BukkitAPI.getCommonAPI().getProfile(player.getUniqueId()).getRank().getPermissionPower() < 50) {
+                    event.setResult(PlayerLoginEvent.Result.KICK_WHITELIST);
+                    event.setKickMessage(ChatUtil.prefix("&cIl semblerait que vous n'êtes pas whitelist."));
+                }
                 return;
             }
             boolean b = true;
@@ -84,8 +87,10 @@ public class PlayerListeners implements Listener {
 
         } else {
             if (!gameConfiguration.isSpectators() && !gameManager.getPlayers().contains(player.getUniqueId())) {
-                event.setResult(PlayerLoginEvent.Result.KICK_WHITELIST);
-                event.setKickMessage("spectateurs désactivés");
+                if (BukkitAPI.getCommonAPI().getProfile(player.getUniqueId()).getRank().getPermissionPower() < 50) {
+                    event.setResult(PlayerLoginEvent.Result.KICK_WHITELIST);
+                    event.setKickMessage(ChatUtil.prefix("&cLes spectateurs sont désactivés."));
+                }
             }
         }
     }
@@ -96,6 +101,10 @@ public class PlayerListeners implements Listener {
 
         Player player = event.getPlayer();
 
+        if (BukkitAPI.getCommonAPI().getProfile(player.getUniqueId()).isStaff()) {
+            return;
+        }
+
         GameManager gameManager = UHC.getGameManager();
         GameConfiguration gameConfiguration = gameManager.getGameConfiguration();
         UPlayer uPlayer = UPlayer.get(player);
@@ -104,8 +113,6 @@ public class PlayerListeners implements Listener {
             System.out.println(team);
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(team.createTeam());
         }
-
-        UHC.getScoreboardUtils().onLogin(player);
 
         if (gameManager.getGameState() == GameState.LOBBY) {
 
@@ -137,7 +144,6 @@ public class PlayerListeners implements Listener {
         GameConfiguration gameConfiguration = gameManager.getGameConfiguration();
         UPlayer uPlayer = UPlayer.get(player);
 
-        UHC.getScoreboardUtils().onLogout(player);
         UHC.getJoinUser().remove(player.getName());
         UHC.getUnlinkedUsers().remove(player.getName());
 
@@ -150,7 +156,7 @@ public class PlayerListeners implements Listener {
             UUID uuid = player.getUniqueId();
             if (!uPlayer.isAlive()) return;
 
-            Bukkit.broadcastMessage(ChatUtil.prefix("&c" + player.getName() + " &fs'est déconnecté. Il a &c" + TimeUtil.niceTime(uPlayer.getDisconnect() * 1000L) + " secondes &fpour se reconnecter ou il sera &céliminé&f."));
+            Bukkit.broadcastMessage(ChatUtil.prefix("&c" + player.getName() + " &fs'est déconnecté. Il a &c" + TimeUtil.niceTime(uPlayer.getDisconnect() * 1000L) + " minutes &fpour se reconnecter ou il sera &céliminé&f."));
 
             new BukkitRunnable() {
                 @Override
@@ -183,7 +189,7 @@ public class PlayerListeners implements Listener {
         Player player = event.getPlayer();
         Location playerLocation = player.getLocation();
 
-        if ((playerLocation.getBlockX() > size || playerLocation.getBlockZ() > size || playerLocation.getBlockX() < -size
+        if ((playerLocation.getBlockX() > size || playerLocation.getBlockY() < 0 || playerLocation.getBlockZ() > size || playerLocation.getBlockX() < -size
                 || playerLocation.getBlockZ() < -size) && player.getGameMode() == GameMode.SPECTATOR) {
             player.teleport(world.getSpawnLocation());
         }
@@ -247,13 +253,13 @@ public class PlayerListeners implements Listener {
             UPlayer uKiller = UPlayer.get(killer);
             uKiller.setKills(uKiller.getKills() + 1);
 
-            if(uKiller.getRole() != null) uKiller.getRole().onKill(player, killer);
+            if (uKiller.getRole() != null) uKiller.getRole().onKill(player, killer);
         }
 
         UHC.getGameManager().getPlayers().remove(player.getUniqueId());
         module.onDeath(player, killer);
 
-        if(uPlayer.getRole() != null) uPlayer.getRole().onDeath(player, killer);
+        if (uPlayer.getRole() != null) uPlayer.getRole().onDeath(player, killer);
 
         for (ItemStack content : player.getInventory().getContents()) {
             if (content == null || content.getType() == Material.AIR) continue;

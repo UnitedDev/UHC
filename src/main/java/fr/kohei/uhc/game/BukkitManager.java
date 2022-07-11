@@ -2,13 +2,14 @@ package fr.kohei.uhc.game;
 
 import fr.kohei.BukkitAPI;
 import fr.kohei.uhc.UHC;
-import fr.kohei.uhc.commands.*;
+import fr.kohei.uhc.commands.host.*;
+import fr.kohei.uhc.commands.players.PlayerCommands;
 import fr.kohei.uhc.listener.BasicCancelListeners;
 import fr.kohei.uhc.listener.GameOptionsListener;
+import fr.kohei.uhc.listener.MumbleEventManager;
 import fr.kohei.uhc.listener.PlayerListeners;
 import fr.kohei.uhc.module.Module;
 import fr.kohei.uhc.module.commands.ModuleCommands;
-import fr.kohei.uhc.commands.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -35,20 +36,17 @@ public class BukkitManager {
         pluginManager.registerEvents(new PlayerListeners(plugin), plugin);
         pluginManager.registerEvents(new BasicCancelListeners(plugin), plugin);
         pluginManager.registerEvents(new GameOptionsListener(plugin), plugin);
+        pluginManager.registerEvents(new MumbleEventManager(plugin), plugin);
 
     }
 
     public void loadCommands() {
-        BukkitAPI.getCommandHandler().registerClass(FinishCommand.class);
-        BukkitAPI.getCommandHandler().registerClass(EnchantCommand.class);
-        BukkitAPI.getCommandHandler().registerClass(SayCommand.class);
         BukkitAPI.getCommandHandler().registerClass(HostCommands.class);
-        BukkitAPI.getCommandHandler().registerClass(GiveCommand.class);
+        BukkitAPI.getCommandHandler().registerClass(PlayerCommands.class);
 
     }
 
     public void loadModuleCommands() {
-        Module module = UHC.getModuleManager().getModule();
         BukkitAPI.getCommandHandler().registerClass(ModuleCommands.class);
     }
 }

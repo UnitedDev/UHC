@@ -57,10 +57,10 @@ public class EnchantmentMenu extends PaginatedMenu {
                 lore.add("&8┃ &7Level: &c" + player.getItemInHand().getEnchantmentLevel(enchantment));
             }
             lore.add(" ");
-            lore.add("&f&l» &cClic-gauche pour augmenter");
-            lore.add("&f&l» &cClic-droit pour diminuer");
-            lore.add("&f&l» &cDrop pour reset");
-            return new ItemBuilder(Material.ENCHANTED_BOOK).setName("&c" + fromEnchant(enchantment)).setLore(lore).toItemStack();
+            lore.add("&f&l» &eClic-gauche pour augmenter");
+            lore.add("&f&l» &eClic-droit pour diminuer");
+            lore.add("&f&l» &eDrop pour reset");
+            return new ItemBuilder(Material.ENCHANTED_BOOK).setName("&6&l" + fromEnchant(enchantment)).setLore(lore).toItemStack();
         }
 
         @Override
@@ -165,13 +165,13 @@ public class EnchantmentMenu extends PaginatedMenu {
             } else {
                 unbreakable = false;
             }
-            return new ItemBuilder(Material.DIAMOND_AXE).setName("&cUnbreakable").setLore(
+            return new ItemBuilder(Material.DIAMOND_AXE).setName("&6&lUnbreakable").setLore(
                     "&fPermet de mettre l'item unbreakable",
                     "&f(incassable)",
                     "",
                     "&fUnbreakable: " + (unbreakable ? "&aActivé" : "&cDésactivé"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 

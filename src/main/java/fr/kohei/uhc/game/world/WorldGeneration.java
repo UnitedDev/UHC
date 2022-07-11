@@ -9,6 +9,7 @@ import net.minecraft.server.v1_8_R3.MinecraftServer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.DecimalFormat;
@@ -49,6 +50,8 @@ public class WorldGeneration {
         this.radius = r;
     }
 
+    int b = 0;
+
     public void load() {
         new BukkitRunnable() {
             @Override
@@ -57,6 +60,8 @@ public class WorldGeneration {
                     Location loc = new Location(world, cx, 0.0D, cz);
                     if (!loc.getChunk().isLoaded())
                         loc.getWorld().loadChunk(loc.getChunk());
+                    b++;
+                    if (b % 20 == 0) world.getEntities().forEach(Entity::remove);
                     cx = cx + 16;
                     currentChunkLoad = currentChunkLoad + 1.0D;
                     if (cx > radius) {
@@ -70,11 +75,11 @@ public class WorldGeneration {
                 }
                 percentage = currentChunkLoad / totalChunkToLoad * 100.0D;
                 if (isFinished()) {
-                    world.setGameRuleValue("randomTickSpeed", "0");
+                    world.setGameRuleValue("randomTickSpeed", "2");
                     cancel();
                 }
             }
-        }.runTaskTimer(UHC.getPlugin(), 50, 10);
+        }.runTaskTimer(UHC.getPlugin(), 50, 8);
         sendMessage();
     }
 
@@ -86,7 +91,7 @@ public class WorldGeneration {
                 if (isFinished()) cancel();
                 DecimalFormat format = new DecimalFormat("##.#");
                 String pb = PreGenerationHandler.getProgressBar(currentChunkLoad.intValue(), totalChunkToLoad.intValue(), 70, '|', ChatColor.GREEN, ChatColor.RED);
-                Title.sendActionBar("&cPrégénération &7[" + pb + "&7] &f&l» &c" + format.format(getPercentage()) + "%" + " &8▍ &cTPS &7[&f" + format.format(MinecraftServer.getServer().recentTps[0]) + "&7]");
+                Title.sendActionBar("&cPrégénération &7[" + pb + "&7] &f&l» &e" + format.format(getPercentage()) + "%" + " &8▍ &cTPS &7[&f" + format.format(MinecraftServer.getServer().recentTps[0]) + "&7]");
             }
         }.runTaskTimer(UHC.getPlugin(), 0, 10L);
     }

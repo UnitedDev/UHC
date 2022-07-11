@@ -6,6 +6,7 @@ import fr.kohei.menu.Menu;
 import fr.kohei.menu.buttons.BackButton;
 import fr.kohei.uhc.UHC;
 import fr.kohei.uhc.game.config.GameConfiguration;
+import fr.kohei.uhc.menu.ConfigurationMenu;
 import fr.kohei.uhc.menu.ManageBorderMenu;
 import fr.kohei.uhc.menu.ManageOptionsMenu;
 import fr.kohei.uhc.menu.ManageTeamsMenu;
@@ -45,7 +46,7 @@ public class SettingsMenu extends GlassMenu {
         }
 
         buttons.put(12, new TeamsButton());
-        buttons.put(13, new GoldenHeadButton());
+        buttons.put(13, new DropsButton());
         buttons.put(14, new PotionLimitButton());
 
         buttons.put(21, new StartInventoryButton());
@@ -59,13 +60,13 @@ public class SettingsMenu extends GlassMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             boolean compo = UHC.getGameManager().getGameConfiguration().isHideComposition();
-            return new ItemBuilder(Material.WEB).setName("&cComposition cachée").setLore(
+            return new ItemBuilder(Material.WEB).setName("&6&lComposition cachée").setLore(
                     "&fPermet de définir si la composition sera",
                     "&fcachée ou non.",
                     "",
                     "&8┃ &7Composition: " + (compo ? "&cCachée" : "&aNon Cachée"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -78,6 +79,23 @@ public class SettingsMenu extends GlassMenu {
         @Override
         public boolean shouldUpdate(Player player, int slot, ClickType clickType) {
             return true;
+        }
+    }
+
+    private class DropsButton extends Button {
+        @Override
+        public ItemStack getButtonItem(Player player) {
+            return new ItemBuilder(Material.APPLE).setName("&6&lTaux de drop").setLore(
+                    "&fPermet de modifier les taux de drops",
+                    "&fpour certains items",
+                    "",
+                    "&f&l» &eCliquez-ici pour modifier"
+            ).toItemStack();
+        }
+
+        @Override
+        public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
+            new ManageDropsMenu(new ConfigurationMenu()).openMenu(player);
         }
     }
 
@@ -96,11 +114,11 @@ public class SettingsMenu extends GlassMenu {
     private class StartInventoryButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.CHEST).setName("&cInventaire de départ").setLore(
+            return new ItemBuilder(Material.CHEST).setName("&6&lInventaire de départ").setLore(
                     "&fPermet de modifier l'inventaire qui sera",
                     "&fdonné en début de partie",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 
@@ -113,11 +131,11 @@ public class SettingsMenu extends GlassMenu {
     private class TeamsButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.BANNER).setName("&cGestion des équipes").setLore(
+            return new ItemBuilder(Material.BANNER).setName("&6&lGestion des équipes").setLore(
                     "&fPermet de modifier la taille des teams",
                     "&fainsi que leurs paramètres",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).setDurability(15).toItemStack();
         }
 
@@ -131,13 +149,13 @@ public class SettingsMenu extends GlassMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
-            return new ItemBuilder(Material.GOLDEN_APPLE).setName("&cAbsorption").setLore(
+            return new ItemBuilder(Material.GOLDEN_APPLE).setName("&6&lAbsorption").setLore(
                     "&fPermet de modifier l'effet d'absorption",
                     "&fdans la partie.",
                     "",
                     "&8┃ &7Absorption: " + (gameConfiguration.isAbsorption() ? "&aActivé" : "&cDésactivé"),
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 
@@ -157,13 +175,13 @@ public class SettingsMenu extends GlassMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             boolean potions = UHC.getGameManager().getGameConfiguration().isPotions();
-            return new ItemBuilder(Material.POTION).setName("&cPotions").setLore(
+            return new ItemBuilder(Material.POTION).setName("&6&lPotions").setLore(
                     "&fVous permet de limiter la fabrication",
                     "&fde certaines potions",
                     "",
                     "&8┃ &7Potions: " + (potions ? "&aActivé" : "&cDésactivé"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -183,13 +201,13 @@ public class SettingsMenu extends GlassMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             boolean nether = UHC.getGameManager().getGameConfiguration().isNether();
-            return new ItemBuilder(Material.NETHERRACK).setName("&cNether").setLore(
+            return new ItemBuilder(Material.NETHERRACK).setName("&6&lNether").setLore(
                     "&fPermet de modifier l'accès au nether pendant",
                     "&fla partie.",
                     "",
                     "&fNether: " + (nether ? "&aActivé" : "&cDésactivé"),
                     "",
-                    "&f&l» &cCliquez-ici pour modifier"
+                    "&f&l» &eCliquez-ici pour modifier"
             ).toItemStack();
         }
 
@@ -208,11 +226,11 @@ public class SettingsMenu extends GlassMenu {
     private class BorderButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            return new ItemBuilder(Material.STAINED_GLASS).setName("&cGestion de la bordure").setDurability(9).setLore(
+            return new ItemBuilder(Material.STAINED_GLASS).setName("&6&lGestion de la bordure").setDurability(9).setLore(
                     "&fPermet de modifier la taille et la durée",
                     "&fde la bordure",
                     "",
-                    "&f&l» &cCliquez-ici pour y accéder"
+                    "&f&l» &eCliquez-ici pour y accéder"
             ).toItemStack();
         }
 

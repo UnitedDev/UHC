@@ -6,7 +6,7 @@
 
     <groupId>fr.kohei</groupId>
     <artifactId>uhc</artifactId>
-    <version>1.1.0-alpha</version>
+    <version>1.1.0-alpha2</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>fr.kohei</groupId>
             <artifactId>mumble</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

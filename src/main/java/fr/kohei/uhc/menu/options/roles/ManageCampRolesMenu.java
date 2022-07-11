@@ -68,8 +68,8 @@ public class ManageCampRolesMenu extends PaginatedMenu {
             lore.add(" ");
             lore.add("&8┃ &7Nombre: &c" + (enabled));
             lore.add(" ");
-            lore.add("&f&l» &cCliquez-ici pour modifier");
-            return new ItemBuilder(role.getDisplay()).setAmount(enabled).setLore(lore).setName("&c" + role.getName()).toItemStack();
+            lore.add("&f&l» &eCliquez-ici pour modifier");
+            return new ItemBuilder(role.getDisplay()).setAmount(enabled).setLore(lore).setName("&6&l" + role.getName()).toItemStack();
         }
 
         @Override
