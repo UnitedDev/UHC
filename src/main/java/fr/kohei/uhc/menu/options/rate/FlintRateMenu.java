@@ -61,7 +61,7 @@ public class FlintRateMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getFlintRate() + add <= 0) {
                 gameConfiguration.setFlintRate(0);
                 return;

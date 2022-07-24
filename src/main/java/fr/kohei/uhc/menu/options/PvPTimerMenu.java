@@ -70,7 +70,7 @@ public class PvPTimerMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getPvpTimer() + add <= 60) {
                 gameConfiguration.setPvpTimer(60);
                 return;

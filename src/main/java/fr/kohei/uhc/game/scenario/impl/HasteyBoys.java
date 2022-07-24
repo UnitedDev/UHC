@@ -35,7 +35,7 @@ public class HasteyBoys extends AbstractScenario implements Listener {
 
     @Override
     public void onStart() {
-        Bukkit.getServer().getPluginManager().registerEvents(this, UHC.getPlugin());
+        Bukkit.getServer().getPluginManager().registerEvents(this, UHC.getInstance());
     }
 
     @EventHandler

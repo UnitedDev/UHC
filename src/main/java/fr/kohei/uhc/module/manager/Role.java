@@ -54,7 +54,7 @@ public abstract class Role {
     }
 
     public List<String> getStartMessage() {
-        Module module = UHC.getModuleManager().getModule();
+        Module module = UHC.getInstance().getModuleManager().getModule();
         return new ArrayList<>(Arrays.asList(
                 " ",
                 "» Utilisez &c/" + module.getCommandPrefix() + " me &fpour consulter votre rôle.",
@@ -67,7 +67,7 @@ public abstract class Role {
     public Player getPlayer() {
         Player toReturn = null;
 
-        for (UUID uuid : UHC.getGameManager().getPlayers()) {
+        for (UUID uuid : UHC.getInstance().getGameManager().getPlayers()) {
             Player player = Bukkit.getPlayer(uuid);
             if (player == null) continue;
             UPlayer uPlayer = UPlayer.get(player);

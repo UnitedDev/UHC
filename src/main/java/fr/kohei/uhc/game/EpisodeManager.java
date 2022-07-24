@@ -28,19 +28,19 @@ public class EpisodeManager {
             public void run() {
                 setEpisode(getEpisode() + 1);
                 setTimeBeforeNext(20 * 60);
-                UHC.getModuleManager().getModule().onEpisode();
+                UHC.getInstance().getModuleManager().getModule().onEpisode();
                 Bukkit.getOnlinePlayers().stream()
                         .filter(player -> UPlayer.get(player).getRole() != null)
                         .forEach(player -> UPlayer.get(player).getRole().onEpisode(player));
             }
-        }.runTaskTimer(UHC.getPlugin(), 20 * 60 * 20, 20 * 60 * 20);
+        }.runTaskTimer(UHC.getInstance(), 20 * 60 * 20, 20 * 60 * 20);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 setTimeBeforeNext(getTimeBeforeNext() - 1);
             }
-        }.runTaskTimer(UHC.getPlugin(), 0, 20);
+        }.runTaskTimer(UHC.getInstance(), 0, 20);
     }
 
 }

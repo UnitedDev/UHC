@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 public class InvincibilityTimer extends CustomTimer {
 
     public InvincibilityTimer() {
-        super(UHC.getGameManager().getGameConfiguration().getDamageTimer());
+        super(UHC.getInstance().getGameManager().getGameConfiguration().getDamageTimer());
     }
 
     @Override

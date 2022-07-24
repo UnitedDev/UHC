@@ -1,6 +1,7 @@
 package fr.kohei.uhc.game.scenario.impl;
 
 import fr.kohei.uhc.UHC;
+import fr.kohei.uhc.game.config.timers.Timers;
 import fr.kohei.uhc.game.scenario.AbstractScenario;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldEvent;
@@ -20,9 +21,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-/**
- * @author Ariloxe
- */
 public class Timber extends AbstractScenario implements Listener {
     @Override
     public String getName() {
@@ -34,7 +32,7 @@ public class Timber extends AbstractScenario implements Listener {
         return Arrays.asList(
                 "&fLorsque vous minerez un bloc appartenant",
                 "&fà un &ctronc d'arbre&f, l'arbre entier",
-                "&ftombera alors."
+                "&ftombera."
         );
     }
 
@@ -45,7 +43,7 @@ public class Timber extends AbstractScenario implements Listener {
 
     @Override
     public void onStart() {
-        Bukkit.getServer().getPluginManager().registerEvents(this, UHC.getPlugin());
+        Bukkit.getServer().getPluginManager().registerEvents(this, UHC.getInstance());
     }
 
     private final Map<Location, Integer> limitTimber = new HashMap<>();
@@ -55,16 +53,15 @@ public class Timber extends AbstractScenario implements Listener {
         if (e.isCancelled() && !e.getPlayer().getGameMode().equals(GameMode.SURVIVAL))
             return;
 
-        if ((e.getBlock().getType() != Material.LOG))
-            return;
+        if (!Timers.PVP.isLoading()) return;
+        if (!(e.getBlock().getType().name().contains("LOG"))) return;
 
         limitTimber.put(e.getBlock().getLocation(), 0);
         breakBlock(e.getBlock(), e.getBlock().getLocation(), e.getPlayer());
-
     }
 
     public void breakBlock(Block b, Location model, Player player) {
-        JavaPlugin main = UHC.getPlugin();
+        JavaPlugin main = UHC.getInstance();
 
         if (limitTimber.containsKey(model)) {
             int MAX_TIMER = 90;
@@ -140,7 +137,7 @@ public class Timber extends AbstractScenario implements Listener {
 
     public boolean isWoodOrLeaves(Block b) {
         Material m = b.getType();
-        return m == Material.LOG;
+        return m.name().contains("LOG");
     }
 
     public Block blockNext(Block b, int x, int y, int z) {

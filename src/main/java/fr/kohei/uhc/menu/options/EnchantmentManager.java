@@ -53,7 +53,7 @@ public class EnchantmentManager extends PaginatedMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             List<String> lore = new ArrayList<>();
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             int level = gameConfiguration.getEnchantmentsLimit().getOrDefault(enchantment, 0);
             lore.add(" ");
             lore.add("&7Configuration: &c" + (level == 0 ? "&aIllimité" : level));
@@ -66,7 +66,7 @@ public class EnchantmentManager extends PaginatedMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             int level = gameConfiguration.getEnchantmentsLimit().getOrDefault(enchantment, 0);
             if(clickType == ClickType.LEFT) {
                 gameConfiguration.getEnchantmentsLimit().put(enchantment, level + 1);

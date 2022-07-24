@@ -43,7 +43,8 @@ public class GameOptionsListener implements Listener {
 
         if(event.getBlock().getData() == 0) return;
 
-        event.setDropItems(false);
+        event.setCancelled(true);
+        event.getBlock().setType(AIR);
         event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(COBBLESTONE));
     }
 
@@ -52,7 +53,7 @@ public class GameOptionsListener implements Listener {
         final Block b = event.getBlock();
         final Location loc = new Location(b.getWorld(), b.getLocation().getBlockX() + 0.0, b.getLocation().getBlockY() + 0.0, b.getLocation().getBlockZ() + 0.0);
         final double r = random.nextDouble();
-        if (r <= UHC.getGameManager().getGameConfiguration().getAppleRate() * 0.01 && b.getType() == Material.LEAVES) {
+        if (r <= UHC.getInstance().getGameManager().getGameConfiguration().getAppleRate() * 0.01 && b.getType() == Material.LEAVES) {
             b.setType(Material.AIR);
             b.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE, 1));
         }
@@ -64,11 +65,11 @@ public class GameOptionsListener implements Listener {
         final Location loc = new Location(block.getWorld(), (block.getLocation().getBlockX() + 0.0f), (block.getLocation().getBlockY() + 0.0f), (block.getLocation().getBlockZ() + 0.0f));
         final double r = random.nextDouble();
 
-        if (r <= UHC.getGameManager().getGameConfiguration().getAppleRate() * 0.01 && block.getType() == Material.LEAVES) {
+        if (r <= UHC.getInstance().getGameManager().getGameConfiguration().getAppleRate() * 0.01 && block.getType() == Material.LEAVES) {
             block.setType(Material.AIR);
             block.getWorld().dropItemNaturally(loc, new ItemStack(Material.APPLE));
         }
-        if (r <= UHC.getGameManager().getGameConfiguration().getFlintRate() * 0.01 && block.getType() == Material.GRAVEL) {
+        if (r <= UHC.getInstance().getGameManager().getGameConfiguration().getFlintRate() * 0.01 && block.getType() == Material.GRAVEL) {
             block.setType(Material.AIR);
             block.getWorld().dropItemNaturally(loc, new ItemStack(Material.FLINT));
         }
@@ -84,7 +85,7 @@ public class GameOptionsListener implements Listener {
         final Location loc = new Location(b.getWorld(), b.getLocation().getBlockX() + 0.0, b.getLocation().getBlockY() + 0.0, b.getLocation().getBlockZ() + 0.0);
         final Random random = new Random();
         final double r = random.nextDouble();
-        if (r <= UHC.getGameManager().getGameConfiguration().getPearlRate() * 0.01) {
+        if (r <= UHC.getInstance().getGameManager().getGameConfiguration().getPearlRate() * 0.01) {
             b.getWorld().dropItemNaturally(loc, new ItemStack(Material.ENDER_PEARL, 1));
         }
     }
@@ -93,7 +94,7 @@ public class GameOptionsListener implements Listener {
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         UPlayer uPlayer = UPlayer.get(player);
-        GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+        GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
         switch (event.getBlock().getType()) {
             case DIAMOND_ORE:
                 int diamondLimit = gameConfiguration.getDiamondLimit();
@@ -124,7 +125,7 @@ public class GameOptionsListener implements Listener {
 
     @EventHandler
     public void onCraft(CraftItemEvent event) {
-        RulesManager manager = UHC.getGameManager().getGameConfiguration().getRulesManager();
+        RulesManager manager = UHC.getInstance().getGameManager().getGameConfiguration().getRulesManager();
         Material mat = event.getCurrentItem().getType();
         if (!manager.isDiamondHelmet() && mat == DIAMOND_HELMET) event.setCancelled(true);
         if (!manager.isDiamondChestplate() && mat == DIAMOND_CHESTPLATE) event.setCancelled(true);
@@ -136,7 +137,7 @@ public class GameOptionsListener implements Listener {
 
     @EventHandler
     public void onEmpty(PlayerBucketEmptyEvent event) {
-        RulesManager manager = UHC.getGameManager().getGameConfiguration().getRulesManager();
+        RulesManager manager = UHC.getInstance().getGameManager().getGameConfiguration().getRulesManager();
 
         if (manager.isLavaBucket()) return;
         Block loc = event.getBlockClicked().getRelative(event.getBlockFace());
@@ -155,7 +156,7 @@ public class GameOptionsListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        RulesManager manager = UHC.getGameManager().getGameConfiguration().getRulesManager();
+        RulesManager manager = UHC.getInstance().getGameManager().getGameConfiguration().getRulesManager();
 
         if (event.getItem() == null) return;
         if (event.getItem().getType() == ENDER_PEARL) {
@@ -165,7 +166,7 @@ public class GameOptionsListener implements Listener {
 
     @EventHandler
     public void onPortal(PortalCreateEvent event) {
-        GameConfiguration manager = UHC.getGameManager().getGameConfiguration();
+        GameConfiguration manager = UHC.getInstance().getGameManager().getGameConfiguration();
 
         if (event.getReason() == PortalCreateEvent.CreateReason.FIRE) {
             if (!manager.isNether()) event.setCancelled(true);
@@ -174,7 +175,7 @@ public class GameOptionsListener implements Listener {
 
     @EventHandler
     public void onOpen(InventoryOpenEvent event) {
-        RulesManager manager = UHC.getGameManager().getGameConfiguration().getRulesManager();
+        RulesManager manager = UHC.getInstance().getGameManager().getGameConfiguration().getRulesManager();
         if (event.getInventory().getType() == InventoryType.BREWING) {
             if (manager.isPotions()) return;
             event.setCancelled(true);

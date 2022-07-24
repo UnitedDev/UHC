@@ -14,7 +14,7 @@ public class GameTask extends BukkitRunnable {
     public GameTask(GameManager gameManager) {
         this.gameManager = gameManager;
 
-        this.runTaskTimer(UHC.getPlugin(), 20, 20);
+        this.runTaskTimer(UHC.getInstance(), 20, 20);
     }
 
     @Override

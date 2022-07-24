@@ -61,7 +61,7 @@ public class IronLimitMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getIronLimit() + add <= 0) {
                 gameConfiguration.setIronLimit(0);
                 return;

@@ -15,6 +15,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.Plugin;
 
 @RequiredArgsConstructor
@@ -23,15 +24,20 @@ public class BasicCancelListeners implements Listener {
     private final Plugin plugin;
 
     @EventHandler
+    public void onUnload(ChunkUnloadEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
     public void onDamage(EntityDamageEvent event) {
-        if (UHC.getGameManager().getGameState() == GameState.LOBBY || UHC.getGameManager().getGameState() == GameState.TELEPORTATION) {
+        if (UHC.getInstance().getGameManager().getGameState() == GameState.LOBBY || UHC.getInstance().getGameManager().getGameState() == GameState.TELEPORTATION) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
-        if (UHC.getGameManager().getGameState() == GameState.LOBBY || UHC.getGameManager().getGameState() == GameState.TELEPORTATION) {
+        if (UHC.getInstance().getGameManager().getGameState() == GameState.LOBBY || UHC.getInstance().getGameManager().getGameState() == GameState.TELEPORTATION) {
             event.setCancelled(true);
         }
     }
@@ -51,21 +57,21 @@ public class BasicCancelListeners implements Listener {
 
     @EventHandler
     public void onFoodChange(FoodLevelChangeEvent event) {
-        if (UHC.getGameManager().getGameState() == GameState.LOBBY || UHC.getGameManager().getGameState() == GameState.TELEPORTATION) {
+        if (UHC.getInstance().getGameManager().getGameState() == GameState.LOBBY || UHC.getInstance().getGameManager().getGameState() == GameState.TELEPORTATION) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if (UHC.getGameManager().getGameState() == GameState.LOBBY || UHC.getGameManager().getGameState() == GameState.TELEPORTATION) {
+        if (UHC.getInstance().getGameManager().getGameState() == GameState.LOBBY || UHC.getInstance().getGameManager().getGameState() == GameState.TELEPORTATION) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (UHC.getGameManager().getGameState() == GameState.LOBBY || UHC.getGameManager().getGameState() == GameState.TELEPORTATION) {
+        if (UHC.getInstance().getGameManager().getGameState() == GameState.LOBBY || UHC.getInstance().getGameManager().getGameState() == GameState.TELEPORTATION) {
             event.setCancelled(true);
         }
     }
@@ -74,14 +80,14 @@ public class BasicCancelListeners implements Listener {
     public void onClick(InventoryClickEvent event) {
         UPlayer uPlayer = UPlayer.get((Player) event.getWhoClicked());
         if (uPlayer.isEditingDeathInventory() || uPlayer.isEditingStartInventory()) return;
-        if (UHC.getGameManager().getGameState() == GameState.LOBBY || UHC.getGameManager().getGameState() == GameState.TELEPORTATION) {
+        if (UHC.getInstance().getGameManager().getGameState() == GameState.LOBBY || UHC.getInstance().getGameManager().getGameState() == GameState.TELEPORTATION) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (UHC.getGameManager().getGameState() == GameState.LOBBY || UHC.getGameManager().getGameState() == GameState.TELEPORTATION) {
+        if (UHC.getInstance().getGameManager().getGameState() == GameState.LOBBY || UHC.getInstance().getGameManager().getGameState() == GameState.TELEPORTATION) {
             event.setCancelled(true);
         }
     }

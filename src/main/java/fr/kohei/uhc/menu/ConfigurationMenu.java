@@ -76,7 +76,7 @@ public class ConfigurationMenu extends GlassMenu {
                             "&fPermet de modifier les slots pour la",
                             "&fpartie.",
                             "",
-                            "&8┃ &7Configuration: &c" + UHC.getGameManager().getGameConfiguration().getSlots(),
+                            "&8┃ &7Configuration: &c" + UHC.getInstance().getGameManager().getGameConfiguration().getSlots(),
                             "",
                             "&f&l» &eCliquez-ici pour y accéder"
                     ).toItemStack();
@@ -103,7 +103,7 @@ public class ConfigurationMenu extends GlassMenu {
     private static class HiddenCompositionButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            boolean compo = UHC.getGameManager().getGameConfiguration().isHideComposition();
+            boolean compo = UHC.getInstance().getGameManager().getGameConfiguration().isHideComposition();
             return new ItemBuilder(Material.WEB).setName("&6&lComposition cachée").setLore(
                     "&fPermet de définir si la composition sera",
                     "&fcachée ou non.",
@@ -116,7 +116,7 @@ public class ConfigurationMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             gameConfiguration.setHideComposition(!gameConfiguration.isHideComposition());
         }
 
@@ -139,11 +139,11 @@ public class ConfigurationMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            if (UHC.getGameManager().getGameState() != GameState.LOBBY) {
+            if (UHC.getInstance().getGameManager().getGameState() != GameState.LOBBY) {
                 player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cet item pendant la partie"));
                 return;
             }
-            new ConfirmationMenu(() -> UHC.getPlugin().getServer().shutdown(), getButtonItem(player), new ConfigurationMenu()).openMenu(player);
+            new ConfirmationMenu(() -> UHC.getInstance().getServer().shutdown(), getButtonItem(player), new ConfigurationMenu()).openMenu(player);
 
         }
     }
@@ -168,7 +168,7 @@ public class ConfigurationMenu extends GlassMenu {
     private static class WhitelistButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            GameManager manager = UHC.getGameManager();
+            GameManager manager = UHC.getInstance().getGameManager();
             return new ItemBuilder(Material.NAME_TAG).setName("&6&lAccessibilité de la partie").setLore(
                     "&fPermet de modifier l'accessibilité à la",
                     "&fpartie pour les joueurs.",
@@ -181,7 +181,7 @@ public class ConfigurationMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameManager manager = UHC.getGameManager();
+            GameManager manager = UHC.getInstance().getGameManager();
             manager.setWhitelist(!manager.isWhitelist());
         }
 
@@ -194,7 +194,7 @@ public class ConfigurationMenu extends GlassMenu {
     private static class StartButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            GameManager gameManager = UHC.getGameManager();
+            GameManager gameManager = UHC.getInstance().getGameManager();
             if (gameManager.getStartTask() == null) {
                 return new ItemBuilder(Material.EMERALD_BLOCK).setName("&a&lLancer la partie").setLore(
                         "&fPermet de lancer la partie si tout est",
@@ -219,7 +219,7 @@ public class ConfigurationMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameManager gameManager = UHC.getGameManager();
+            GameManager gameManager = UHC.getInstance().getGameManager();
 
             if (!WorldGeneration.isFinished()) {
                 player.sendMessage(ChatUtil.prefix("&cLa prégénération doit être terminée pour lancer la partie."));
@@ -228,7 +228,7 @@ public class ConfigurationMenu extends GlassMenu {
 
             if (gameManager.getStartTask() == null) {
                 gameManager.setStartTask(new StartTask(gameManager));
-                gameManager.getStartTask().runTaskTimer(UHC.getPlugin(), 0, 20);
+                gameManager.getStartTask().runTaskTimer(UHC.getInstance(), 0, 20);
             } else {
                 gameManager.getStartTask().cancel();
                 gameManager.setStartTask(null);
@@ -246,7 +246,7 @@ public class ConfigurationMenu extends GlassMenu {
             return new ItemBuilder(Material.SAPLING).setName("&6&lPrégénération").setLore(
                     "&fPermet de prégénérer toute la map",
                     "",
-                    "&8┃ &7Bordure: &c± " + UHC.getGameManager().getGameConfiguration().getBorderStartSize(),
+                    "&8┃ &7Bordure: &c± " + UHC.getInstance().getGameManager().getGameConfiguration().getBorderStartSize(),
                     "",
                     "&f&l» &eCliquez-ici pour charger"
             ).toItemStack();
@@ -265,7 +265,7 @@ public class ConfigurationMenu extends GlassMenu {
                 return;
             }
 
-            new ConfirmationMenu(() -> UHC.getGameManager().generateChunks(), getButtonItem(player), new ConfigurationMenu()).openMenu(player);
+            new ConfirmationMenu(() -> UHC.getInstance().getGameManager().generateChunks(), getButtonItem(player), new ConfigurationMenu()).openMenu(player);
         }
     }
 
@@ -273,7 +273,7 @@ public class ConfigurationMenu extends GlassMenu {
         @Override
         public ItemStack getButtonItem(Player player) {
             List<String> lore = new ArrayList<>();
-            if (UHC.getGameManager().isRules()) {
+            if (UHC.getInstance().getGameManager().isRules()) {
                 lore.add("&fCliquez-ici pour téléporter tous les");
                 lore.add("&fjoueurs au lobby principal");
             } else {
@@ -287,15 +287,15 @@ public class ConfigurationMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            if (UHC.getGameManager().isRules()) {
-                Bukkit.getOnlinePlayers().forEach(players -> players.teleport(UHC.getGameManager().getLobby()));
+            if (UHC.getInstance().getGameManager().isRules()) {
+                Bukkit.getOnlinePlayers().forEach(players -> players.teleport(UHC.getInstance().getGameManager().getLobby()));
             } else {
                 Bukkit.getOnlinePlayers().forEach(players -> {
-                    players.teleport(UHC.getGameManager().getRulesLocation());
+                    players.teleport(UHC.getInstance().getGameManager().getRulesLocation());
                     Title.sendTitle(players, 10, 50, 10, "&8❘ &cRègles", "&fLe Host va énoncer les &crègles");
                 });
             }
-            UHC.getGameManager().setRules(!UHC.getGameManager().isRules());
+            UHC.getInstance().getGameManager().setRules(!UHC.getInstance().getGameManager().isRules());
             player.closeInventory();
         }
     }
@@ -340,13 +340,13 @@ public class ConfigurationMenu extends GlassMenu {
                 new ItemBuilder(Material.SIGN).setName("&6&lRenommer").setLore(
                         "&fPermet de modifier le nom du serveur",
                         " ",
-                        "&8┃ &7Nom: &c" + UHC.getGameManager().getGameConfiguration().getCustomName(),
+                        "&8┃ &7Nom: &c" + UHC.getInstance().getGameManager().getGameConfiguration().getCustomName(),
                         "",
                         "&f&l» &eCliquez-ici pour y accéder"
                 ).toItemStack(),
                 player, ChatUtil.prefix("&aMerci de rentrer le nouveau nom du serveur"),
                 (name, pair) -> {
-                    UHC.getGameManager().getGameConfiguration().setCustomName(pair.getRight());
+                    UHC.getInstance().getGameManager().getGameConfiguration().setCustomName(pair.getRight());
                     new ConfigurationMenu().openMenu(player);
                 }
         );

@@ -14,7 +14,7 @@ import org.bukkit.WorldBorder;
 public class BorderTimer extends CustomTimer {
 
     public BorderTimer() {
-        super(UHC.getGameManager().getGameConfiguration().getMeetupTimer());
+        super(UHC.getInstance().getGameManager().getGameConfiguration().getMeetupTimer());
     }
 
     @Override
@@ -32,9 +32,9 @@ public class BorderTimer extends CustomTimer {
     }
 
     public void play() {
-        WorldBorder worldBorder = UHC.getGameManager().getUhcWorld().getWorldBorder();
-        int finalSize = UHC.getGameManager().getGameConfiguration().getBorderEndSize();
-        int blocksSecond = UHC.getGameManager().getGameConfiguration().getBorderSpeed();
+        WorldBorder worldBorder = UHC.getInstance().getGameManager().getUhcWorld().getWorldBorder();
+        int finalSize = UHC.getInstance().getGameManager().getGameConfiguration().getBorderEndSize();
+        int blocksSecond = UHC.getInstance().getGameManager().getGameConfiguration().getBorderSpeed();
         double size = worldBorder.getSize();
         double dif = Math.abs(size - finalSize);
         double time = dif / blocksSecond;

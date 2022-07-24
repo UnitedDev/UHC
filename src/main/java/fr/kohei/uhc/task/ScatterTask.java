@@ -25,7 +25,7 @@ public class ScatterTask extends BukkitRunnable {
         this.gameManager = gameManager;
         players = new ArrayList<>();
         getGameManager().getPlayers().forEach(uuid -> players.add(Bukkit.getPlayer(uuid)));
-        this.runTaskTimer(UHC.getPlugin(), 0, 10);
+        this.runTaskTimer(UHC.getInstance(), 0, 10);
         teleported = 0;
     }
 

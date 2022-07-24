@@ -61,7 +61,7 @@ public class ManagerSlotsMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getSlots() + add <= 2) {
                 gameConfiguration.setSlots(2);
                 return;

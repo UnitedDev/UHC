@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 
 public class FinalHeal extends CustomTimer {
     public FinalHeal() {
-        super(UHC.getGameManager().getGameConfiguration().getFinalHealTimer());
+        super(UHC.getInstance().getGameManager().getGameConfiguration().getFinalHealTimer());
     }
 
     @Override

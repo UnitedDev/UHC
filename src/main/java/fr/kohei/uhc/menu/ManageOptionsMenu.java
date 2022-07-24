@@ -41,7 +41,7 @@ public class ManageOptionsMenu extends GlassMenu {
     public Map<Integer, Button> getAllButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        Module module = UHC.getModuleManager().getModule();
+        Module module = UHC.getInstance().getModuleManager().getModule();
 
         buttons.put(2, new NetherButton());
         buttons.put(10, new PotionLimitButton());
@@ -82,7 +82,7 @@ public class ManageOptionsMenu extends GlassMenu {
     }
 
     public static ItemStack getBorderTimeItem() {
-        GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+        GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
         return new ItemBuilder(Material.STAINED_GLASS).setDurability(4).setName("&6&lBordure").setLore(
                 "&fPermet de changer la durée avant l'activation",
                 "&fde la bordure",
@@ -108,7 +108,7 @@ public class ManageOptionsMenu extends GlassMenu {
     private static class NetherButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            boolean nether = UHC.getGameManager().getGameConfiguration().isNether();
+            boolean nether = UHC.getInstance().getGameManager().getGameConfiguration().isNether();
             return new ItemBuilder(Material.NETHERRACK).setName("&6&lNether").setLore(
                     "&fPermet de modifier l'accès au nether pendant",
                     "&fla partie.",
@@ -121,7 +121,7 @@ public class ManageOptionsMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             gameConfiguration.setNether(!gameConfiguration.isNether());
         }
 
@@ -180,7 +180,7 @@ public class ManageOptionsMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            if(UHC.getGameManager().getGameState() != GameState.LOBBY) {
+            if(UHC.getInstance().getGameManager().getGameState() != GameState.LOBBY) {
                 player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cet item pendant la partie"));
                 return;
             }
@@ -194,7 +194,7 @@ public class ManageOptionsMenu extends GlassMenu {
                 "&fPermet de modifier la durée du cycle",
                 "&fjour/nuit de la partie",
                 "",
-                "&8┃ &7Configuration: &c" + TimeUtil.niceTime(UHC.getGameManager().getGameConfiguration().getCycle() * 1000L),
+                "&8┃ &7Configuration: &c" + TimeUtil.niceTime(UHC.getInstance().getGameManager().getGameConfiguration().getCycle() * 1000L),
                 "",
                 "&f&l» &eCliquez-ici pour y accéder"
         ).toItemStack();
@@ -203,7 +203,7 @@ public class ManageOptionsMenu extends GlassMenu {
     private static class PotionLimitButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            boolean potions = UHC.getGameManager().getGameConfiguration().isPotions();
+            boolean potions = UHC.getInstance().getGameManager().getGameConfiguration().isPotions();
             return new ItemBuilder(Material.POTION).setName("&6&lPotions").setLore(
                     "&fVous permet de limiter la fabrication",
                     "&fde certaines potions",
@@ -216,8 +216,8 @@ public class ManageOptionsMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            boolean potions = UHC.getGameManager().getGameConfiguration().isPotions();
-            UHC.getGameManager().getGameConfiguration().setPotions(!potions);
+            boolean potions = UHC.getInstance().getGameManager().getGameConfiguration().isPotions();
+            UHC.getInstance().getGameManager().getGameConfiguration().setPotions(!potions);
         }
 
         @Override
@@ -244,7 +244,7 @@ public class ManageOptionsMenu extends GlassMenu {
     }
 
     public static ItemStack getPvPItem() {
-        GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+        GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
         return new ItemBuilder(Material.DIAMOND_SWORD).setName("&6&lActivation du PvP").setLore(
                 "&fPermet de changer la durée avant l'activation",
                 "&fdu pvp",
@@ -258,7 +258,7 @@ public class ManageOptionsMenu extends GlassMenu {
     private static class HiddenCompositionButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            boolean compo = UHC.getGameManager().getGameConfiguration().isHideComposition();
+            boolean compo = UHC.getInstance().getGameManager().getGameConfiguration().isHideComposition();
             return new ItemBuilder(Material.WEB).setName("&6&lComposition cachée").setLore(
                     "&fPermet de définir si la composition sera",
                     "&fcachée ou non.",
@@ -271,7 +271,7 @@ public class ManageOptionsMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             gameConfiguration.setHideComposition(!gameConfiguration.isHideComposition());
         }
 
@@ -282,7 +282,7 @@ public class ManageOptionsMenu extends GlassMenu {
     }
 
     public static ItemStack getRolesTimerItem() {
-        GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+        GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
         return new ItemBuilder(Material.WATCH).setName("&6&lAnnonce des rôles").setLore(
                 "&fPermet de changer la durée avant l'annonce",
                 "&fdes rôles",

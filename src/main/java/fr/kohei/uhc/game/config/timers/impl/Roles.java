@@ -18,13 +18,13 @@ import java.util.UUID;
 
 public class Roles extends CustomTimer {
     public Roles() {
-        super(UHC.getGameManager().getGameConfiguration().getRolesTime());
+        super(UHC.getInstance().getGameManager().getGameConfiguration().getRolesTime());
     }
 
     @Override
     @SneakyThrows
     public void onEnable() {
-        Module module = UHC.getModuleManager().getModule();
+        Module module = UHC.getInstance().getModuleManager().getModule();
         module.onRoles();
         if (!module.hasRoles()) return;
 
@@ -35,8 +35,8 @@ public class Roles extends CustomTimer {
 
         List<Class<? extends Role>> roles = new ArrayList<>();
 
-        for (String enabledRole : UHC.getGameManager().getGameConfiguration().getEnabledRoles()) {
-            UHC.getModuleManager().getModule().getRoles().forEach((roleType, aClass) -> {
+        for (String enabledRole : UHC.getInstance().getGameManager().getGameConfiguration().getEnabledRoles()) {
+            UHC.getInstance().getModuleManager().getModule().getRoles().forEach((roleType, aClass) -> {
                 if (roleType.getName().equals(enabledRole)) {
                     roles.add(aClass);
                 }
@@ -45,14 +45,14 @@ public class Roles extends CustomTimer {
 
         Collections.shuffle(roles);
         Bukkit.broadcastMessage(ChatUtil.translate("&cAttribution des rôles &fen cours..."));
-        for (UUID uuid : UHC.getGameManager().getPlayers()) {
+        for (UUID uuid : UHC.getInstance().getGameManager().getPlayers()) {
             if (roles.size() == 0) break;
 
             Role role = roles.get(0).getDeclaredConstructor().newInstance();
             Player player = Bukkit.getPlayer(uuid);
             UPlayer uPlayer = UPlayer.get(player);
 
-            if(role instanceof Listener) Bukkit.getServer().getPluginManager().registerEvents((Listener) role, UHC.getPlugin());
+            if(role instanceof Listener) Bukkit.getServer().getPluginManager().registerEvents((Listener) role, UHC.getInstance());
 
             uPlayer.setRole(role);
             uPlayer.setCamp(role.getStartCamp());
@@ -70,6 +70,6 @@ public class Roles extends CustomTimer {
 
     @SneakyThrows
     private void onDistribute(Player player, Role role) {
-        Bukkit.getScheduler().runTaskLater(UHC.getPlugin(), () -> role.onDistribute(player), 100);
+        Bukkit.getScheduler().runTaskLater(UHC.getInstance(), () -> role.onDistribute(player), 100);
     }
 }

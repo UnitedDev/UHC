@@ -4,6 +4,8 @@ import fr.kohei.command.Command;
 import fr.kohei.command.param.Param;
 import fr.kohei.common.CommonProvider;
 import fr.kohei.uhc.UHC;
+import fr.kohei.uhc.menu.GameInventoryMenu;
+import fr.kohei.uhc.menu.PlayerRulesMenu;
 import fr.kohei.utils.ChatUtil;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -42,8 +44,8 @@ public class PlayerCommands {
         player.sendMessage(ChatUtil.translate("  &e/h wl add &f<pseudo> &7(&fAjouter quelqu'un à la whitelist&7)"));
         player.sendMessage(ChatUtil.translate("  &e/h wl remove &f<pseudo> &7(&fRetirer quelqu'un à la whitelist&7)"));
         player.sendMessage(ChatUtil.translate("  &e/h wl list &7(&fVoir la liste des joueurs whitelistés&7)"));
-        player.sendMessage(ChatUtil.translate("  &e/h wl spec add &f<pseudo> &7(&fAjouter un spectateur&7)"));
-        player.sendMessage(ChatUtil.translate("  &e/h wl spec remove &f<pseudo> &7(&fRetirer un spectateur&7)"));
+        player.sendMessage(ChatUtil.translate("  &e/h spec add &f<pseudo> &7(&fAjouter un spectateur&7)"));
+        player.sendMessage(ChatUtil.translate("  &e/h spec remove &f<pseudo> &7(&fRetirer un spectateur&7)"));
         TextComponent previous = new TextComponent(ChatUtil.translate("&e&l[« PAGE 1]"));
         previous.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/h 1"));
         player.spigot().sendMessage(
@@ -62,7 +64,7 @@ public class PlayerCommands {
 
         player.sendMessage(ChatUtil.prefix("&fVous avez envoyé un &ahelpop &favec succès"));
         Bukkit.getOnlinePlayers().forEach(player1 -> {
-            if(UHC.getGameManager().getPlayers().contains(player1.getUniqueId())) return;
+            if(UHC.getInstance().getGameManager().getPlayers().contains(player1.getUniqueId())) return;
 
             if (CommonProvider.getInstance().getProfile(player1.getUniqueId()).getRank().getPermissionPower() >= 39) {
                 player1.sendMessage(ChatUtil.translate("&8» &c&lHELPOP &7(&f" + player.getName() + ": " + message));
@@ -70,4 +72,13 @@ public class PlayerCommands {
         });
     }
 
+    @Command(names = {"uhc", "rules"})
+    public static void rules(Player player) {
+        new PlayerRulesMenu().openMenu(player);
+    }
+
+    @Command(names = {"inv", "inventaire"})
+    public static void inv(Player player) {
+        new GameInventoryMenu(null).openMenu(player);
+    }
 }

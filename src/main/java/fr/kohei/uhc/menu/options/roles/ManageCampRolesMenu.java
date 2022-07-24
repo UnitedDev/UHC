@@ -36,7 +36,7 @@ public class ManageCampRolesMenu extends PaginatedMenu {
     public Map<Integer, Button> getAllPagesButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        Module module = UHC.getModuleManager().getModule();
+        Module module = UHC.getInstance().getModuleManager().getModule();
 
         List<Module.RoleType> roles = module.getRoles().keySet().stream().filter(role -> role.getCamp() == camp).sorted(Comparator.comparing(Module.RoleType::getName).reversed()).collect(Collectors.toList());
 
@@ -56,7 +56,7 @@ public class ManageCampRolesMenu extends PaginatedMenu {
 
             int enabled = 0;
 
-            for (String name : UHC.getGameManager().getGameConfiguration().getEnabledRoles()) {
+            for (String name : UHC.getInstance().getGameManager().getGameConfiguration().getEnabledRoles()) {
                 if (name.equalsIgnoreCase(role.getName())) {
                     enabled++;
                 }
@@ -74,12 +74,12 @@ public class ManageCampRolesMenu extends PaginatedMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            ModuleManager manager = UHC.getModuleManager();
+            ModuleManager manager = UHC.getInstance().getModuleManager();
 
             if (clickType.isRightClick()) {
-                UHC.getGameManager().getGameConfiguration().getEnabledRoles().remove(role.getName());
+                UHC.getInstance().getGameManager().getGameConfiguration().getEnabledRoles().remove(role.getName());
             } else {
-                UHC.getGameManager().getGameConfiguration().getEnabledRoles().add(role.getName());
+                UHC.getInstance().getGameManager().getGameConfiguration().getEnabledRoles().add(role.getName());
             }
         }
 

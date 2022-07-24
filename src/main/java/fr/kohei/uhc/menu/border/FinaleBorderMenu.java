@@ -61,7 +61,7 @@ public class FinaleBorderMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getBorderEndSize() + add <= 50) {
                 gameConfiguration.setBorderEndSize(50);
                 return;

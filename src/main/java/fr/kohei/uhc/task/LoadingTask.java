@@ -21,13 +21,13 @@ public class LoadingTask extends BukkitRunnable {
     public void run() {
         timer--;
         if(timer == 0) {
-            UHC.getGameManager().startGame();
+            UHC.getInstance().getGameManager().startGame();
             Bukkit.getOnlinePlayers().forEach(player -> {
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 5, 1);
                 Title.sendTitle(player, 0, 20, 0, "&8» &cC'est parti ! &8«", "");
             });
             for (Player players1 : Bukkit.getOnlinePlayers()) {
-                for (ScoreboardTeam teams : UHC.getTeams()) {
+                for (ScoreboardTeam teams : UHC.getInstance().getTeams()) {
                     ((CraftPlayer) players1).getHandle().playerConnection.sendPacket(teams.removeTeam());
                 }
             }

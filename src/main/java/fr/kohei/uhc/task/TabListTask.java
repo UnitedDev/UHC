@@ -30,22 +30,27 @@ public class TabListTask extends BukkitRunnable {
     }
 
     public void updateTabRanks() {
-        if (UHC.getGameManager().getGameState() != GameState.LOBBY) return;
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.LOBBY) return;
         for (Player players1 : Bukkit.getOnlinePlayers()) {
             for (Player players2 : Bukkit.getOnlinePlayers()) {
+
                 Rank rank = BukkitAPI.getCommonAPI().getProfile(players2.getUniqueId()).getRank();
                 IUser user = LinkAPI.getApi().getMumbleManager().getUserFromName(players2.getName());
 
                 ScoreboardTeam team;
-                char character = UHC.RANKS_ALPHABET.get(rank.token());
-                if (user == null) {
-                    team = UHC.getScoreboardTeam(character + "3");
-                } else if (LinkAPI.getApi().getMumbleManager().getStateOf(user.getName()) == MumbleState.LINK) {
-                    team = UHC.getScoreboardTeam(character + "1");
+                if (LinkAPI.getApi().isEnabled()) {
+                    char character = UHC.RANKS_ALPHABET.get(rank.token());
+                    if (user == null) {
+                        team = UHC.getInstance().getScoreboardTeam(character + "3");
+                    } else if (LinkAPI.getApi().getMumbleManager().getStateOf(user.getName()) == MumbleState.LINK) {
+                        team = UHC.getInstance().getScoreboardTeam(character + "1");
+                    } else {
+                        team = UHC.getInstance().getScoreboardTeam(character + "2");
+                    }
                 } else {
-                    team = UHC.getScoreboardTeam(character + "2");
+                    char character = UHC.RANKS_ALPHABET.get(rank.token());
+                    team = UHC.getInstance().getScoreboardTeam(character + "4");
                 }
-
                 ((CraftPlayer) players1).getHandle().playerConnection.sendPacket(team.addOrRemovePlayer(3, players2.getName()));
             }
 

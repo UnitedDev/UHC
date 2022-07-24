@@ -59,7 +59,7 @@ public class SettingsMenu extends GlassMenu {
     private static class HiddenCompositionButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            boolean compo = UHC.getGameManager().getGameConfiguration().isHideComposition();
+            boolean compo = UHC.getInstance().getGameManager().getGameConfiguration().isHideComposition();
             return new ItemBuilder(Material.WEB).setName("&6&lComposition cachée").setLore(
                     "&fPermet de définir si la composition sera",
                     "&fcachée ou non.",
@@ -72,7 +72,7 @@ public class SettingsMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             gameConfiguration.setHideComposition(!gameConfiguration.isHideComposition());
         }
 
@@ -148,7 +148,7 @@ public class SettingsMenu extends GlassMenu {
     private static class GoldenHeadButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             return new ItemBuilder(Material.GOLDEN_APPLE).setName("&6&lAbsorption").setLore(
                     "&fPermet de modifier l'effet d'absorption",
                     "&fdans la partie.",
@@ -161,7 +161,7 @@ public class SettingsMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             gameConfiguration.setAbsorption(!gameConfiguration.isAbsorption());
         }
 
@@ -174,7 +174,7 @@ public class SettingsMenu extends GlassMenu {
     private static class PotionLimitButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            boolean potions = UHC.getGameManager().getGameConfiguration().isPotions();
+            boolean potions = UHC.getInstance().getGameManager().getGameConfiguration().isPotions();
             return new ItemBuilder(Material.POTION).setName("&6&lPotions").setLore(
                     "&fVous permet de limiter la fabrication",
                     "&fde certaines potions",
@@ -187,8 +187,8 @@ public class SettingsMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            boolean potions = UHC.getGameManager().getGameConfiguration().isPotions();
-            UHC.getGameManager().getGameConfiguration().setPotions(!potions);
+            boolean potions = UHC.getInstance().getGameManager().getGameConfiguration().isPotions();
+            UHC.getInstance().getGameManager().getGameConfiguration().setPotions(!potions);
         }
 
         @Override
@@ -200,7 +200,7 @@ public class SettingsMenu extends GlassMenu {
     private static class NetherButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            boolean nether = UHC.getGameManager().getGameConfiguration().isNether();
+            boolean nether = UHC.getInstance().getGameManager().getGameConfiguration().isNether();
             return new ItemBuilder(Material.NETHERRACK).setName("&6&lNether").setLore(
                     "&fPermet de modifier l'accès au nether pendant",
                     "&fla partie.",
@@ -213,7 +213,7 @@ public class SettingsMenu extends GlassMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             gameConfiguration.setNether(!gameConfiguration.isNether());
         }
 

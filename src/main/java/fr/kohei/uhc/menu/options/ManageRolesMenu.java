@@ -34,11 +34,11 @@ public class ManageRolesMenu extends PaginatedMenu {
     public Map<Integer, Button> getAllPagesButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        Module module = UHC.getModuleManager().getModule();
+        Module module = UHC.getInstance().getModuleManager().getModule();
         for (Camp camp : module.getCamps()) {
             buttons.put(buttons.size(), new CampButton(camp));
         }
-        UHC.getModuleManager().getModule().getMenus().forEach((itemStack, menu) -> {
+        UHC.getInstance().getModuleManager().getModule().getMenus().forEach((itemStack, menu) -> {
             buttons.put(buttons.size(), new CustomButton(itemStack, menu));
         });
 
@@ -56,10 +56,10 @@ public class ManageRolesMenu extends PaginatedMenu {
 
         @Override
         public ItemStack getButtonItem(Player player) {
-            Module module = UHC.getModuleManager().getModule();
+            Module module = UHC.getInstance().getModuleManager().getModule();
             int size = (int) module.getRoles().keySet().stream().filter(role -> role.getCamp() == camp).count();
             int enabled = (int) module.getRoles().keySet().stream().filter(role -> role.getCamp() == camp)
-                    .filter(role -> UHC.getGameManager().getGameConfiguration().getEnabledRoles().contains(role.getName()))
+                    .filter(role -> UHC.getInstance().getGameManager().getGameConfiguration().getEnabledRoles().contains(role.getName()))
                     .count();
 
             List<String> lore = new ArrayList<>();

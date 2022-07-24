@@ -61,7 +61,7 @@ public class GoldLimitMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getGoldLimit() + add <= 0) {
                 gameConfiguration.setGoldLimit(0);
                 return;

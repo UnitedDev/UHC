@@ -73,7 +73,7 @@ public class RulesMenu extends GlassMenu {
         public ItemStack getButtonItem(Player player) {
             Field field = RulesManager.class.getDeclaredField(this.method);
             field.setAccessible(true);
-            boolean b = field.getBoolean(UHC.getGameManager().getGameConfiguration().getRulesManager());
+            boolean b = field.getBoolean(UHC.getInstance().getGameManager().getGameConfiguration().getRulesManager());
 
             return new ItemBuilder(material).setName("&6&l" + name + " &8(" + (b ? "&aActivé" : "&cDésactivé") + "&8)").toItemStack();
         }
@@ -88,7 +88,7 @@ public class RulesMenu extends GlassMenu {
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             Field field = RulesManager.class.getDeclaredField(this.method);
             field.setAccessible(true);
-            Object object = UHC.getGameManager().getGameConfiguration().getRulesManager();
+            Object object = UHC.getInstance().getGameManager().getGameConfiguration().getRulesManager();
             boolean b = field.getBoolean(object);
 
             field.setBoolean(object, !b);

@@ -29,31 +29,29 @@ public class CycleTask {
             @Override
             public void run() {
                 setDay(true);
-                Bukkit.broadcastMessage(" ");
-                Bukkit.broadcastMessage(ChatUtil.translate("&e&l☀ &e&lLE JOUR SE LÈVE..."));
-                Bukkit.broadcastMessage(" ");
-                Module module = UHC.getModuleManager().getModule();
+                Bukkit.broadcastMessage(ChatUtil.translate("&e&l☀ &eC'est le début du jour..."));
+                Module module = UHC.getInstance().getModuleManager().getModule();
                 module.onDay();
                 Bukkit.getOnlinePlayers().stream()
                         .filter(player -> UPlayer.get(player).getRole() != null)
                         .forEach(player -> UPlayer.get(player).getRole().onDay(player));
             }
-        }.runTaskTimer(UHC.getPlugin(), 0, gameManager.getGameConfiguration().getCycle() * 40L);
+        }.runTaskTimer(UHC.getInstance(), 0, gameManager.getGameConfiguration().getCycle() * 40L);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 setDay(false);
                 Bukkit.broadcastMessage(" ");
-                Bukkit.broadcastMessage(ChatUtil.translate("&9&l☾ &9&lLA NUIT TOMBE..."));
+                Bukkit.broadcastMessage(ChatUtil.translate("&9&l☾ &9La nuit tombe..."));
                 Bukkit.broadcastMessage(" ");
-                Module module = UHC.getModuleManager().getModule();
+                Module module = UHC.getInstance().getModuleManager().getModule();
                 module.onNight();
                 Bukkit.getOnlinePlayers().stream()
                         .filter(player -> UPlayer.get(player).getRole() != null)
                         .forEach(player -> UPlayer.get(player).getRole().onNight(player));
             }
-        }.runTaskTimer(UHC.getPlugin(), gameManager.getGameConfiguration().getCycle() * 20L, gameManager.getGameConfiguration().getCycle() * 40L);
+        }.runTaskTimer(UHC.getInstance(), gameManager.getGameConfiguration().getCycle() * 20L, gameManager.getGameConfiguration().getCycle() * 40L);
 
     }
 

@@ -9,9 +9,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * @author Ariloxe
- */
 public class CatEyes extends AbstractScenario {
     @Override
     public String getName() {

@@ -6,7 +6,7 @@
 
     <groupId>fr.kohei</groupId>
     <artifactId>uhc</artifactId>
-    <version>1.1.0-alpha2</version>
+    <version>1.1.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>fr.kohei</groupId>
             <artifactId>mumble</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -65,18 +65,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.imanity.imanityspigot</groupId>
-            <artifactId>api</artifactId>
-            <version>2022.05.3b1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Original PaperSpigot -->
-        <dependency>
-            <groupId>org.imanity.paperspigot</groupId>
-            <artifactId>paper1.8.8</artifactId>
-            <version>1.8.8</version>
-            <scope>provided</scope>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

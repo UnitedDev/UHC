@@ -29,8 +29,8 @@ public class ScoreboardAdapter implements FrameAdapter {
     public List<String> getLines(final Player player) {
         final List<String> toReturn = new ArrayList<>();
         UPlayer uPlayer = UPlayer.get(player);
-        ModuleManager moduleManager = UHC.getModuleManager();
-        GameManager gameManager = UHC.getGameManager();
+        ModuleManager moduleManager = UHC.getInstance().getModuleManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
 
         toReturn.add("");
         if (gameManager.getGameState() == GameState.LOBBY || gameManager.getGameState() == GameState.TELEPORTATION) {

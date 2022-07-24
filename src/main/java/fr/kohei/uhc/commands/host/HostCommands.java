@@ -41,7 +41,7 @@ public class HostCommands {
 
         final int newAmount = amount;
         Bukkit.broadcastMessage(ChatUtil.translate("&7❘ &e&lGIVE &e" + mat.name() + " &8(&a" + amount + "&8)"));
-        UHC.getGameManager().getPlayers().stream().filter(uuid -> Bukkit.getPlayer(uuid) != null).map(Bukkit::getPlayer).forEach(t ->
+        UHC.getInstance().getGameManager().getPlayers().stream().filter(uuid -> Bukkit.getPlayer(uuid) != null).map(Bukkit::getPlayer).forEach(t ->
                 t.getInventory().addItem(new ItemStack(mat, newAmount))
         );
     }
@@ -66,18 +66,18 @@ public class HostCommands {
         }
 
         if(uPlayer.isEditingStartInventory()) {
-            UHC.getGameManager().getGameConfiguration().setStartInventory(sender.getInventory().getContents());
-            UHC.getGameManager().getGameConfiguration().setStartArmor(sender.getInventory().getArmorContents());
+            UHC.getInstance().getGameManager().getGameConfiguration().setStartInventory(sender.getInventory().getContents());
+            UHC.getInstance().getGameManager().getGameConfiguration().setStartArmor(sender.getInventory().getArmorContents());
             uPlayer.updateLobbyHotbar();
-            sender.teleport(UHC.getGameManager().getLobby());
+            sender.teleport(UHC.getInstance().getGameManager().getLobby());
             sender.sendMessage(ChatUtil.prefix("&fVous avez &amodifié &fl'inventaire de &adépart"));
-            UHC.getGameManager().setEditingStartInventory(null);
+            UHC.getInstance().getGameManager().setEditingStartInventory(null);
         } else if(uPlayer.isEditingDeathInventory()) {
-            UHC.getGameManager().getGameConfiguration().setDeathInventory(sender.getInventory().getContents());
+            UHC.getInstance().getGameManager().getGameConfiguration().setDeathInventory(sender.getInventory().getContents());
             uPlayer.updateLobbyHotbar();
-            sender.teleport(UHC.getGameManager().getLobby());
+            sender.teleport(UHC.getInstance().getGameManager().getLobby());
             sender.sendMessage(ChatUtil.prefix("&fVous avez &amodifié &fl'inventaire de &cmort"));
-            UHC.getGameManager().setEditingDeathInventory(null);
+            UHC.getInstance().getGameManager().setEditingDeathInventory(null);
         } else {
             sender.sendMessage(ChatUtil.prefix("&cVous n'êtes pas en train de modifier un inventaire"));
         }
@@ -91,7 +91,7 @@ public class HostCommands {
             return;
         }
 
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         UPlayer uTarget = UPlayer.get(target);
         if (uTarget.hasHostAccess()) {
             player.sendMessage(ChatUtil.prefix("&cCe joueur est déjà co-host"));
@@ -107,11 +107,11 @@ public class HostCommands {
 
     @Command(names = {"disperse"}, power = 39)
     public static void disperse(Player player, @Param(name = "player") Player target) {
-        int x = (int) (Math.random() * (UHC.getGameManager().getUhcWorld().getWorldBorder().getSize() / 2));
-        int z = (int) (Math.random() * (UHC.getGameManager().getUhcWorld().getWorldBorder().getSize() / 2));
-        int y = UHC.getGameManager().getUhcWorld().getHighestBlockYAt(x, z) + 1;
+        int x = (int) (Math.random() * (UHC.getInstance().getGameManager().getUhcWorld().getWorldBorder().getSize() / 2));
+        int z = (int) (Math.random() * (UHC.getInstance().getGameManager().getUhcWorld().getWorldBorder().getSize() / 2));
+        int y = UHC.getInstance().getGameManager().getUhcWorld().getHighestBlockYAt(x, z) + 1;
 
-        Location location = new Location(UHC.getGameManager().getUhcWorld(), x, y, z);
+        Location location = new Location(UHC.getInstance().getGameManager().getUhcWorld(), x, y, z);
         target.teleport(location);
         player.sendMessage(ChatUtil.prefix("&a" + target.getName() + " &fa été dispersé."));
     }
@@ -124,12 +124,12 @@ public class HostCommands {
             return;
         }
 
-        if (UHC.getGameManager().getGameState() != GameState.LOBBY) return;
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.LOBBY) return;
 
         if (player.getWorld().getName().equalsIgnoreCase("world")) {
             player.teleport(new Location(Bukkit.getWorld("uhc_world"), 0, 100, 0));
         } else {
-            player.teleport(UHC.getGameManager().getLobby());
+            player.teleport(UHC.getInstance().getGameManager().getLobby());
         }
     }
 
@@ -141,7 +141,7 @@ public class HostCommands {
             return;
         }
 
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
 
         gameManager.getBan().add(target.getName());
         player.sendMessage(ChatUtil.prefix("&fVous avez &cbanni &c" + target.getName() + " &fde cet host."));
@@ -158,7 +158,7 @@ public class HostCommands {
             return;
         }
 
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
 
         if (!gameManager.getBan().contains(target)) {
             player.sendMessage(ChatUtil.prefix("&cCe joueur n'est pas banni de vos hosts"));
@@ -178,7 +178,7 @@ public class HostCommands {
             return;
         }
 
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         if (gameManager.getBan().isEmpty()) {
             player.sendMessage(ChatUtil.prefix("&cPersonne n'est banni"));
             return;
@@ -198,7 +198,7 @@ public class HostCommands {
             return;
         }
 
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         UPlayer uTarget = UPlayer.get(target);
         if (!uTarget.hasHostAccess()) {
             player.sendMessage(ChatUtil.prefix("&cCe joueur n'est pas co-host"));
@@ -221,7 +221,7 @@ public class HostCommands {
             return;
         }
 
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         if (gameManager.getCoHosts().isEmpty()) {
             player.sendMessage(ChatUtil.prefix("&cPersonne n'est op"));
             return;
@@ -257,7 +257,7 @@ public class HostCommands {
             return;
         }
 
-        if (UHC.getGameManager().getGameState() != GameState.PLAYING) {
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.PLAYING) {
             player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cette commande si la game n'a pas commencé"));
             return;
         }
@@ -276,7 +276,7 @@ public class HostCommands {
             return;
         }
 
-        if (UHC.getGameManager().getGameState() != GameState.PLAYING) {
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.PLAYING) {
             player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cette commande si la game n'a pas commencé"));
             return;
         }
@@ -296,12 +296,12 @@ public class HostCommands {
             return;
         }
 
-        if (UHC.getGameManager().getGameState() != GameState.PLAYING) {
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.PLAYING) {
             player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cette commande si la game n'a pas commencé"));
             return;
         }
 
-        UHC.getGameManager().getGameConfiguration().setGroups(number);
+        UHC.getInstance().getGameManager().getGameConfiguration().setGroups(number);
         Bukkit.getOnlinePlayers().forEach(player1 -> {
             Title.sendTitle(player1, 10, 100, 10, "&c⚠ &cAttention &c⚠", "&cVeuillez respecter les groupes");
         });
@@ -315,7 +315,7 @@ public class HostCommands {
             return;
         }
 
-        if (UHC.getGameManager().getGameState() != GameState.PLAYING) {
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.PLAYING) {
             player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cette commande si la game n'a pas commencé"));
             return;
         }
@@ -333,7 +333,7 @@ public class HostCommands {
             return;
         }
 
-        if (UHC.getGameManager().getGameState() != GameState.PLAYING) {
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.PLAYING) {
             player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cette commande si la game n'a pas commencé"));
             return;
         }
@@ -352,9 +352,9 @@ public class HostCommands {
             return;
         }
 
-        if (!UHC.getModuleManager().getModule().hasRoles()) return;
+        if (!UHC.getInstance().getModuleManager().getModule().hasRoles()) return;
 
-        if (UHC.getGameManager().getGameState() != GameState.PLAYING) {
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.PLAYING) {
             player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cette commande si la game n'a pas commencé"));
             return;
         }
@@ -380,8 +380,8 @@ public class HostCommands {
     public static void hostMe(Player player) {
         ProfileData profile = BukkitAPI.getCommonAPI().getProfile(player.getUniqueId());
 
-        UHC.getGameManager().getCoHosts().add(player.getUniqueId());
-        GameManager gameManager = UHC.getGameManager();
+        UHC.getInstance().getGameManager().getCoHosts().add(player.getUniqueId());
+        GameManager gameManager = UHC.getInstance().getGameManager();
 
         if (gameManager.getGameState() == GameState.LOBBY) {
             UPlayer.get(player).updateLobbyHotbar();
@@ -397,7 +397,7 @@ public class HostCommands {
         }
 
         boolean b = true;
-        for (String s : UHC.getGameManager().getWhitelisted()) {
+        for (String s : UHC.getInstance().getGameManager().getWhitelisted()) {
             if (s.equalsIgnoreCase(target)) {
                 b = false;
                 break;
@@ -409,7 +409,7 @@ public class HostCommands {
             return;
         }
 
-        UHC.getGameManager().getWhitelisted().add(target);
+        UHC.getInstance().getGameManager().getWhitelisted().add(target);
         CommonProvider.getInstance().getPlayers().values().stream()
                 .filter(uPlayer1 -> uPlayer1.getDisplayName().equalsIgnoreCase(target))
                 .findFirst()
@@ -426,7 +426,7 @@ public class HostCommands {
         }
 
         boolean b = true;
-        for (String s : UHC.getGameManager().getWhitelisted()) {
+        for (String s : UHC.getInstance().getGameManager().getWhitelisted()) {
             if (s.equalsIgnoreCase(target)) {
                 b = false;
                 break;
@@ -438,7 +438,7 @@ public class HostCommands {
             return;
         }
 
-        UHC.getGameManager().getWhitelisted().remove(target);
+        UHC.getInstance().getGameManager().getWhitelisted().remove(target);
         CommonProvider.getInstance().getPlayers().values().stream()
                 .filter(uPlayer1 -> uPlayer1.getDisplayName().equalsIgnoreCase(target))
                 .findFirst()
@@ -454,19 +454,24 @@ public class HostCommands {
             return;
         }
 
-        if (UHC.getGameManager().getGameState() != GameState.LOBBY) {
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.LOBBY) {
             player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cet item pendant la partie"));
             return;
         }
 
-        if (!UHC.getGameManager().getPlayers().contains(target.getUniqueId())) {
+        if (!UHC.getInstance().getGameManager().getPlayers().contains(target.getUniqueId())) {
             player.sendMessage(ChatUtil.prefix("&cCe joueur est déjà spectateur"));
             return;
         }
 
-        player.sendMessage(ChatUtil.prefix("&fVous avez mis en mode &cspectateur &fle joueur &c" + target));
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.LOBBY) {
+            player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas retirer un spec pendant la partie."));
+            return;
+        }
+
+        player.sendMessage(ChatUtil.prefix("&fVous avez mis en mode &aspectateur &fle joueur &a" + target));
         target.setGameMode(GameMode.SPECTATOR);
-        UHC.getGameManager().getPlayers().remove(target.getUniqueId());
+        UHC.getInstance().getGameManager().getPlayers().remove(target.getUniqueId());
     }
 
 
@@ -478,7 +483,16 @@ public class HostCommands {
             return;
         }
 
-        player.sendMessage(ChatUtil.prefix("&cPour que ce joueur ne soit plus spectateurs, il faut qu'il se qu'il se déconnecte de la partie"));
+        if (UHC.getInstance().getGameManager().getGameState() != GameState.LOBBY) {
+            player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas retirer un spec pendant la partie."));
+            return;
+        }
+
+        player.sendMessage(ChatUtil.prefix("&fVous avez &cenlevé le mode &cspectateur &fdu joueur &c" + target));
+        target.setGameMode(GameMode.SURVIVAL);
+        target.teleport(UHC.getInstance().getGameManager().getLobby());
+        UHC.getInstance().getGameManager().getPlayers().add(target.getUniqueId());
+
     }
 
     @Command(names = {"h whitelist list", "h wl list"})
@@ -489,7 +503,7 @@ public class HostCommands {
             return;
         }
 
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         if (gameManager.getWhitelisted().isEmpty()) {
             player.sendMessage(ChatUtil.prefix("&cPersonne n'est whitelist"));
             return;
@@ -551,7 +565,7 @@ public class HostCommands {
             return;
         }
 
-        if (UHC.getGameManager().getPlayers().contains(target.getUniqueId())) {
+        if (UHC.getInstance().getGameManager().getPlayers().contains(target.getUniqueId())) {
             player.sendMessage(ChatUtil.prefix("&cCe joueur est déjà en vie."));
             return;
         }
@@ -563,7 +577,7 @@ public class HostCommands {
                 .filter(entity -> entity.getLocation().distance(uTarget.getLastLocation()) <= 7).forEach(Entity::remove);
         target.setGameMode(GameMode.SURVIVAL);
         target.teleport(uTarget.getLastLocation());
-        UHC.getGameManager().getPlayers().add(target.getUniqueId());
+        UHC.getInstance().getGameManager().getPlayers().add(target.getUniqueId());
     }
 
 }

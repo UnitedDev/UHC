@@ -14,9 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-/**
- * @author Ariloxe
- */
 public class BetaZombie extends AbstractScenario implements Listener {
     @Override
     public String getName() {
@@ -39,7 +36,7 @@ public class BetaZombie extends AbstractScenario implements Listener {
 
     @Override
     public void onStart() {
-        Bukkit.getServer().getPluginManager().registerEvents(this, UHC.getPlugin());
+        Bukkit.getServer().getPluginManager().registerEvents(this, UHC.getInstance());
     }
 
     private final ItemStack featherItem = new ItemStack(Material.FEATHER);

@@ -5,6 +5,9 @@ import fr.kohei.common.cache.rank.Rank;
 import fr.kohei.messaging.packet.ServerDeletePacket;
 import fr.kohei.uhc.game.BukkitManager;
 import fr.kohei.uhc.game.GameManager;
+import fr.kohei.uhc.game.generator.BiomesManager;
+import fr.kohei.uhc.game.generator.OrePopulator;
+import fr.kohei.uhc.game.generator.WorldGenCavesPatched;
 import fr.kohei.uhc.module.ModuleManager;
 import fr.kohei.uhc.task.TabListTask;
 import fr.kohei.uhc.task.UpdateTask;
@@ -14,58 +17,61 @@ import fr.kohei.uhc.utils.frame.ScoreboardAdapter;
 import fr.kohei.utils.ChatUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
 @Getter
 public class UHC extends JavaPlugin {
 
     @Getter
-    private static JavaPlugin plugin;
-    @Getter
-    private static GameManager gameManager;
-    @Getter
-    private static BukkitManager bukkitManager;
-    @Getter
-    private static ModuleManager moduleManager;
-    @Getter
-    private static List<ScoreboardTeam> teams;
-    @Getter
-    private static ScheduledExecutorService executorMonoThread;
-    @Getter
-    private static ScheduledExecutorService scheduledExecutorService;
-    @Getter
-    private static List<String> joinUser;
-    @Getter
-    private static List<String> unlinkedUsers;
+    private static UHC instance;
+
+    private GameManager gameManager;
+    private BukkitManager bukkitManager;
+    private ModuleManager moduleManager;
+    private List<ScoreboardTeam> teams;
 
     @Override
     public void onEnable() {
+        instance = this;
 
-        UHC.plugin = this;
-        gameManager = new GameManager(plugin);
-        bukkitManager = new BukkitManager(plugin);
-        moduleManager = new ModuleManager();
-        joinUser = new ArrayList<>();
-        unlinkedUsers = new ArrayList<>();
+        this.gameManager = new GameManager(this);
+        this.bukkitManager = new BukkitManager(this);
+        this.moduleManager = new ModuleManager();
 
-        scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        executorMonoThread = Executors.newScheduledThreadPool(1);
-
-        new TabListTask(plugin);
-        new UpdateTask(plugin);
+        new TabListTask(this);
+        new UpdateTask(this);
         new Frame(this, new ScoreboardAdapter());
-        initRanks();
+        this.initRanks();
 
-        gameManager.getLobby().getChunk().load();
+        try {
+            BiomesManager.patchBiomes();
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
+
+        final OrePopulator orePopulator = new OrePopulator();
+        orePopulator.addRule(new OrePopulator.Rule(Material.COAL_ORE, 2, 0, 128, 17));
+        orePopulator.addRule(new OrePopulator.Rule(Material.IRON_ORE, 5, 0, 64, 9));
+        orePopulator.addRule(new OrePopulator.Rule(Material.GOLD_ORE, 3, 0, 32, 9));
+        orePopulator.addRule(new OrePopulator.Rule(Material.REDSTONE_ORE, 3, 0, 16, 8));
+        orePopulator.addRule(new OrePopulator.Rule(Material.DIAMOND_ORE, 1, 0, 16, 8));
+        orePopulator.addRule(new OrePopulator.Rule(Material.LAPIS_ORE, 3, 0, 32, 7));
+
         World world = new WorldCreator("uhc_world").createWorld();
+        world.getPopulators().add(orePopulator);
         getGameManager().setUhcWorld(world);
+
+        try {
+            WorldGenCavesPatched.load(world, 3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -73,7 +79,7 @@ public class UHC extends JavaPlugin {
         BukkitAPI.getCommonAPI().getMessaging().sendPacket(new ServerDeletePacket(Bukkit.getPort()));
     }
 
-    public static void initRanks() {
+    public void initRanks() {
         teams = new ArrayList<>();
 
         Queue<Rank> ranksNotSorted = BukkitAPI.getCommonAPI().getRanks();
@@ -88,22 +94,20 @@ public class UHC extends JavaPlugin {
             ScoreboardTeam connected = new ScoreboardTeam(character + "1", prefix, " §a§l✔");
             ScoreboardTeam unlinked = new ScoreboardTeam(character + "2", prefix, " §6§l✈");
             ScoreboardTeam disconnected = new ScoreboardTeam(character + "3", prefix, " §c§l✖");
+            ScoreboardTeam disabled = new ScoreboardTeam(character + "4", prefix, "");
             i++;
 
             teams.add(connected);
             teams.add(unlinked);
             teams.add(disconnected);
-
-            System.out.println(connected);
-            System.out.println(unlinked);
-            System.out.println(disconnected);
+            teams.add(disabled);
         }
         teams.add(new ScoreboardTeam("aa", ChatUtil.translate("&r")));
     }
 
     public static final HashMap<String, Character> RANKS_ALPHABET = new HashMap<>();
 
-    public static ScoreboardTeam getScoreboardTeam(String name) {
+    public ScoreboardTeam getScoreboardTeam(String name) {
         return teams.stream().filter(t -> t.getName().equals(name)).findFirst().orElse(null);
     }
 

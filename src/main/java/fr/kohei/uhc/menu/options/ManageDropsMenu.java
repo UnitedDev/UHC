@@ -26,7 +26,7 @@ public class ManageDropsMenu extends Menu {
                 "&fPermet de modifier le taux de drops de",
                 "&fpommes",
                 "",
-                "&8┃ &7Taux: &c" + UHC.getGameManager().getGameConfiguration().getAppleRate() + "%",
+                "&8┃ &7Taux: &c" + UHC.getInstance().getGameManager().getGameConfiguration().getAppleRate() + "%",
                 "",
                 "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
@@ -37,7 +37,7 @@ public class ManageDropsMenu extends Menu {
                 "&fPermet de modifier le taux de drops de",
                 "&fflint",
                 "",
-                "&8┃ &7Taux: &c" + UHC.getGameManager().getGameConfiguration().getFlintRate() + "%",
+                "&8┃ &7Taux: &c" + UHC.getInstance().getGameManager().getGameConfiguration().getFlintRate() + "%",
                 "",
                 "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
@@ -49,7 +49,7 @@ public class ManageDropsMenu extends Menu {
                 "&fPermet de modifier le taux de drops d'enders",
                 "&fpearls",
                 "",
-                "&8┃ &7Taux: &c" + UHC.getGameManager().getGameConfiguration().getPearlRate() + "%",
+                "&8┃ &7Taux: &c" + UHC.getInstance().getGameManager().getGameConfiguration().getPearlRate() + "%",
                 "",
                 "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();

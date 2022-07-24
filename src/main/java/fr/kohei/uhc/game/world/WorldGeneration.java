@@ -1,7 +1,6 @@
 package fr.kohei.uhc.game.world;
 
 import fr.kohei.uhc.UHC;
-import fr.kohei.uhc.utils.world.PreGenerationHandler;
 import fr.kohei.utils.Title;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +38,7 @@ public class WorldGeneration {
     private final World world;
 
     public WorldGeneration(World world, int r) {
-        r += 75;
+        r += 150;
         finished = false;
         percentage = 0.0D;
         this.totalChunkToLoad = Math.pow(r, 2.0D) / 64.0D;
@@ -59,9 +58,7 @@ public class WorldGeneration {
                 for (int i = 0; i < 30 && !isFinished(); i++) {
                     Location loc = new Location(world, cx, 0.0D, cz);
                     if (!loc.getChunk().isLoaded())
-                        loc.getWorld().loadChunk(loc.getChunk());
-                    b++;
-                    if (b % 20 == 0) world.getEntities().forEach(Entity::remove);
+                        loc.getWorld().loadChunk(loc.getChunk().getX(), loc.getChunk().getZ(), true);
                     cx = cx + 16;
                     currentChunkLoad = currentChunkLoad + 1.0D;
                     if (cx > radius) {
@@ -75,11 +72,10 @@ public class WorldGeneration {
                 }
                 percentage = currentChunkLoad / totalChunkToLoad * 100.0D;
                 if (isFinished()) {
-                    world.setGameRuleValue("randomTickSpeed", "2");
                     cancel();
                 }
             }
-        }.runTaskTimer(UHC.getPlugin(), 50, 8);
+        }.runTaskTimer(UHC.getInstance(), 50, 15);
         sendMessage();
     }
 
@@ -88,12 +84,25 @@ public class WorldGeneration {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (isFinished()) cancel();
+                if (isFinished()) {
+                    new Location(world, 0, 100, 0).getChunk().load(true);
+                    cancel();
+                }
                 DecimalFormat format = new DecimalFormat("##.#");
-                String pb = PreGenerationHandler.getProgressBar(currentChunkLoad.intValue(), totalChunkToLoad.intValue(), 70, '|', ChatColor.GREEN, ChatColor.RED);
+                String pb = getProgressBar(currentChunkLoad.intValue(), totalChunkToLoad.intValue(), 70, '|', ChatColor.GREEN, ChatColor.RED);
                 Title.sendActionBar("&cPrégénération &7[" + pb + "&7] &f&l» &e" + format.format(getPercentage()) + "%" + " &8▍ &cTPS &7[&f" + format.format(MinecraftServer.getServer().recentTps[0]) + "&7]");
             }
-        }.runTaskTimer(UHC.getPlugin(), 0, 10L);
+        }.runTaskTimer(UHC.getInstance(), 0, 10L);
     }
+
+    public static String getProgressBar(int current, int max, int totalBars, char symbol, ChatColor completedColor,
+                                        ChatColor notCompletedColor) {
+        float percent = (float) current / max;
+        int progressBars = (int) (totalBars * percent);
+
+        return com.google.common.base.Strings.repeat("" + completedColor + symbol, progressBars)
+                + com.google.common.base.Strings.repeat("" + notCompletedColor + symbol, totalBars - progressBars);
+    }
+
 
 }

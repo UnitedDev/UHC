@@ -70,7 +70,7 @@ public class CycleTimerMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getCycle() + add <= 120) {
                 gameConfiguration.setCycle(120);
                 return;

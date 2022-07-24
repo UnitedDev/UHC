@@ -11,7 +11,7 @@ public class FrameListener implements Listener
 {
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskLater(UHC.getPlugin(), () -> Frame.getInstance().getBoards().put(event.getPlayer().getUniqueId(), new FrameBoard(event.getPlayer())), 20);
+        Bukkit.getScheduler().runTaskLater(UHC.getInstance(), () -> Frame.getInstance().getBoards().put(event.getPlayer().getUniqueId(), new FrameBoard(event.getPlayer())), 20);
     }
     
     @EventHandler

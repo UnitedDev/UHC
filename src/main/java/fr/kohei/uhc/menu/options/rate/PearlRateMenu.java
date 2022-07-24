@@ -61,7 +61,7 @@ public class PearlRateMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getPearlRate() + add <= 0) {
                 gameConfiguration.setPearlRate(0);
                 return;

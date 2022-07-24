@@ -35,7 +35,7 @@ public class UPlayer {
     public UPlayer(Player player) {
         this.uniqueId = player.getUniqueId();
         this.name = player.getName();
-        this.disconnect = UHC.getGameManager().getGameConfiguration().getDisconnectTime();
+        this.disconnect = UHC.getInstance().getGameManager().getGameConfiguration().getDisconnectTime();
 
         players.put(player.getUniqueId(), this);
     }
@@ -55,13 +55,13 @@ public class UPlayer {
     }
 
     public boolean hasHostAccess() {
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         if (gameManager.getHost() == null) return false;
         return gameManager.getCoHosts().contains(uniqueId) || gameManager.getHost().equalsIgnoreCase(name);
     }
 
     public boolean isMainHost() {
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         return gameManager.getHost().equalsIgnoreCase(name);
     }
 
@@ -82,16 +82,16 @@ public class UPlayer {
     }
 
     public boolean isEditingStartInventory() {
-        if (UHC.getGameManager().getEditingStartInventory() == null) return false;
-        return UHC.getGameManager().getEditingStartInventory().equals(this.uniqueId);
+        if (UHC.getInstance().getGameManager().getEditingStartInventory() == null) return false;
+        return UHC.getInstance().getGameManager().getEditingStartInventory().equals(this.uniqueId);
     }
 
     public boolean isEditingDeathInventory() {
-        if (UHC.getGameManager().getEditingDeathInventory() == null) return false;
-        return UHC.getGameManager().getEditingDeathInventory().equals(this.uniqueId);
+        if (UHC.getInstance().getGameManager().getEditingDeathInventory() == null) return false;
+        return UHC.getInstance().getGameManager().getEditingDeathInventory().equals(this.uniqueId);
     }
 
     public boolean isAlive() {
-        return UHC.getGameManager().getPlayers().contains(uniqueId);
+        return UHC.getInstance().getGameManager().getPlayers().contains(uniqueId);
     }
 }

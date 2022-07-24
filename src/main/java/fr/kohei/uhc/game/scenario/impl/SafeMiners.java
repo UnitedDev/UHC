@@ -24,9 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author Ariloxe
- */
 @Getter
 public class SafeMiners extends AbstractScenario implements Listener {
     @Override
@@ -51,7 +48,7 @@ public class SafeMiners extends AbstractScenario implements Listener {
 
     @Override
     public void onStart() {
-        Bukkit.getServer().getPluginManager().registerEvents(this, UHC.getPlugin());
+        Bukkit.getServer().getPluginManager().registerEvents(this, UHC.getInstance());
     }
 
     @EventHandler

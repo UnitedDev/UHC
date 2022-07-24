@@ -61,7 +61,7 @@ public class BorderSpeedMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getBorderSpeed() + add <= 1) {
                 gameConfiguration.setBorderSpeed(1);
                 return;

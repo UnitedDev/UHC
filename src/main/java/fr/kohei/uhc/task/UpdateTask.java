@@ -30,7 +30,7 @@ public class UpdateTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        GameManager manager = UHC.getGameManager();
+        GameManager manager = UHC.getInstance().getGameManager();
         GameConfiguration config = manager.getGameConfiguration();
         UHCServer.ServerStatus type;
         if (manager.getGameState() == GameState.FINISHING || manager.getGameState() == GameState.PLAYING) {
@@ -47,7 +47,10 @@ public class UpdateTask extends BukkitRunnable {
 
         int border = config.getBorderStartSize();
         if (manager.getUhcWorld() != null) {
-            border = (int) manager.getUhcWorld().getWorldBorder().getSize() / 2;
+            if (manager.getGameState() == GameState.PLAYING)
+                border = (int) manager.getUhcWorld().getWorldBorder().getSize() / 2;
+            else
+                border = config.getBorderStartSize();
         }
 
         int pvp = config.getPvpTimer();
@@ -62,7 +65,7 @@ public class UpdateTask extends BukkitRunnable {
 
         UHCServer uhcServer = new UHCServer(Bukkit.getPort(), getType(), config.getCustomName(), manager.getHost(),
                 config.getSlots(), type, manager.getSize(), config.getTeams(), border, config.getBorderEndSize(),
-                pvp, meetup, scenarios, UHC.getGameManager().getPlayers(), toUUIDs(UHC.getGameManager().getWhitelisted()));
+                pvp, meetup, scenarios, UHC.getInstance().getGameManager().getPlayers(), toUUIDs(UHC.getInstance().getGameManager().getWhitelisted()));
 
         BukkitAPI.getCommonAPI().getMessaging().sendPacket(new UHCUpdatePacket(uhcServer));
     }
@@ -81,8 +84,8 @@ public class UpdateTask extends BukkitRunnable {
     }
 
     public UHCServer.ServerType getType() {
-        if (UHC.getModuleManager().getModule().getName().contains("Mugiwara")) return UHCServer.ServerType.MUGIWARA;
-        else if (UHC.getModuleManager().getModule().getName().contains("MHA")) return UHCServer.ServerType.MHA;
+        if (UHC.getInstance().getModuleManager().getModule().getName().contains("Mugiwara")) return UHCServer.ServerType.MUGIWARA;
+        else if (UHC.getInstance().getModuleManager().getModule().getName().contains("MHA")) return UHCServer.ServerType.MHA;
         else return UHCServer.ServerType.MHA;
     }
 

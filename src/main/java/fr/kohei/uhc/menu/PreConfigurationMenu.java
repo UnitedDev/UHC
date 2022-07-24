@@ -45,7 +45,7 @@ public class PreConfigurationMenu extends PaginatedMenu {
     public Map<Integer, Button> getAllPagesButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-//        for (PreConfiguration preConfiguration : UHC.get().get(player.getUniqueId()).getPreConfigurations()) {
+//        for (PreConfiguration preConfiguration : UHC.getInstance().get().get(player.getUniqueId()).getPreConfigurations()) {
 //            buttons.put(buttons.size(), new PreConfigurationButton(preConfiguration));
 //        }
 
@@ -87,13 +87,13 @@ public class PreConfigurationMenu extends PaginatedMenu {
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             if (clickType == ClickType.DROP) {
-//                UHCPlayerCache cache = UHC.getPlayerCache().get(player.getUniqueId());
+//                UHCPlayerCache cache = UHC.getInstance().getPlayerCache().get(player.getUniqueId());
 //                cache.getPreConfigurations().remove(preConfiguration);
-//                UHC.getPlayerCache().save(player.getUniqueId(), cache);
+//                UHC.getInstance().getPlayerCache().save(player.getUniqueId(), cache);
                 return;
             }
 
-            UHC.getGameManager().applyConfiguration(preConfiguration);
+            UHC.getInstance().getGameManager().applyConfiguration(preConfiguration);
             player.sendMessage(ChatUtil.prefix("&fVous avez &achargé &fla pre-config avec &asuccès"));
         }
 
@@ -116,10 +116,10 @@ public class PreConfigurationMenu extends PaginatedMenu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-//            UHCPlayerCache cache = UHC.getPlayerCache().get(player.getUniqueId());
+//            UHCPlayerCache cache = UHC.getInstance().getPlayerCache().get(player.getUniqueId());
             PreConfiguration config = new PreConfiguration(
-                    UHC.getGameManager().getGameConfiguration(),
-                    UHC.getModuleManager().getModule().getName(),
+                    UHC.getInstance().getGameManager().getGameConfiguration(),
+                    UHC.getInstance().getModuleManager().getModule().getName(),
                     false
             );
 
@@ -128,7 +128,7 @@ public class PreConfigurationMenu extends PaginatedMenu {
 //            );
 //
 //            cache.getPreConfigurations().add(config);
-//            UHC.getPlayerCache().save(player.getUniqueId(), cache);
+//            UHC.getInstance().getPlayerCache().save(player.getUniqueId(), cache);
         }
 
         @Override

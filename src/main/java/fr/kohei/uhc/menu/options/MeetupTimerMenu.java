@@ -70,7 +70,7 @@ public class MeetupTimerMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+            GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
             if (gameConfiguration.getMeetupTimer() + add <= 60) {
                 gameConfiguration.setMeetupTimer(60);
                 return;

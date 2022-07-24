@@ -7,13 +7,13 @@ import org.bukkit.Bukkit;
 
 public class PvPTimer extends CustomTimer {
     public PvPTimer() {
-        super(UHC.getGameManager().getGameConfiguration().getPvpTimer());
+        super(UHC.getInstance().getGameManager().getGameConfiguration().getPvpTimer());
     }
 
     @Override
     public void onEnable() {
         Bukkit.broadcastMessage(ChatUtil.prefix("&fLe &cPvP &fest désormais &aactivé&f."));
-        UHC.getGameManager().getUhcWorld().setPVP(true);
+        UHC.getInstance().getGameManager().getUhcWorld().setPVP(true);
     }
 
 }

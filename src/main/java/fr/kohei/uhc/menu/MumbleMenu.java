@@ -165,7 +165,7 @@ public class MumbleMenu extends PaginatedMenu {
 
             return new ItemBuilder(UHCItems.getMumbleItem()).setAmount(connected).setName("&6&lJoueurs").setLore(
                     "",
-                    "&8┃ &7Connecté(s): &a" + connected + "&8/" + "&a" + UHC.getGameManager().getSize(),
+                    "&8┃ &7Connecté(s): &a" + connected + "&8/" + "&a" + UHC.getInstance().getGameManager().getSize(),
                     "&8┃ &7Link(s): &a" + linked + "&8/" + "&a" + connected,
                     "",
                     "&f&l» &eCliquez sur quelqu'un pour gérer"

@@ -74,7 +74,7 @@ public class TimersMenu extends GlassMenu {
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             Field field = GameConfiguration.class.getDeclaredField(selectedTimer.getField());
             field.setAccessible(true);
-            Object object = UHC.getGameManager().getGameConfiguration();
+            Object object = UHC.getInstance().getGameManager().getGameConfiguration();
             int value = field.getInt(object);
             value += amount;
             if (value < 10) {
@@ -99,20 +99,20 @@ public class TimersMenu extends GlassMenu {
         public ItemStack getButtonItem(Player player) {
             Field field = GameConfiguration.class.getDeclaredField(timer.getField());
             field.setAccessible(true);
-            Object object = UHC.getGameManager().getGameConfiguration();
+            Object object = UHC.getInstance().getGameManager().getGameConfiguration();
             int value = field.getInt(object);
 
             if (selectedTimer != null && timer == selectedTimer) {
                 return new ItemBuilder(timer.getItemDisplay()).addEnchant(Enchantment.DEPTH_STRIDER, 1).hideItemFlags().setName("&6&l" + timer.getDisplay()).setLore(
                         "",
-                        "&fConfiguration: &c" + TimeUtil.niceTime(value),
+                        "&8┃ &7Configuration: &c" + TimeUtil.niceTime(value),
                         "",
                         "&f&l» &eCliquez-ici pour séléctionner"
                 ).setAmount(1).toItemStack();
             }
             return new ItemBuilder(timer.getItemDisplay()).setName("&6&l" + timer.getDisplay()).setLore(
                     "",
-                    "&fConfiguration: &c" + TimeUtil.niceTime(value),
+                    "&8┃ &7Configuration: &c" + TimeUtil.niceTime(value),
                     "",
                     "&f&l» &eCliquez-ici pour séléctionner"
             ).setAmount(0).removeEnchantment(Enchantment.DEPTH_STRIDER).toItemStack();

@@ -24,7 +24,7 @@ public class ManageTeamsMenu extends Menu {
                 "&fPermet le nombre de personnes maximum",
                 "&fdans une équipe",
                 "",
-                "&8┃ &7Taille: &c" + UHC.getGameManager().getGameConfiguration().getTeams(),
+                "&8┃ &7Taille: &c" + UHC.getInstance().getGameManager().getGameConfiguration().getTeams(),
                 "",
                 "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
@@ -71,7 +71,7 @@ public class ManageTeamsMenu extends Menu {
     public static class FriendlyFireButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            boolean friendlyFire = UHC.getGameManager().getGameConfiguration().isFriendlyFire();
+            boolean friendlyFire = UHC.getInstance().getGameManager().getGameConfiguration().isFriendlyFire();
             return new ItemBuilder(Material.LAVA_BUCKET).setName("&6&lFriendly Fire").setLore(
                     "&fPermet d'activer ou de désactiver le",
                     "&ffriendly fire pour les équipes.",
@@ -84,8 +84,8 @@ public class ManageTeamsMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            boolean friendlyFire = UHC.getGameManager().getGameConfiguration().isFriendlyFire();
-            UHC.getGameManager().getGameConfiguration().setFriendlyFire(!friendlyFire);
+            boolean friendlyFire = UHC.getInstance().getGameManager().getGameConfiguration().isFriendlyFire();
+            UHC.getInstance().getGameManager().getGameConfiguration().setFriendlyFire(!friendlyFire);
         }
 
         @Override
@@ -97,7 +97,7 @@ public class ManageTeamsMenu extends Menu {
     public static class RandomTeamButton extends Button {
         @Override
         public ItemStack getButtonItem(Player player) {
-            boolean randomTeam = UHC.getGameManager().getGameConfiguration().isRandomTeam();
+            boolean randomTeam = UHC.getInstance().getGameManager().getGameConfiguration().isRandomTeam();
             return new ItemBuilder(Material.COMPASS).setName("&6&lRandom Team").setLore(
                     "&fPermet d'activer ou de désactiver la",
                     "&fsélection des équipes.",
@@ -110,8 +110,8 @@ public class ManageTeamsMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            boolean randomTeam = UHC.getGameManager().getGameConfiguration().isRandomTeam();
-            UHC.getGameManager().getGameConfiguration().setRandomTeam(!randomTeam);
+            boolean randomTeam = UHC.getInstance().getGameManager().getGameConfiguration().isRandomTeam();
+            UHC.getInstance().getGameManager().getGameConfiguration().setRandomTeam(!randomTeam);
         }
 
         @Override

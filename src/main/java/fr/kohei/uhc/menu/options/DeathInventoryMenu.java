@@ -36,7 +36,7 @@ public class DeathInventoryMenu extends Menu {
 
         int i = 0;
 
-        for (ItemStack item : UHC.getGameManager().getGameConfiguration().getDeathInventory()) {
+        for (ItemStack item : UHC.getInstance().getGameManager().getGameConfiguration().getDeathInventory()) {
             if (item == null || item.getType() == Material.AIR) {
                 i++;
                 continue;
@@ -77,9 +77,9 @@ public class DeathInventoryMenu extends Menu {
             player.getInventory().setArmorContents(null);
             player.setGameMode(GameMode.CREATIVE);
             player.closeInventory();
-            player.getInventory().setContents(UHC.getGameManager().getGameConfiguration().getDeathInventory());
+            player.getInventory().setContents(UHC.getInstance().getGameManager().getGameConfiguration().getDeathInventory());
             player.sendMessage(ChatUtil.prefix("&fUtilisez &a/finish &fpour sauvegarder l'inventaire"));
-            UHC.getGameManager().setEditingDeathInventory(player.getUniqueId());
+            UHC.getInstance().getGameManager().setEditingDeathInventory(player.getUniqueId());
         }
     }
 

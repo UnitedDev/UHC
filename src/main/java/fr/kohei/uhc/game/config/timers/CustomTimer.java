@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 @Setter
 public abstract class CustomTimer {
 
-    private final GameConfiguration gameConfiguration = UHC.getGameManager().getGameConfiguration();
+    private final GameConfiguration gameConfiguration = UHC.getInstance().getGameManager().getGameConfiguration();
 
     private int timer;
 
@@ -29,7 +29,7 @@ public abstract class CustomTimer {
                     onEnable();
                 }
             }
-        }.runTaskTimer(UHC.getPlugin(), 0, 20);
+        }.runTaskTimer(UHC.getInstance(), 0, 20);
     }
 
 

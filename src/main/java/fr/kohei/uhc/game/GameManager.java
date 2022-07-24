@@ -1,5 +1,7 @@
 package fr.kohei.uhc.game;
 
+import fr.kohei.mumble.api.LinkAPI;
+import fr.kohei.mumble.api.mumble.IUser;
 import fr.kohei.uhc.UHC;
 import fr.kohei.uhc.config.PreConfiguration;
 import fr.kohei.uhc.game.config.GameConfiguration;
@@ -8,12 +10,9 @@ import fr.kohei.uhc.game.player.UPlayer;
 import fr.kohei.uhc.game.scenario.AbstractScenario;
 import fr.kohei.uhc.game.scenario.Scenario;
 import fr.kohei.uhc.game.world.WorldGeneration;
+import fr.kohei.uhc.listener.MumbleEventManager;
 import fr.kohei.uhc.task.*;
-import fr.kohei.uhc.utils.world.Cuboid;
-import fr.kohei.uhc.utils.world.PreGeneration;
-import fr.kohei.uhc.utils.world.PreGenerationHandler;
 import fr.kohei.utils.ChatUtil;
-import fr.kohei.uhc.task.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -81,13 +80,7 @@ public class GameManager {
         this.uhcWorld.getWorldBorder().setSize(2 * getGameConfiguration().getBorderStartSize());
 
         Bukkit.broadcastMessage(ChatUtil.prefix("&fLa prégénération vient de &acommencer&f."));
-        new WorldGeneration(uhcWorld, (int) (uhcWorld.getWorldBorder().getSize() / 2) + 25).load();
-//        int radius = (int) (uhcWorld.getWorldBorder().getSize() / 2) + 50;
-//        Cuboid cuboid = new Cuboid(UUID.randomUUID().toString(), "uhc_world", this.uhcWorld,
-//               0, 50, 0,radius, radius, 0, 0, false, false);
-//
-//        PreGenerationHandler handler = new PreGenerationHandler();
-//        cuboid.getSubCuboids().forEach(subCuboid -> handler.addPregeneration(new PreGeneration(subCuboid)));
+        new WorldGeneration(uhcWorld, (int) (uhcWorld.getWorldBorder().getSize() / 2)).load();
     }
 
     public int getSize() {
@@ -116,10 +109,10 @@ public class GameManager {
 
     public void startGame() {
         setGameState(GameState.PLAYING);
-        UHC.getBukkitManager().loadModuleCommands();
+        UHC.getInstance().getBukkitManager().loadModuleCommands();
         new GameTask(this);
         this.episodeManager.start();
-        UHC.getModuleManager().getModule().onStart();
+        UHC.getInstance().getModuleManager().getModule().onStart();
         this.cycleTask = new CycleTask(this);
         Timers.onStart();
 
@@ -134,6 +127,11 @@ public class GameManager {
             player.getInventory().setArmorContents(getGameConfiguration().getStartArmor());
             player.getInventory().setContents(getGameConfiguration().getStartInventory());
         }
+
+        if (LinkAPI.getApi().isEnabled())
+            for (IUser user : LinkAPI.getApi().getMumbleManager().getServer().getUsers()) {
+                MumbleEventManager.refresh(user);
+            }
     }
 
     public Location getCenter() {

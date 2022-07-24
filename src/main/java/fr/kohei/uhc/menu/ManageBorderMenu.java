@@ -27,7 +27,7 @@ public class ManageBorderMenu extends Menu {
                 "&fPermet de modifier la vitesse de la bordure",
                 "&fen bloc par seconde",
                 "",
-                "&8┃ &7Vitesse: &c" + UHC.getGameManager().getGameConfiguration().getBorderSpeed() + " bloc(s)/s",
+                "&8┃ &7Vitesse: &c" + UHC.getInstance().getGameManager().getGameConfiguration().getBorderSpeed() + " bloc(s)/s",
                 "",
                 "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
@@ -38,7 +38,7 @@ public class ManageBorderMenu extends Menu {
                 "&fPermet de modifier la taille de la bordure",
                 "&ffinale",
                 "",
-                "&8┃ &7Bordure finale: &c± " + UHC.getGameManager().getGameConfiguration().getBorderEndSize(),
+                "&8┃ &7Bordure finale: &c± " + UHC.getInstance().getGameManager().getGameConfiguration().getBorderEndSize(),
                 "",
                 "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();
@@ -49,7 +49,7 @@ public class ManageBorderMenu extends Menu {
                 "&fPermet de modifier la taille de la bordure",
                 "&fpour le début de la partie",
                 "",
-                "&8┃ &7Bordure initiale: &c± " + UHC.getGameManager().getGameConfiguration().getBorderStartSize(),
+                "&8┃ &7Bordure initiale: &c± " + UHC.getInstance().getGameManager().getGameConfiguration().getBorderStartSize(),
                 "",
                 "&f&l» &eCliquez-ici pour modifier"
         ).toItemStack();

@@ -37,7 +37,7 @@ public class StartInventoryMenu extends Menu {
 
         int i = 0;
 
-        for (ItemStack item : UHC.getGameManager().getGameConfiguration().getStartInventory()) {
+        for (ItemStack item : UHC.getInstance().getGameManager().getGameConfiguration().getStartInventory()) {
             if (item == null || item.getType() == Material.AIR) {
                 i++;
                 continue;
@@ -50,7 +50,7 @@ public class StartInventoryMenu extends Menu {
         }
 
         int k = 36;
-        for (ItemStack armor : UHC.getGameManager().getGameConfiguration().getStartArmor()) {
+        for (ItemStack armor : UHC.getInstance().getGameManager().getGameConfiguration().getStartArmor()) {
             if (armor == null || armor.getType() == Material.AIR) {
                 k++;
                 continue;
@@ -84,7 +84,7 @@ public class StartInventoryMenu extends Menu {
 
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-            if(UHC.getGameManager().getGameState() != GameState.LOBBY) {
+            if(UHC.getInstance().getGameManager().getGameState() != GameState.LOBBY) {
                 player.sendMessage(ChatUtil.prefix("&cVous ne pouvez pas utiliser cet item pendant la partie"));
                 return;
             }
@@ -93,10 +93,10 @@ public class StartInventoryMenu extends Menu {
             player.getInventory().setArmorContents(null);
             player.setGameMode(GameMode.CREATIVE);
             player.closeInventory();
-            player.getInventory().setContents(UHC.getGameManager().getGameConfiguration().getStartInventory());
-            player.getInventory().setArmorContents(UHC.getGameManager().getGameConfiguration().getStartArmor());
+            player.getInventory().setContents(UHC.getInstance().getGameManager().getGameConfiguration().getStartInventory());
+            player.getInventory().setArmorContents(UHC.getInstance().getGameManager().getGameConfiguration().getStartArmor());
             player.sendMessage(ChatUtil.prefix("&fUtilisez &a/finish &fpour sauvegarder l'inventaire"));
-            UHC.getGameManager().setEditingStartInventory(player.getUniqueId());
+            UHC.getInstance().getGameManager().setEditingStartInventory(player.getUniqueId());
         }
     }
 

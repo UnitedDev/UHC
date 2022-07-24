@@ -41,7 +41,7 @@ public class PlayerListeners implements Listener {
         Player player = event.getPlayer();
 
         UPlayer uPlayer = UPlayer.get(player);
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         GameConfiguration gameConfiguration = gameManager.getGameConfiguration();
 
         if (BukkitAPI.getCommonAPI().getProfile(player.getUniqueId()).isStaff()) return;
@@ -105,11 +105,11 @@ public class PlayerListeners implements Listener {
             return;
         }
 
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         GameConfiguration gameConfiguration = gameManager.getGameConfiguration();
         UPlayer uPlayer = UPlayer.get(player);
 
-        for (ScoreboardTeam team : UHC.getTeams()) {
+        for (ScoreboardTeam team : UHC.getInstance().getTeams()) {
             System.out.println(team);
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(team.createTeam());
         }
@@ -140,12 +140,9 @@ public class PlayerListeners implements Listener {
         event.setQuitMessage(null);
 
         Player player = event.getPlayer();
-        GameManager gameManager = UHC.getGameManager();
+        GameManager gameManager = UHC.getInstance().getGameManager();
         GameConfiguration gameConfiguration = gameManager.getGameConfiguration();
         UPlayer uPlayer = UPlayer.get(player);
-
-        UHC.getJoinUser().remove(player.getName());
-        UHC.getUnlinkedUsers().remove(player.getName());
 
         if (gameManager.getGameState() == GameState.LOBBY) {
             gameManager.getPlayers().remove(player.getUniqueId());
@@ -169,11 +166,17 @@ public class PlayerListeners implements Listener {
                     uPlayer.setDisconnect(uPlayer.getDisconnect() - 1);
 
                     if (uPlayer.getDisconnect() <= 0) {
-                        UHC.getGameManager().getPlayers().remove(uuid);
+                        UHC.getInstance().getGameManager().getPlayers().remove(uuid);
                         Bukkit.broadcastMessage(ChatUtil.translate("&7&m--------------------"));
                         Bukkit.broadcastMessage(ChatUtil.translate("&c" + uPlayer.getName() + " &fest mort de &cdéconnexion"));
+                        if (uPlayer.getRole() == null) {
+                            Bukkit.broadcastMessage(ChatUtil.translate(" &8┃ &fIl n'avait &cpas &fde rôle"));
+                        } else {
+                            ChatColor chatColor = uPlayer.getRole().getStartCamp().getColor();
+                            Bukkit.broadcastMessage(ChatUtil.translate(" &8┃ &fIl était " + chatColor + uPlayer.getRole().getName()));
+                        }
                         Bukkit.broadcastMessage(ChatUtil.translate("&7&m--------------------"));
-                        UHC.getModuleManager().getModule().onDisconnectDeath(uuid);
+                        UHC.getInstance().getModuleManager().getModule().onDisconnectDeath(uuid);
                         cancel();
                     }
                 }
@@ -194,7 +197,7 @@ public class PlayerListeners implements Listener {
             player.teleport(world.getSpawnLocation());
         }
 
-        if (UHC.getGameManager().getGameState() == GameState.TELEPORTATION) {
+        if (UHC.getInstance().getGameManager().getGameState() == GameState.TELEPORTATION) {
             UPlayer uPlayer = UPlayer.get(player);
             if (uPlayer.getPlate() != null && playerLocation.getBlockY() <= 198) {
                 Location loc = uPlayer.getPlate().getTeleportLocation().clone().add(0, 2, 0);
@@ -204,9 +207,9 @@ public class PlayerListeners implements Listener {
             }
         }
 
-        if (UHC.getGameManager().getGameState() == GameState.LOBBY) {
+        if (UHC.getInstance().getGameManager().getGameState() == GameState.LOBBY) {
             if (playerLocation.getBlockY() <= 1) {
-                player.teleport(UHC.getGameManager().getLobby());
+                player.teleport(UHC.getInstance().getGameManager().getLobby());
             }
         }
     }
@@ -227,7 +230,7 @@ public class PlayerListeners implements Listener {
 
         event.setDeathMessage(null);
 
-        Module module = UHC.getModuleManager().getModule();
+        Module module = UHC.getInstance().getModuleManager().getModule();
         UPlayer uPlayer = UPlayer.get(player);
 
         Bukkit.broadcastMessage(ChatUtil.translate("&7&m--------------------"));
@@ -256,7 +259,7 @@ public class PlayerListeners implements Listener {
             if (uKiller.getRole() != null) uKiller.getRole().onKill(player, killer);
         }
 
-        UHC.getGameManager().getPlayers().remove(player.getUniqueId());
+        UHC.getInstance().getGameManager().getPlayers().remove(player.getUniqueId());
         module.onDeath(player, killer);
 
         if (uPlayer.getRole() != null) uPlayer.getRole().onDeath(player, killer);
@@ -269,7 +272,7 @@ public class PlayerListeners implements Listener {
             if (content == null || content.getType() == Material.AIR) continue;
             player.getWorld().dropItemNaturally(player.getLocation(), content);
         }
-        for (ItemStack content : UHC.getGameManager().getGameConfiguration().getDeathInventory()) {
+        for (ItemStack content : UHC.getInstance().getGameManager().getGameConfiguration().getDeathInventory()) {
             if (content == null || content.getType() == Material.AIR) continue;
             player.getWorld().dropItemNaturally(player.getLocation(), content);
         }
