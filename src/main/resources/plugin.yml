@@ -1,5 +1,5 @@
 name: UHC
-main: fr.kohei.uhc.UHC
+main: fr.uniteduhc.uhc.UHC
 version: 1.0.4
 author: Rhodless
 api-version: 1.8.8
